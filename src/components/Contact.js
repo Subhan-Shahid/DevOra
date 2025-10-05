@@ -26,7 +26,7 @@ const Contact = () => {
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     // Basic validation
     if (!formData.firstName || !formData.lastName || !formData.email || !formData.message) {
@@ -34,29 +34,29 @@ const Contact = () => {
       setShowError(true);
       return;
     }
-    setSubmitting(true);
-    try {
-      const resp = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-      if (!resp.ok) {
-        let errText = 'Failed to send message.';
-        try {
-          const data = await resp.json();
-          if (data && data.error) errText = data.error;
-        } catch (_) {}
-        throw new Error(errText);
-      }
-      setShowSuccess(true);
-      setFormData({ firstName: '', lastName: '', email: '', phone: '', message: '' });
-    } catch (err) {
-      setErrorMsg(err?.message || 'Failed to send message.');
-      setShowError(true);
-    } finally {
-      setSubmitting(false);
-    }
+
+    // Build a simple mailto link
+    const to = 'subhanshahid1920@gmail.com';
+    const subject = `New contact from ${formData.firstName} ${formData.lastName}`;
+    const lines = [
+      `Name: ${formData.firstName} ${formData.lastName}`,
+      `Email: ${formData.email}`,
+      formData.phone ? `Phone: ${formData.phone}` : '',
+      '',
+      'Message:',
+      formData.message,
+    ].filter(Boolean);
+    const body = lines.join('\n');
+
+    const mailto = `mailto:${encodeURIComponent(to)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+    // Open the user's mail client
+    window.location.href = mailto;
+
+    // Show a local success toast and clear form
+    setShowSuccess(true);
+    setFormData({ firstName: '', lastName: '', email: '', phone: '', message: '' });
+    setSubmitting(false);
   };
 
   return (

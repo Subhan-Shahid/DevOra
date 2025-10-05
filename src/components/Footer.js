@@ -3,7 +3,7 @@ import { Container, Typography, Link as MuiLink, Box, IconButton } from '@mui/ma
 import Grid from '@mui/material/Grid';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FaFacebookF, FaTwitter, FaLinkedinIn, FaInstagram, FaGithub, FaHeart, FaRocket } from 'react-icons/fa';
+import { FaFacebookF, FaTwitter, FaLinkedinIn, FaInstagram, FaGithub, FaHeart } from 'react-icons/fa';
 import { MdEmail, MdPhone, MdLocationOn } from 'react-icons/md';
 
 const SocialIcon = ({ icon: Icon, href, color }) => (
@@ -97,13 +97,17 @@ const Footer = () => {
               viewport={{ once: true }}
             >
               <Box sx={{ display: 'flex', alignItems: 'center', mb: { xs: 2, md: 3 } }}>
-                <FaRocket style={{ fontSize: { xs: '1.5rem', md: '2rem' }, marginRight: '12px', color: '#ffd700' }} />
+                <img
+                  src={`${process.env.PUBLIC_URL}/DevOra.png`}
+                  alt="DevOra logo"
+                  style={{ height: '28px', width: '28px', marginRight: '12px', borderRadius: '6px' }}
+                />
                 <Typography variant="h4" sx={{ 
                   fontWeight: 800, 
                   color: 'white',
                   fontSize: { xs: '1.5rem', md: '2rem' }
                 }}>
-                  DevSolutions
+                  DevOra
                 </Typography>
               </Box>
               <Typography variant="body1" sx={{ 
@@ -235,7 +239,7 @@ const Footer = () => {
             }}
           >
             <Typography variant="body2" sx={{ opacity: 0.8, mb: 1 }}>
-              © {new Date().getFullYear()} DevSolutions. All rights reserved.
+              © {new Date().getFullYear()} DevOra. All rights reserved.
             </Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
               <Typography variant="body2" sx={{ opacity: 0.8 }}>
@@ -248,7 +252,7 @@ const Footer = () => {
                 <FaHeart style={{ color: '#ff6b6b', fontSize: '1rem' }} />
               </motion.div>
               <Typography variant="body2" sx={{ opacity: 0.8 }}>
-                by DevSolutions Team
+                by DevOra Team
               </Typography>
             </Box>
           </Box>

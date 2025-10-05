@@ -55,6 +55,8 @@
   },
   "devDependencies": {
     "gh-pages": "^6.3.0",
+    "sharp": "^0.34.4",
+    "to-ico": "^1.1.5",
     "vercel": "^48.2.0"
   }
 }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { AppBar, Toolbar, Typography, Button, Container, IconButton, Drawer, List, ListItem, ListItemButton, ListItemText, Box, useMediaQuery, useTheme } from '@mui/material';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaRocket, FaBars, FaTimes } from 'react-icons/fa';
+import { FaBars, FaTimes } from 'react-icons/fa';
 import { MdLightMode, MdDarkMode } from 'react-icons/md';
 import { MdHome, MdBusiness, MdContactMail } from 'react-icons/md';
 
@@ -161,13 +161,16 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
               <motion.div
                 style={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}
               >
-                <FaRocket 
-                  style={{ 
-                    fontSize: '2rem', 
-                    marginRight: '12px', 
-                    color: '#ffd700',
-                    filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.2))'
-                  }} 
+                <img
+                  src={`${process.env.PUBLIC_URL}/DevOra.png`}
+                  alt="DevOra logo"
+                  style={{
+                    height: '32px',
+                    width: '32px',
+                    marginRight: '12px',
+                    borderRadius: '6px',
+                    boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+                  }}
                 />
                 <Typography 
                   variant="h5" 
@@ -184,7 +187,7 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
                     }
                   }}
                 >
-                  DevSolutions
+                  DevOra
                 </Typography>
               </motion.div>
 
@@ -285,9 +288,13 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
         >
           <Box sx={{ p: 3, textAlign: 'center', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 2 }}>
-              <FaRocket style={{ fontSize: '1.5rem', marginRight: '8px', color: '#ffd700' }} />
+              <img
+                src={`${process.env.PUBLIC_URL}/DevOra.png`}
+                alt="DevOra logo"
+                style={{ height: '24px', width: '24px', marginRight: '8px', borderRadius: '5px' }}
+              />
               <Typography variant="h6" sx={{ fontWeight: 700, color: 'rgba(255,255,255,0.95)' }}>
-                DevSolutions
+                DevOra
               </Typography>
             </Box>
             <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
