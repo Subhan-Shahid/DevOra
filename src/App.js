@@ -15,6 +15,7 @@ import ScrollToTop from './components/ScrollToTop';
 import LoadingAnimation from './components/LoadingAnimation';
 import ServiceDetail from './pages/ServiceDetail';
 import NotFound from './pages/NotFound';
+import ThankYou from './pages/ThankYou';
 
 // Theme factory honoring light/dark mode
 const createAppTheme = (mode) => createTheme({
@@ -216,6 +217,7 @@ function App() {
                   <Route path="/services" element={<Services />} />
                   <Route path="/services/:slug" element={<ServiceDetail />} />
                   <Route path="/contact" element={<Contact />} />
+                  <Route path="/thank-you" element={<ThankYou />} />
                   <Route path="/not-found" element={<NotFound />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>

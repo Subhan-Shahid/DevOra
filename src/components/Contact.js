@@ -1,12 +1,19 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Container, TextField, Button, Typography, Box, Card, CardContent, Snackbar, Alert } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { motion } from 'framer-motion';
 import { FaPaperPlane, FaCheckCircle } from 'react-icons/fa';
-import { MdAutoAwesome } from 'react-icons/md';
 import ParticleBackground from './ParticleBackground';
+import emailjs from '@emailjs/browser';
 
 const Contact = () => {
+  // EmailJS configuration
+  const SERVICE_ID = 'service_79mm2zk';
+  const TEMPLATE_ID = 'template_pcs7kkj'; // Contact Us template (admin notification)
+  const AUTORESPONSE_TEMPLATE_ID = 'template_oeed8mg'; // Auto-reply template
+  const PUBLIC_KEY = 'cWqoMoc_oaABX1Fgy';
+
+  const formRef = useRef(null);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -26,8 +33,9 @@ const Contact = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    
     // Basic validation
     if (!formData.firstName || !formData.lastName || !formData.email || !formData.message) {
       setErrorMsg('Please fill in all required fields.');
@@ -35,28 +43,54 @@ const Contact = () => {
       return;
     }
 
-    // Build a simple mailto link
-    const to = 'subhanshahid1920@gmail.com';
-    const subject = `New contact from ${formData.firstName} ${formData.lastName}`;
-    const lines = [
-      `Name: ${formData.firstName} ${formData.lastName}`,
-      `Email: ${formData.email}`,
-      formData.phone ? `Phone: ${formData.phone}` : '',
-      '',
-      'Message:',
-      formData.message,
-    ].filter(Boolean);
-    const body = lines.join('\n');
+    setSubmitting(true);
 
-    const mailto = `mailto:${encodeURIComponent(to)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    try {
+      // Prepare template parameters
+      const adminTemplateParams = {
+        from_name: `${formData.firstName} ${formData.lastName}`.trim(),
+        from_email: formData.email.trim(),
+        phone: (formData.phone || 'Not provided').trim(),
+        message: formData.message.trim(),
+        to_email: 'subhanshahid1920@gmail.com',
+        reply_to: formData.email.trim()
+      };
 
-    // Open the user's mail client
-    window.location.href = mailto;
+      const autoReplyTemplateParams = {
+        to_name: formData.firstName.trim(),
+        to_email: formData.email.trim(),
+        subject: 'Thank you for contacting DevOra',
+        message: 'Thank you for contacting the DevOra team. We have received your message and will reach out to you shortly.'
+      };
 
-    // Show a local success toast and clear form
-    setShowSuccess(true);
-    setFormData({ firstName: '', lastName: '', email: '', phone: '', message: '' });
-    setSubmitting(false);
+      console.log('Sending admin email with params:', adminTemplateParams);
+      console.log('Sending auto-reply with params:', autoReplyTemplateParams);
+
+      // Send notification email to you (admin)
+      await emailjs.send(
+        SERVICE_ID,
+        TEMPLATE_ID,
+        adminTemplateParams,
+        PUBLIC_KEY
+      );
+
+      // Send auto-response to the sender
+      await emailjs.send(
+        SERVICE_ID,
+        AUTORESPONSE_TEMPLATE_ID,
+        autoReplyTemplateParams,
+        PUBLIC_KEY
+      );
+
+      setShowSuccess(true);
+      setFormData({ firstName: '', lastName: '', email: '', phone: '', message: '' });
+    } catch (error) {
+      console.error('EmailJS Error:', error);
+      setErrorMsg('Failed to send message. Please try again.');
+      setShowError(true);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -178,7 +212,7 @@ const Contact = () => {
                   }}>
                     Send us a message 💬
                   </Typography>
-                  <form onSubmit={handleSubmit}>
+                  <form ref={formRef} onSubmit={handleSubmit}>
                     <Grid container spacing={3}>
                       <Grid item xs={12} sm={6}>
                         <TextField
@@ -284,6 +318,7 @@ const Contact = () => {
                           size="large"
                           fullWidth
                           endIcon={<FaPaperPlane />}
+                          disabled={submitting}
                           sx={{ 
                             py: 2,
                             fontSize: '1.1rem',
@@ -296,7 +331,6 @@ const Contact = () => {
                               boxShadow: '0 12px 35px rgba(102, 126, 234, 0.4)'
                             }
                           }}
-                          disabled={submitting}
                         >
                           {submitting ? 'Sending...' : 'Send Message'}
                         </Button>
