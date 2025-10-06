@@ -4,14 +4,11 @@ import Grid from '@mui/material/Grid';
 import { motion } from 'framer-motion';
 import { FaPaperPlane, FaCheckCircle } from 'react-icons/fa';
 import ParticleBackground from './ParticleBackground';
-import emailjs from '@emailjs/browser';
+// Removed EmailJS; using fetch to Google Apps Script instead
 
 const Contact = () => {
-  // EmailJS configuration
-  const SERVICE_ID = 'service_79mm2zk';
-  const TEMPLATE_ID = 'template_pcs7kkj'; // Contact Us template (admin notification)
-  const AUTORESPONSE_TEMPLATE_ID = 'template_oeed8mg'; // Auto-reply template
-  const PUBLIC_KEY = 'cWqoMoc_oaABX1Fgy';
+  // Google Apps Script Web App endpoint (handles sending notification + auto-reply)
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxWjD2Stum6UsBLWtRebpgGl_9SAnGrT85Y_dOyZyYEKeuv01so3M12wWgKn9pM1m0/exec';
 
   const formRef = useRef(null);
   const [formData, setFormData] = useState({
@@ -46,47 +43,28 @@ const Contact = () => {
     setSubmitting(true);
 
     try {
-      // Prepare template parameters
-      const adminTemplateParams = {
-        from_name: `${formData.firstName} ${formData.lastName}`.trim(),
-        from_email: formData.email.trim(),
-        phone: (formData.phone || 'Not provided').trim(),
-        message: formData.message.trim(),
-        to_email: 'subhanshahid1920@gmail.com',
-        reply_to: formData.email.trim()
-      };
+      // Build FormData payload to avoid CORS preflight
+      const formBody = new FormData();
+      formBody.append('name', `${formData.firstName} ${formData.lastName}`.trim());
+      formBody.append('_replyto', formData.email.trim());
+      // Also include explicit 'email' for backend convenience
+      formBody.append('email', formData.email.trim());
+      formBody.append('message', formData.message.trim());
 
-      const autoReplyTemplateParams = {
-        to_name: formData.firstName.trim(),
-        to_email: formData.email.trim(),
-        subject: 'Thank you for contacting DevOra',
-        message: 'Thank you for contacting the DevOra team. We have received your message and will reach out to you shortly.'
-      };
+      // Important: do NOT set Content-Type header; the browser will set it for FormData
+      // Use no-cors to bypass missing CORS headers from Apps Script (response will be opaque)
+      await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        body: formBody,
+      });
 
-      console.log('Sending admin email with params:', adminTemplateParams);
-      console.log('Sending auto-reply with params:', autoReplyTemplateParams);
-
-      // Send notification email to you (admin)
-      await emailjs.send(
-        SERVICE_ID,
-        TEMPLATE_ID,
-        adminTemplateParams,
-        PUBLIC_KEY
-      );
-
-      // Send auto-response to the sender
-      await emailjs.send(
-        SERVICE_ID,
-        AUTORESPONSE_TEMPLATE_ID,
-        autoReplyTemplateParams,
-        PUBLIC_KEY
-      );
-
+      // If no exception was thrown, treat as success (opaque response can't be inspected)
       setShowSuccess(true);
       setFormData({ firstName: '', lastName: '', email: '', phone: '', message: '' });
     } catch (error) {
-      console.error('EmailJS Error:', error);
-      setErrorMsg('Failed to send message. Please try again.');
+      console.error('Contact submission error:', error);
+      setErrorMsg('❌ Failed to send. Please try again later.');
       setShowError(true);
     } finally {
       setSubmitting(false);
@@ -358,7 +336,7 @@ const Contact = () => {
           sx={{ width: '100%', borderRadius: '12px' }}
           icon={<FaCheckCircle />}
         >
-          Message sent successfully! We'll get back to you soon.
+          ✅ Thank you for contacting us! We’ll reach out soon.
         </Alert>
       </Snackbar>
 

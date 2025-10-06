@@ -9,7 +9,7 @@ import { AnimatePresence } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Services from './components/Services';
-import Contact from './components/Contact';
+import ContactForm from './components/ContactForm';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
 import LoadingAnimation from './components/LoadingAnimation';
@@ -216,7 +216,7 @@ function App() {
                   <Route path="/" element={<Home />} />
                   <Route path="/services" element={<Services />} />
                   <Route path="/services/:slug" element={<ServiceDetail />} />
-                  <Route path="/contact" element={<Contact />} />
+                  <Route path="/contact" element={<ContactForm />} />
                   <Route path="/thank-you" element={<ThankYou />} />
                   <Route path="/not-found" element={<NotFound />} />
                   <Route path="*" element={<NotFound />} />
