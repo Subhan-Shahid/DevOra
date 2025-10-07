@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useTheme } from '@mui/material/styles';
 
 /**
  * ContactForm (Formspree)
@@ -7,6 +8,7 @@ import React, { useState, useEffect } from "react";
  * - No EmailJS, Apps Script, Nodemailer, or custom APIs
  */
 const ContactForm = () => {
+  const theme = useTheme();
   const FORMSPREE_ENDPOINT = "https://formspree.io/f/xovklovq";
 
   const [name, setName] = useState("");
@@ -126,7 +128,10 @@ const ContactForm = () => {
       placeItems: "center", 
       minHeight: "100vh", 
       padding: 16,
-      background: "linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)",
+      background: theme.palette.mode === 'dark' 
+        ? "linear-gradient(135deg, #0b0d12 0%, #1a1d29 50%, #0f1320 100%)"
+        : "linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)",
+      transition: "background 0.3s ease",
       position: "relative",
       overflow: "hidden"
     },
@@ -152,9 +157,12 @@ const ContactForm = () => {
     card: {
       width: "100%", 
       maxWidth: 720,
-      background: "rgba(255,255,255,0.95)",
+      background: theme.palette.mode === 'dark' 
+        ? "rgba(26, 29, 41, 0.95)"
+        : "rgba(255,255,255,0.95)",
       backdropFilter: "blur(20px)",
-      color: "#2c3e50",
+      color: theme.palette.mode === 'dark' ? "#e8eefc" : "#2c3e50",
+      transition: "background 0.3s ease, color 0.3s ease",
       border: "1px solid rgba(255,255,255,0.2)",
       borderRadius: 24,
       padding: 32,
@@ -205,7 +213,7 @@ const ContactForm = () => {
     label: { 
       display: "block", 
       fontSize: 14, 
-      color: "#374151", 
+      color: theme.palette.mode === 'dark' ? "#b6c2e2" : "#374151", 
       marginBottom: 8,
       fontWeight: 600,
       transition: "color 0.2s ease",
@@ -213,8 +221,10 @@ const ContactForm = () => {
     input: {
       width: "100%",
       padding: "16px 20px",
-      background: "rgba(255,255,255,0.8)",
-      color: "#1f2937",
+      background: theme.palette.mode === 'dark' 
+        ? "rgba(15, 19, 32, 0.8)"
+        : "rgba(255,255,255,0.8)",
+      color: theme.palette.mode === 'dark' ? "#e8eefc" : "#1f2937",
       border: "2px solid rgba(102, 126, 234, 0.2)",
       borderRadius: 16,
       outline: "none",
@@ -231,8 +241,10 @@ const ContactForm = () => {
       width: "100%",
       minHeight: 160,
       resize: "vertical",
-      background: "rgba(255,255,255,0.8)",
-      color: "#1f2937",
+      background: theme.palette.mode === 'dark' 
+        ? "rgba(15, 19, 32, 0.8)"
+        : "rgba(255,255,255,0.8)",
+      color: theme.palette.mode === 'dark' ? "#e8eefc" : "#1f2937",
       border: "2px solid rgba(102, 126, 234, 0.2)",
       borderRadius: 16,
       padding: "16px 20px",

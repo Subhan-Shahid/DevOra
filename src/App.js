@@ -12,7 +12,7 @@ import Services from './components/Services';
 import ContactForm from './components/ContactForm';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
-import LoadingAnimation from './components/LoadingAnimation';
+import SplashScreen from './components/SplashScreen';
 import ServiceDetail from './pages/ServiceDetail';
 import NotFound from './pages/NotFound';
 import ThankYou from './pages/ThankYou';
@@ -176,19 +176,26 @@ function App() {
   const [mounted, setMounted] = useState(false);
 
   const theme = useMemo(() => createAppTheme(mode), [mode]);
-  const toggleColorMode = () => setMode((prev) => (prev === 'light' ? 'dark' : 'light'));
+  const toggleColorMode = () => {
+    const newMode = mode === 'light' ? 'dark' : 'light';
+    setMode(newMode);
+    localStorage.setItem('theme-mode', newMode);
+  };
 
   useEffect(() => {
-    // Simulate loading time for better UX
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2500);
-
-    // Set mounted after component mounts
+    // Load saved theme from localStorage
+    const savedMode = localStorage.getItem('theme-mode');
+    if (savedMode && (savedMode === 'light' || savedMode === 'dark')) {
+      setMode(savedMode);
+    }
+    // mark mounted to prevent hydration mismatch
     setMounted(true);
-
-    return () => clearTimeout(timer);
   }, []);
+
+  // Update body data-theme attribute when mode changes
+  useEffect(() => {
+    document.body.setAttribute('data-theme', mode);
+  }, [mode]);
 
   if (!mounted) {
     return null; // Prevent hydration mismatch
@@ -198,16 +205,20 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <AnimatePresence mode="wait">
-        {loading ? (
-          <LoadingAnimation key="loading" isVisible={loading} />
-        ) : (
+        {loading && (
+          <SplashScreen key="splash" onFinish={() => setLoading(false)} />
+        )}
+        {!loading && (
           <Router key="app">
             <Box
               sx={{
                 display: 'flex',
                 flexDirection: 'column',
                 minHeight: '100vh',
-                background: theme.palette.mode === 'dark' ? '#0b0d12' : 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
+                background: theme.palette.mode === 'dark' 
+                  ? 'linear-gradient(135deg, #0b0d12 0%, #1a1d29 50%, #0f1320 100%)' 
+                  : 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
+                transition: 'background 0.3s ease',
               }}
             >
               <Navbar mode={mode} onToggleTheme={toggleColorMode} />

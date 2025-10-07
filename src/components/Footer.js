@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Typography, Link as MuiLink, Box, IconButton } from '@mui/material';
+import { Container, Typography, Link as MuiLink, Box, IconButton, useTheme } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -59,6 +59,7 @@ const FooterLink = ({ children, ...props }) => (
 );
 
 const Footer = () => {
+  const theme = useTheme();
   const socialLinks = [
     { icon: FaFacebookF, href: '#', color: '#3b5998' },
     { icon: FaTwitter, href: '#', color: '#1da1f2' },
@@ -71,7 +72,10 @@ const Footer = () => {
     <Box 
       component="footer" 
       sx={{ 
-        background: 'linear-gradient(135deg, #2c3e50 0%, #34495e 100%)',
+        background: theme.palette.mode === 'dark' 
+          ? 'linear-gradient(135deg, #0a0b0f 0%, #1a1d29 100%)'
+          : 'linear-gradient(135deg, #2c3e50 0%, #34495e 100%)',
+        transition: 'background 0.3s ease',
         color: 'white',
         position: 'relative',
         overflow: 'hidden',

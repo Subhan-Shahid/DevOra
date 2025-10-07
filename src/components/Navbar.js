@@ -204,20 +204,39 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
                     </NavButton>
                   ))}
                   {/* Theme toggle */}
-                  <IconButton
-                    onClick={onToggleTheme}
-                    sx={{
-                      ml: 0.5,
-                      color: 'white',
-                      background: 'rgba(255,255,255,0.12)',
-                      border: '1px solid rgba(255,255,255,0.2)',
-                      '&:hover': { background: 'rgba(255,255,255,0.2)' }
-                    }}
-                    aria-label="Toggle light/dark mode"
-                    title={mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                   >
-                    {mode === 'dark' ? <MdLightMode /> : <MdDarkMode />}
-                  </IconButton>
+                    <IconButton
+                      onClick={onToggleTheme}
+                      sx={{
+                        ml: 0.5,
+                        color: 'white',
+                        background: 'rgba(255,255,255,0.12)',
+                        border: '1px solid rgba(255,255,255,0.2)',
+                        transition: 'all 0.3s ease',
+                        '&:hover': { 
+                          background: 'rgba(255,255,255,0.2)',
+                          transform: 'rotate(180deg)'
+                        }
+                      }}
+                      aria-label="Toggle light/dark mode"
+                      title={mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+                    >
+                      <AnimatePresence mode="wait">
+                        <motion.div
+                          key={mode}
+                          initial={{ rotate: -180, opacity: 0 }}
+                          animate={{ rotate: 0, opacity: 1 }}
+                          exit={{ rotate: 180, opacity: 0 }}
+                          transition={{ duration: 0.3 }}
+                        >
+                          {mode === 'dark' ? <MdLightMode /> : <MdDarkMode />}
+                        </motion.div>
+                      </AnimatePresence>
+                    </IconButton>
+                  </motion.div>
                 </Box>
               )}
 
@@ -316,6 +335,42 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
           </List>
 
           <Box sx={{ p: 3, mt: 'auto', textAlign: 'center' }}>
+            {/* Mobile theme toggle */}
+            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <IconButton
+                  onClick={onToggleTheme}
+                  sx={{
+                    color: 'rgba(255,255,255,0.9)',
+                    background: 'rgba(255,255,255,0.1)',
+                    border: '1px solid rgba(255,255,255,0.2)',
+                    '&:hover': { 
+                      background: 'rgba(255,255,255,0.2)',
+                      transform: 'rotate(180deg)'
+                    },
+                    transition: 'all 0.3s ease'
+                  }}
+                  aria-label="Toggle light/dark mode"
+                  title={mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+                >
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={mode}
+                      initial={{ rotate: -180, opacity: 0 }}
+                      animate={{ rotate: 0, opacity: 1 }}
+                      exit={{ rotate: 180, opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      {mode === 'dark' ? <MdLightMode size={20} /> : <MdDarkMode size={20} />}
+                    </motion.div>
+                  </AnimatePresence>
+                </IconButton>
+              </motion.div>
+            </Box>
+            
             <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 2 }}>
               Ready to start your project?
             </Typography>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Container, Card, CardContent, Typography, Box, Button, Chip } from '@mui/material';
+import { Container, Card, CardContent, Typography, Box, Button, Chip, useTheme } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { FaCode, FaGlobe, FaMobileAlt, FaArrowRight, FaStar, FaRocket, FaLightbulb, FaGem, FaHeart } from 'react-icons/fa';
@@ -302,6 +302,7 @@ const ServiceCard = ({ service, index }) => {
 };
 
 const Services = () => {
+  const theme = useTheme();
   const prefersReducedMotion = useReducedMotion();
   const isSmall = typeof window !== 'undefined' ? window.innerWidth < 600 : false;
   const disableDecor = prefersReducedMotion || isSmall;
@@ -319,7 +320,10 @@ const Services = () => {
   return (
     <Box sx={{ 
       py: { xs: 6, md: 10 }, 
-      background: 'linear-gradient(180deg, #f8fafc 0%, #ffffff 100%)',
+      background: theme.palette.mode === 'dark' 
+        ? 'linear-gradient(180deg, #0b0d12 0%, #1a1d29 100%)'
+        : 'linear-gradient(180deg, #f8fafc 0%, #ffffff 100%)',
+      transition: 'background 0.3s ease',
       position: 'relative',
       overflow: 'hidden'
     }}>

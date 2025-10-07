@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Typography, Button, Container, Chip } from '@mui/material';
+import { Box, Typography, Button, Container, Chip, useTheme } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
@@ -97,6 +97,7 @@ const AnimatedCounter = ({ end, duration = 2, suffix = '' }) => {
 };
 
 const Hero = () => {
+  const theme = useTheme();
   const prefersReducedMotion = useReducedMotion();
   const isSmall = typeof window !== 'undefined' ? window.innerWidth < 600 : false;
   const disableDecor = prefersReducedMotion || isSmall;
@@ -118,7 +119,10 @@ const Hero = () => {
         minHeight: '100vh',
         display: 'flex',
         alignItems: 'center',
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)',
+        background: theme.palette.mode === 'dark' 
+          ? 'linear-gradient(135deg, #0b0d12 0%, #1a1d29 50%, #0f1320 100%)'
+          : 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)',
+        transition: 'background 0.3s ease',
         overflow: 'hidden',
         '&::before': {
           content: '""',
@@ -127,11 +131,17 @@ const Hero = () => {
           left: 0,
           right: 0,
           bottom: 0,
-          background: `
-            radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.4) 0%, transparent 50%),
-            radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
-            radial-gradient(circle at 40% 40%, rgba(240, 147, 251, 0.3) 0%, transparent 50%)
-          `,
+          background: theme.palette.mode === 'dark' 
+            ? `
+              radial-gradient(circle at 20% 80%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
+              radial-gradient(circle at 80% 20%, rgba(240, 147, 251, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 40% 40%, rgba(79, 172, 254, 0.1) 0%, transparent 50%)
+            `
+            : `
+              radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.4) 0%, transparent 50%),
+              radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
+              radial-gradient(circle at 40% 40%, rgba(240, 147, 251, 0.3) 0%, transparent 50%)
+            `,
           zIndex: 1
         },
         // Removed mouse-follow background for performance
