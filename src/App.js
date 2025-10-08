@@ -7,6 +7,7 @@ import { AnimatePresence } from 'framer-motion';
 
 // Import components
 import Navbar from './components/Navbar';
+import ChatWidget from './components/ChatWidget';
 import Hero from './components/Hero';
 import Services from './components/Services';
 import ContactForm from './components/ContactForm';
@@ -234,6 +235,7 @@ function App() {
                 </Routes>
               </Box>
               <Footer />
+              <ChatWidget />
               <ScrollToTop />
             </Box>
           </Router>

@@ -3,10 +3,10 @@ import { Container, Typography, Link as MuiLink, Box, IconButton, useTheme } fro
 import Grid from '@mui/material/Grid';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FaFacebookF, FaTwitter, FaLinkedinIn, FaInstagram, FaGithub, FaHeart } from 'react-icons/fa';
+import { FaFacebookF, FaTwitter, FaLinkedinIn, FaInstagram, FaGithub, FaHeart, FaWhatsapp } from 'react-icons/fa';
 import { MdEmail, MdPhone, MdLocationOn } from 'react-icons/md';
 
-const SocialIcon = ({ icon: Icon, href, color }) => (
+const SocialIcon = ({ icon: Icon, href, color, label }) => (
   <motion.div
     whileHover={{ scale: 1.2, rotate: 5 }}
     whileTap={{ scale: 0.9 }}
@@ -15,6 +15,7 @@ const SocialIcon = ({ icon: Icon, href, color }) => (
       href={href}
       target="_blank"
       rel="noopener noreferrer"
+      aria-label={label}
       sx={{
         color: 'white',
         bgcolor: 'rgba(255,255,255,0.1)',
@@ -61,11 +62,11 @@ const FooterLink = ({ children, ...props }) => (
 const Footer = () => {
   const theme = useTheme();
   const socialLinks = [
-    { icon: FaFacebookF, href: '#', color: '#3b5998' },
-    { icon: FaTwitter, href: '#', color: '#1da1f2' },
-    { icon: FaLinkedinIn, href: '#', color: '#0077b5' },
-    { icon: FaInstagram, href: '#', color: '#e4405f' },
-    { icon: FaGithub, href: '#', color: '#333' }
+    { icon: FaFacebookF, href: process.env.REACT_APP_FACEBOOK_URL || '#', color: '#3b5998', label: 'Facebook' },
+    { icon: FaTwitter, href: process.env.REACT_APP_TWITTER_URL || '#', color: '#1da1f2', label: 'Twitter' },
+    { icon: FaLinkedinIn, href: process.env.REACT_APP_LINKEDIN_URL || '#', color: '#0077b5', label: 'LinkedIn' },
+    { icon: FaInstagram, href: process.env.REACT_APP_INSTAGRAM_URL || '#', color: '#e4405f', label: 'Instagram' },
+    { icon: FaGithub, href: process.env.REACT_APP_GITHUB_URL || '#', color: '#333', label: 'GitHub' }
   ];
 
   return (
@@ -130,6 +131,7 @@ const Footer = () => {
                     icon={social.icon}
                     href={social.href}
                     color={social.color}
+                    label={social.label}
                   />
                 ))}
               </Box>
@@ -203,21 +205,58 @@ const Footer = () => {
               <Box>
                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                   <MdEmail style={{ fontSize: '1.2rem', marginRight: '12px', color: '#ffd700' }} />
-                  <Typography variant="body2" sx={{ opacity: 0.9 }}>
-                    info@devsolutions.com
-                  </Typography>
+                  <MuiLink
+                    href="mailto:devora.pk@gmail.com"
+                    sx={{ opacity: 0.9, color: 'white', textDecoration: 'none', '&:hover': { textDecoration: 'underline', color: '#ffd700' } }}
+                  >
+                    devora.pk@gmail.com
+                  </MuiLink>
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                   <MdPhone style={{ fontSize: '1.2rem', marginRight: '12px', color: '#ffd700' }} />
-                  <Typography variant="body2" sx={{ opacity: 0.9 }}>
-                    +1 (123) 456-7890
-                  </Typography>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      <MuiLink
+                        href="tel:+923216405272"
+                        sx={{ opacity: 0.9, color: 'white', textDecoration: 'none', '&:hover': { textDecoration: 'underline', color: '#ffd700' } }}
+                      >
+                        +92 321 640 5272
+                      </MuiLink>
+                      <IconButton
+                        href="https://wa.me/923216405272?text=Hello%20DevOra"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="WhatsApp +92 321 640 5272"
+                        size="small"
+                        sx={{ color: '#25D366', bgcolor: 'rgba(255,255,255,0.08)', '&:hover': { bgcolor: 'rgba(37,211,102,0.15)' } }}
+                      >
+                        <FaWhatsapp />
+                      </IconButton>
+                    </Box>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      <MuiLink
+                        href="tel:+923396405272"
+                        sx={{ opacity: 0.9, color: 'white', textDecoration: 'none', '&:hover': { textDecoration: 'underline', color: '#ffd700' } }}
+                      >
+                        +92 339 640 5272
+                      </MuiLink>
+                      <IconButton
+                        href="https://wa.me/923396405272?text=Hello%20DevOra"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="WhatsApp +92 339 640 5272"
+                        size="small"
+                        sx={{ color: '#25D366', bgcolor: 'rgba(255,255,255,0.08)', '&:hover': { bgcolor: 'rgba(37,211,102,0.15)' } }}
+                      >
+                        <FaWhatsapp />
+                      </IconButton>
+                    </Box>
+                  </Box>
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 2 }}>
                   <MdLocationOn style={{ fontSize: '1.2rem', marginRight: '12px', color: '#ffd700', marginTop: '2px' }} />
                   <Typography variant="body2" sx={{ opacity: 0.9, lineHeight: 1.5 }}>
-                    123 Tech Street, Suite 100<br />
-                    San Francisco, CA 94107
+                    Peoples Colony, Gujranwala, Pakistan
                   </Typography>
                 </Box>
               </Box>

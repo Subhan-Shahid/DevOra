@@ -65,7 +65,7 @@ export default function SplashScreen({ onFinish }) {
           display: "grid",
           gridTemplateColumns: "repeat(2, 1fr)",
           gap: 0,
-          marginBottom: 18,
+          marginBottom: 24,
         }}
       >
         {[0, 1, 2, 3].map((i) => (
@@ -76,8 +76,8 @@ export default function SplashScreen({ onFinish }) {
             animate="visible"
             variants={shapeVariants}
             style={{
-              width: 170,
-              height: 170,
+              width: 220,
+              height: 220,
               borderRadius: 0,
               backgroundImage: `url(${process.env.PUBLIC_URL}/DevOra.png)`,
               backgroundSize: '200% 200%',
@@ -93,7 +93,7 @@ export default function SplashScreen({ onFinish }) {
         animate={{ opacity: isHiding ? 0 : 1, y: 0 }}
         transition={{ delay: 1.4, duration: 0.8 }}
         style={{
-          fontSize: 36,
+          fontSize: 48,
           fontWeight: 600,
           color: "#0f172a",
           letterSpacing: 0.5,

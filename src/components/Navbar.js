@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { AppBar, Toolbar, Typography, Button, Container, IconButton, Drawer, List, ListItem, ListItemButton, ListItemText, Box, useMediaQuery, useTheme } from '@mui/material';
+import { AppBar, Toolbar, Typography, Button, Container, IconButton, Drawer, List, ListItem, ListItemButton, ListItemText, Box, useMediaQuery, useTheme, Divider, Tooltip } from '@mui/material';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaBars, FaTimes } from 'react-icons/fa';
+import { FaBars, FaTimes, FaFacebookF, FaTwitter, FaLinkedinIn, FaInstagram, FaGithub } from 'react-icons/fa';
 import { MdLightMode, MdDarkMode } from 'react-icons/md';
 import { MdHome, MdBusiness, MdContactMail } from 'react-icons/md';
 
@@ -60,7 +60,7 @@ const NavButton = ({ to, children, icon: Icon, isActive }) => (
   </motion.div>
 );
 
-const MobileNavItem = ({ to, children, icon: Icon, onClick }) => (
+const MobileNavItem = ({ to, children, icon: Icon, onClick, isActive = false }) => (
   <motion.div
     whileHover={{ x: 10 }}
     whileTap={{ scale: 0.95 }}
@@ -71,10 +71,13 @@ const MobileNavItem = ({ to, children, icon: Icon, onClick }) => (
         to={to} 
         onClick={onClick}
         sx={{
-          borderRadius: '12px',
-          transition: 'all 0.3s ease',
+          borderRadius: '14px',
+          transition: 'all 0.25s ease',
+          background: isActive ? 'linear-gradient(135deg, rgba(14,165,233,0.15), rgba(37,99,235,0.15))' : 'transparent',
+          border: isActive ? '1px solid rgba(59,130,246,0.35)' : '1px solid transparent',
+          boxShadow: isActive ? '0 8px 24px rgba(37,99,235,0.25)' : 'none',
           '&:hover': {
-            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            background: 'linear-gradient(135deg, rgba(14,165,233,0.18), rgba(37,99,235,0.18))',
             color: 'white',
             transform: 'translateX(8px)'
           }
@@ -241,38 +244,66 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
               )}
 
               {isMobile && (
-                <motion.div
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                >
-                  <IconButton
-                    color="inherit"
-                    aria-label="open drawer"
-                    edge="start"
-                    onClick={handleDrawerToggle}
-                    sx={{
-                      background: 'rgba(255,255,255,0.1)',
-                      backdropFilter: 'blur(8px)',
-                      border: '1px solid rgba(255,255,255,0.2)',
-                      '&:hover': {
-                        background: 'rgba(255,255,255,0.2)',
-                        transform: 'rotate(90deg)'
-                      }
-                    }}
-                  >
-                    <AnimatePresence mode="wait">
-                      <motion.div
-                        key={mobileOpen ? 'close' : 'open'}
-                        initial={{ rotate: -90, opacity: 0 }}
-                        animate={{ rotate: 0, opacity: 1 }}
-                        exit={{ rotate: 90, opacity: 0 }}
-                        transition={{ duration: 0.2 }}
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25 }}>
+                  <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                    <Tooltip title={mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'} placement="bottom" enterDelay={300} arrow>
+                      <IconButton
+                        onClick={onToggleTheme}
+                        sx={{
+                          color: 'white',
+                          background: 'rgba(255,255,255,0.12)',
+                          border: '1px solid rgba(255,255,255,0.2)',
+                          '&:hover': { 
+                            background: 'rgba(255,255,255,0.2)',
+                            transform: 'rotate(180deg)'
+                          }
+                        }}
+                        aria-label="Toggle light/dark mode"
                       >
-                        {mobileOpen ? <FaTimes /> : <FaBars />}
-                      </motion.div>
-                    </AnimatePresence>
-                  </IconButton>
-                </motion.div>
+                        <AnimatePresence mode="wait">
+                          <motion.div
+                            key={mode}
+                            initial={{ rotate: -180, opacity: 0 }}
+                            animate={{ rotate: 0, opacity: 1 }}
+                            exit={{ rotate: 180, opacity: 0 }}
+                            transition={{ duration: 0.3 }}
+                          >
+                            {mode === 'dark' ? <MdLightMode /> : <MdDarkMode />}
+                          </motion.div>
+                        </AnimatePresence>
+                      </IconButton>
+                    </Tooltip>
+                  </motion.div>
+                  <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                    <IconButton
+                      color="inherit"
+                      aria-label="open drawer"
+                      edge="start"
+                      onClick={handleDrawerToggle}
+                      sx={{
+                        background: 'rgba(255,255,255,0.1)',
+                        backdropFilter: 'blur(8px)',
+                        border: '1px solid rgba(255,255,255,0.2)',
+                        '&:hover': {
+                          background: 'rgba(255,255,255,0.2)',
+                          transform: 'rotate(90deg)'
+                        }
+                      }}
+                    >
+                      <AnimatePresence mode="wait">
+                        <motion.div
+                          key={mobileOpen ? 'close' : 'open'}
+                          initial={{ rotate: -90, opacity: 0 }}
+                          animate={{ rotate: 0, opacity: 1 }}
+                          exit={{ rotate: 90, opacity: 0 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          {mobileOpen ? <FaTimes /> : <FaBars />}
+                        </motion.div>
+                      </AnimatePresence>
+                    </IconButton>
+                  </motion.div>
+                </Box>
               )}
             </Toolbar>
           </Container>
@@ -287,15 +318,23 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
         onClose={handleDrawerToggle}
         ModalProps={{
           keepMounted: true,
+          BackdropProps: {
+            sx: {
+              background: 'rgba(2, 6, 23, 0.6)',
+              backdropFilter: 'blur(4px)'
+            }
+          }
         }}
         sx={{
           display: { xs: 'block', lg: 'none' },
           '& .MuiDrawer-paper': {
             boxSizing: 'border-box',
-            width: 280,
-            background: 'linear-gradient(180deg, #0f1320 0%, #141a2a 100%)',
-            borderLeft: '1px solid rgba(102, 126, 234, 0.15)',
-            color: 'rgba(255,255,255,0.9)'
+            width: 320,
+            background: 'linear-gradient(180deg, #0b1220 0%, #0e1a2f 100%)',
+            color: 'rgba(255,255,255,0.9)',
+            borderLeft: '1px solid rgba(37, 99, 235, 0.25)',
+            boxShadow: '0 10px 40px rgba(2,6,23,0.5)',
+            backdropFilter: 'blur(8px)'
           },
         }}
       >
@@ -305,29 +344,40 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
           exit={{ x: 300 }}
           transition={{ duration: 0.3, ease: "easeOut" }}
         >
-          <Box sx={{ p: 3, textAlign: 'center', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 2 }}>
+          <Box sx={{ p: 2.5, px: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.08)', position: 'relative' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <img
                 src={`${process.env.PUBLIC_URL}/DevOra.png`}
                 alt="DevOra logo"
-                style={{ height: '24px', width: '24px', marginRight: '8px', borderRadius: '5px' }}
+                style={{ height: '28px', width: '28px', marginRight: '10px', borderRadius: '6px' }}
               />
-              <Typography variant="h6" sx={{ fontWeight: 700, color: 'rgba(255,255,255,0.95)' }}>
+              <Typography variant="h6" sx={{ fontWeight: 800, color: 'rgba(255,255,255,0.95)' }}>
                 DevOra
               </Typography>
             </Box>
-            <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
-              Digital Innovation Hub
-            </Typography>
+            <Box sx={{ display: 'flex', gap: 1 }}>
+              <IconButton
+                onClick={handleDrawerToggle}
+                sx={{ color: 'rgba(255,255,255,0.9)', background: 'rgba(255,255,255,0.08)', '&:hover': { background: 'rgba(255,255,255,0.15)', transform: 'rotate(90deg)' } }}
+                aria-label="Close menu"
+              >
+                <FaTimes />
+              </IconButton>
+            </Box>
           </Box>
+          <Box sx={{ px: 3, py: 2, color: 'rgba(255,255,255,0.75)' }}>
+            <Typography variant="body2">Digital Innovation Hub</Typography>
+          </Box>
+          <Divider sx={{ opacity: 0.12, borderColor: 'rgba(255,255,255,0.12)' }} />
           
-          <List sx={{ pt: 2 }}>
+          <List sx={{ pt: 1 }}>
             {navItems.map((item) => (
               <MobileNavItem
                 key={item.to}
                 to={item.to}
                 icon={item.icon}
                 onClick={handleDrawerToggle}
+                isActive={location.pathname === item.to}
               >
                 {item.label}
               </MobileNavItem>
@@ -335,41 +385,6 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
           </List>
 
           <Box sx={{ p: 3, mt: 'auto', textAlign: 'center' }}>
-            {/* Mobile theme toggle */}
-            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <IconButton
-                  onClick={onToggleTheme}
-                  sx={{
-                    color: 'rgba(255,255,255,0.9)',
-                    background: 'rgba(255,255,255,0.1)',
-                    border: '1px solid rgba(255,255,255,0.2)',
-                    '&:hover': { 
-                      background: 'rgba(255,255,255,0.2)',
-                      transform: 'rotate(180deg)'
-                    },
-                    transition: 'all 0.3s ease'
-                  }}
-                  aria-label="Toggle light/dark mode"
-                  title={mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-                >
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={mode}
-                      initial={{ rotate: -180, opacity: 0 }}
-                      animate={{ rotate: 0, opacity: 1 }}
-                      exit={{ rotate: 180, opacity: 0 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      {mode === 'dark' ? <MdLightMode size={20} /> : <MdDarkMode size={20} />}
-                    </motion.div>
-                  </AnimatePresence>
-                </IconButton>
-              </motion.div>
-            </Box>
             
             <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 2 }}>
               Ready to start your project?
@@ -383,16 +398,34 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
                 borderRadius: '25px',
                 px: 4,
                 py: 1.5,
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                boxShadow: '0 4px 15px rgba(102, 126, 234, 0.3)',
+                background: 'linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%)',
+                boxShadow: '0 8px 24px rgba(37, 99, 235, 0.35)',
                 '&:hover': {
                   transform: 'translateY(-2px)',
-                  boxShadow: '0 6px 20px rgba(102, 126, 234, 0.4)'
+                  boxShadow: '0 10px 28px rgba(37, 99, 235, 0.45)'
                 }
               }}
             >
               Get Started
             </Button>
+            <Divider sx={{ my: 3, opacity: 0.12, borderColor: 'rgba(255,255,255,0.12)' }} />
+            <Box sx={{ display: 'flex', justifyContent: 'center', gap: 1.5 }}>
+              <IconButton href={process.env.REACT_APP_FACEBOOK_URL || '#'} target="_blank" rel="noopener noreferrer" sx={{ color: 'white', bgcolor: 'rgba(255,255,255,0.08)', '&:hover': { bgcolor: 'rgba(255,255,255,0.15)' } }} aria-label="Facebook">
+                <FaFacebookF />
+              </IconButton>
+              <IconButton href={process.env.REACT_APP_TWITTER_URL || '#'} target="_blank" rel="noopener noreferrer" sx={{ color: 'white', bgcolor: 'rgba(255,255,255,0.08)', '&:hover': { bgcolor: 'rgba(255,255,255,0.15)' } }} aria-label="Twitter">
+                <FaTwitter />
+              </IconButton>
+              <IconButton href={process.env.REACT_APP_LINKEDIN_URL || '#'} target="_blank" rel="noopener noreferrer" sx={{ color: 'white', bgcolor: 'rgba(255,255,255,0.08)', '&:hover': { bgcolor: 'rgba(255,255,255,0.15)' } }} aria-label="LinkedIn">
+                <FaLinkedinIn />
+              </IconButton>
+              <IconButton href={process.env.REACT_APP_INSTAGRAM_URL || '#'} target="_blank" rel="noopener noreferrer" sx={{ color: 'white', bgcolor: 'rgba(255,255,255,0.08)', '&:hover': { bgcolor: 'rgba(255,255,255,0.15)' } }} aria-label="Instagram">
+                <FaInstagram />
+              </IconButton>
+              <IconButton href={process.env.REACT_APP_GITHUB_URL || '#'} target="_blank" rel="noopener noreferrer" sx={{ color: 'white', bgcolor: 'rgba(255,255,255,0.08)', '&:hover': { bgcolor: 'rgba(255,255,255,0.15)' } }} aria-label="GitHub">
+                <FaGithub />
+              </IconButton>
+            </Box>
           </Box>
         </motion.div>
       </Drawer>

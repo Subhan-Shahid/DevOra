@@ -120,8 +120,8 @@ const Hero = () => {
         display: 'flex',
         alignItems: 'center',
         background: theme.palette.mode === 'dark' 
-          ? 'linear-gradient(135deg, #0b0d12 0%, #1a1d29 50%, #0f1320 100%)'
-          : 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)',
+          ? 'linear-gradient(135deg, #0b0d12 0%, #0f172a 50%, #0a1323 100%)'
+          : 'linear-gradient(135deg, #0ea5e9 0%, #2563eb 50%, #60a5fa 100%)',
         transition: 'background 0.3s ease',
         overflow: 'hidden',
         '&::before': {
@@ -134,13 +134,13 @@ const Hero = () => {
           background: theme.palette.mode === 'dark' 
             ? `
               radial-gradient(circle at 20% 80%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
-              radial-gradient(circle at 80% 20%, rgba(240, 147, 251, 0.1) 0%, transparent 50%),
-              radial-gradient(circle at 40% 40%, rgba(79, 172, 254, 0.1) 0%, transparent 50%)
+              radial-gradient(circle at 80% 20%, rgba(14, 165, 233, 0.12) 0%, transparent 50%),
+              radial-gradient(circle at 40% 40%, rgba(59, 130, 246, 0.12) 0%, transparent 50%)
             `
             : `
-              radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.4) 0%, transparent 50%),
+              radial-gradient(circle at 20% 80%, rgba(96, 165, 250, 0.35) 0%, transparent 50%),
               radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
-              radial-gradient(circle at 40% 40%, rgba(240, 147, 251, 0.3) 0%, transparent 50%)
+              radial-gradient(circle at 40% 40%, rgba(14, 165, 233, 0.3) 0%, transparent 50%)
             `,
           zIndex: 1
         },
@@ -152,7 +152,7 @@ const Hero = () => {
       
       {/* Reduced/disabled decorative icons for performance */}
       <FloatingIcon icon={FaCode} delay={0} x={20} y={-15} color="#64b5f6" disabled={disableDecor} />
-      <FloatingIcon icon={FaRocket} delay={1} x={-18} y={12} color="#ff6b6b" disabled={disableDecor} />
+      <FloatingIcon icon={FaRocket} delay={1} x={-18} y={12} color="#22d3ee" disabled={disableDecor} />
       <FloatingIcon icon={FaMobile} delay={2} x={15} y={-18} color="#4fc3f7" disabled={disableDecor} />
       
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, px: { xs: 2, sm: 3 } }}>
@@ -198,7 +198,7 @@ const Hero = () => {
             >
               Transform Your
               <br />
-              <span style={{ color: '#64b5f6' }}>Digital Dreams</span>
+              <span style={{ color: '#22d3ee' }}>Digital Dreams</span>
             </Typography>
           </motion.div>
 
@@ -252,17 +252,17 @@ const Hero = () => {
                     py: { xs: 1.5, md: 2 },
                     fontSize: { xs: '1rem', md: '1.1rem' },
                     borderRadius: '50px',
-                    background: 'linear-gradient(45deg, #ff6b6b, #ffa726, #f093fb)',
+                    background: 'linear-gradient(45deg, #0ea5e9, #2563eb, #60a5fa)',
                     backgroundSize: '200% 200%',
                     animation: 'gradientShift 3s ease infinite',
-                    boxShadow: '0 8px 25px rgba(255, 107, 107, 0.4)',
+                    boxShadow: '0 8px 25px rgba(37, 99, 235, 0.35)',
                     transition: 'all 0.3s ease',
                     minWidth: { xs: '140px', sm: 'auto' },
                     position: 'relative',
                     overflow: 'hidden',
                     '&:hover': {
                       transform: 'translateY(-3px)',
-                      boxShadow: '0 12px 35px rgba(255, 107, 107, 0.5)'
+                      boxShadow: '0 12px 35px rgba(37, 99, 235, 0.5)'
                     },
                     '&::before': {
                       content: '""',
