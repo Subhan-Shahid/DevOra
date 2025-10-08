@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://your-site-name.vercel.app/</loc>
+    <loc>https://dev-ora.vercel.app/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://your-site-name.vercel.app/services</loc>
+    <loc>https://dev-ora.vercel.app/services</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://your-site-name.vercel.app/contact</loc>
+    <loc>https://dev-ora.vercel.app/contact</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://your-site-name.vercel.app/thank-you</loc>
+    <loc>https://dev-ora.vercel.app/thank-you</loc>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
