@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { AppBar, Toolbar, Typography, Button, Container, IconButton, Drawer, List, ListItem, ListItemButton, ListItemText, Box, useMediaQuery, useTheme, Divider, Tooltip } from '@mui/material';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaBars, FaTimes, FaFacebookF, FaTwitter, FaLinkedinIn, FaInstagram, FaGithub } from 'react-icons/fa';
-import { MdLightMode, MdDarkMode } from 'react-icons/md';
+import { FaFacebookF, FaTwitter, FaLinkedinIn, FaInstagram, FaGithub } from 'react-icons/fa';
+import { BsSun, BsMoon } from 'react-icons/bs';
+import { CgMenu, CgClose } from 'react-icons/cg';
 import { MdHome, MdBusiness, MdContactMail } from 'react-icons/md';
 
 const NavButton = ({ to, children, icon: Icon, isActive }) => (
@@ -235,7 +236,7 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
                           exit={{ rotate: 180, opacity: 0 }}
                           transition={{ duration: 0.3 }}
                         >
-                          {mode === 'dark' ? <MdLightMode /> : <MdDarkMode />}
+                          {mode === 'dark' ? <BsSun size={22} /> : <BsMoon size={22} />}
                         </motion.div>
                       </AnimatePresence>
                     </IconButton>
@@ -244,7 +245,7 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
               )}
 
               {isMobile && (
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2.5 }}>
                   <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                     <Tooltip title={mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'} placement="bottom" enterDelay={300} arrow>
                       <IconButton
@@ -268,7 +269,7 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
                             exit={{ rotate: 180, opacity: 0 }}
                             transition={{ duration: 0.3 }}
                           >
-                            {mode === 'dark' ? <MdLightMode /> : <MdDarkMode />}
+                            {mode === 'dark' ? <BsSun size={22} /> : <BsMoon size={22} />}
                           </motion.div>
                         </AnimatePresence>
                       </IconButton>
@@ -298,7 +299,7 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
                           exit={{ rotate: 90, opacity: 0 }}
                           transition={{ duration: 0.2 }}
                         >
-                          {mobileOpen ? <FaTimes /> : <FaBars />}
+                          {mobileOpen ? <CgClose size={22} /> : <CgMenu size={22} />}
                         </motion.div>
                       </AnimatePresence>
                     </IconButton>
@@ -361,7 +362,7 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
                 sx={{ color: 'rgba(255,255,255,0.9)', background: 'rgba(255,255,255,0.08)', '&:hover': { background: 'rgba(255,255,255,0.15)', transform: 'rotate(90deg)' } }}
                 aria-label="Close menu"
               >
-                <FaTimes />
+                <CgClose size={22} />
               </IconButton>
             </Box>
           </Box>
