@@ -255,9 +255,14 @@ const Footer = () => {
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 2 }}>
                   <MdLocationOn style={{ fontSize: '1.2rem', marginRight: '12px', color: '#ffd700', marginTop: '2px' }} />
-                  <Typography variant="body2" sx={{ opacity: 0.9, lineHeight: 1.5 }}>
-                    Peoples Colony, Gujranwala, Pakistan
-                  </Typography>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
+                    <Typography variant="body2" sx={{ opacity: 0.9, lineHeight: 1.5 }}>
+                      Ilfad, London, UK
+                    </Typography>
+                    <Typography variant="body2" sx={{ opacity: 0.9, lineHeight: 1.5 }}>
+                      Peoples Colony, Gujranwala, Pakistan
+                    </Typography>
+                  </Box>
                 </Box>
               </Box>
             </motion.div>
