@@ -108,13 +108,24 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
   const location = useLocation();
 
   useEffect(() => {
-    const handleScroll = () => {
+    let ticking = false;
+    const update = () => {
       const isScrolled = window.scrollY > 50;
-      setScrolled(isScrolled);
+      // Avoid unnecessary re-renders
+      setScrolled(prev => (prev !== isScrolled ? isScrolled : prev));
+      ticking = false;
+    };
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        window.requestAnimationFrame(update);
+      }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    // Initialize once on mount
+    update();
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
   const handleDrawerToggle = () => {

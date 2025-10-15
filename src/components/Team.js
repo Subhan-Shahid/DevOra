@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Typography, Box, Card, CardContent, Avatar, useTheme } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { FaCode, FaBullhorn, FaPalette, FaLinkedin, FaTwitter, FaGithub, FaUsers, FaLightbulb, FaRocket } from 'react-icons/fa';
 import { MdDesignServices, MdCampaign, MdDeveloperMode } from 'react-icons/md';
 
@@ -427,6 +427,9 @@ const TeamSection = ({ team, theme, index }) => {
 
 const Team = () => {
   const theme = useTheme();
+  const prefersReducedMotion = useReducedMotion();
+  const isSmall = typeof window !== 'undefined' ? window.innerWidth < 600 : false;
+  const disableDecor = prefersReducedMotion || isSmall;
 
   return (
     <Box
@@ -451,7 +454,8 @@ const Team = () => {
         }
       }}
     >
-      {/* Background Decorations */}
+      {/* Background Decorations (disabled on small screens/reduced motion) */}
+      {!disableDecor && (
       <motion.div
         animate={{
           x: [0, 20, 0],
@@ -473,9 +477,10 @@ const Team = () => {
           background: theme.palette.mode === 'dark'
             ? 'linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15))'
             : 'linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1))',
-          filter: 'blur(60px)',
+          filter: 'blur(40px)',
         }}
       />
+      )}
 
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2 }}>
         {/* Main Header */}
