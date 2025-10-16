@@ -15,6 +15,7 @@ import ContactForm from './components/ContactForm';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
 import SplashScreen from './components/SplashScreen';
+import ComingSoonHeader from './components/ComingSoonHeader';
 import ServiceDetail from './pages/ServiceDetail';
 import NotFound from './pages/NotFound';
 import ThankYou from './pages/ThankYou';
@@ -225,6 +226,7 @@ function App() {
               }}
             >
               <Navbar mode={mode} onToggleTheme={toggleColorMode} />
+              <ComingSoonHeader />
               <Box component="main" sx={{ flexGrow: 1 }}>
                 <Routes>
                   <Route path="/" element={<Home />} />
