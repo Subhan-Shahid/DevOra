@@ -15,9 +15,9 @@ const servicesData = [
     icon: FaCode,
     colorKey: 'primary',
     features: ['Custom Solutions', 'Enterprise Grade', 'Cloud Ready'],
-    price: 'Starting at $5,000',
+    price: 'Starting from 35k PKR',
     badge: 'Most Popular',
-    projects: 150
+    projects: 50
   },
   {
     slug: 'website-development',
@@ -26,9 +26,9 @@ const servicesData = [
     icon: FaGlobe,
     colorKey: 'secondary',
     features: ['Responsive Design', 'SEO Optimized', 'Fast Loading'],
-    price: 'Starting at $2,500',
+    price: 'Starting from 30k PKR',
     badge: 'Best Value',
-    projects: 200
+    projects: 20
   },
   {
     slug: 'app-development',
@@ -37,9 +37,9 @@ const servicesData = [
     icon: FaMobileAlt,
     colorKey: 'tertiary',
     features: ['Cross Platform', 'Native Performance', 'App Store Ready'],
-    price: 'Starting at $8,000',
+    price: 'Starting from 50k PKR',
     badge: 'Premium',
-    projects: 120
+    projects: 10
   }
 ];
 
@@ -259,7 +259,7 @@ const OptimizedServiceCard = ({ service, index, theme }) => {
                 letterSpacing: 1,
               }}
             >
-              Projects Completed
+              projects done
             </Typography>
           </Box>
 
