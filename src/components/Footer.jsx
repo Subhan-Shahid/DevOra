@@ -62,11 +62,11 @@ const FooterLink = ({ children, ...props }) => (
 const Footer = () => {
   const theme = useTheme();
   const socialLinks = [
-    { icon: FaFacebookF, href: process.env.REACT_APP_FACEBOOK_URL || '#', color: '#3b5998', label: 'Facebook' },
-    { icon: FaTwitter, href: process.env.REACT_APP_TWITTER_URL || '#', color: '#1da1f2', label: 'Twitter' },
-    { icon: FaLinkedinIn, href: process.env.REACT_APP_LINKEDIN_URL || '#', color: '#0077b5', label: 'LinkedIn' },
-    { icon: FaInstagram, href: process.env.REACT_APP_INSTAGRAM_URL || '#', color: '#e4405f', label: 'Instagram' },
-    { icon: FaGithub, href: process.env.REACT_APP_GITHUB_URL || '#', color: '#333', label: 'GitHub' }
+    { icon: FaFacebookF, href: import.meta.env.VITE_FACEBOOK_URL || '#', color: '#3b5998', label: 'Facebook' },
+    { icon: FaTwitter, href: import.meta.env.VITE_TWITTER_URL || '#', color: '#1da1f2', label: 'Twitter' },
+    { icon: FaLinkedinIn, href: import.meta.env.VITE_LINKEDIN_URL || '#', color: '#0077b5', label: 'LinkedIn' },
+    { icon: FaInstagram, href: import.meta.env.VITE_INSTAGRAM_URL || '#', color: '#e4405f', label: 'Instagram' },
+    { icon: FaGithub, href: import.meta.env.VITE_GITHUB_URL || '#', color: '#333', label: 'GitHub' }
   ];
 
   return (
@@ -103,7 +103,7 @@ const Footer = () => {
             >
               <Box sx={{ display: 'flex', alignItems: 'center', mb: { xs: 2, md: 3 } }}>
                 <img
-                  src={`${process.env.PUBLIC_URL}/DevOra.png`}
+                  src={`/DevOra.png`}
                   alt="DevOra logo"
                   style={{ height: '28px', width: '28px', marginRight: '12px', borderRadius: '6px' }}
                 />

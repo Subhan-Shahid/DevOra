@@ -5,10 +5,10 @@ import { FaComments, FaPaperPlane, FaTimes, FaWhatsapp } from 'react-icons/fa';
 
 // Optional: load third-party chat via ENV (no-op if not configured)
 const useExternalChat = () => {
-  const tawkPropertyId = process.env.REACT_APP_TAWK_PROPERTY_ID; // e.g., "68e60f74115ee219547e79eb"
-  const tawkWidgetId = process.env.REACT_APP_TAWK_WIDGET_ID;   // e.g., "1j71aoo1h"
-  const tawkEmbedUrl = process.env.REACT_APP_TAWK_EMBED_URL;    // optional full path after domain, e.g., "68e60f74115ee219547e79eb/1j71aoo1h"
-  const crispId = process.env.REACT_APP_CRISP_WEBSITE_ID;       // e.g., "xxxx-xxxx-xxxx"
+  const tawkPropertyId = import.meta.env.VITE_TAWK_PROPERTY_ID; // e.g., "68e60f74115ee219547e79eb"
+  const tawkWidgetId = import.meta.env.VITE_TAWK_WIDGET_ID;   // e.g., "1j71aoo1h"
+  const tawkEmbedUrl = import.meta.env.VITE_TAWK_EMBED_URL;    // optional full path after domain, e.g., "68e60f74115ee219547e79eb/1j71aoo1h"
+  const crispId = import.meta.env.VITE_CRISP_WEBSITE_ID;       // e.g., "xxxx-xxxx-xxxx"
 
   useEffect(() => {
     if (tawkPropertyId || tawkEmbedUrl) {
@@ -45,7 +45,7 @@ const presetPrompts = [
 
 const ChatWidget = () => {
   useExternalChat();
-  const tawkEnabled = Boolean(process.env.REACT_APP_TAWK_EMBED_URL || process.env.REACT_APP_TAWK_PROPERTY_ID);
+  const tawkEnabled = Boolean(import.meta.env.VITE_TAWK_EMBED_URL || import.meta.env.VITE_TAWK_PROPERTY_ID);
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState([
     { role: 'assistant', text: "Hi! I'm DevOra Assistant. How can I help you today?" }
@@ -64,8 +64,8 @@ const ChatWidget = () => {
   };
 
   // Optional AI backend
-  const openaiKey = process.env.REACT_APP_OPENAI_API_KEY;
-  const customChatUrl = process.env.REACT_APP_CHAT_API_URL; // expects POST { messages: [{role, content}] }
+  const openaiKey = import.meta.env.VITE_OPENAI_API_KEY;
+  const customChatUrl = import.meta.env.VITE_CHAT_API_URL; // expects POST { messages: [{role, content}] }
 
   const callAI = async (history, userText) => {
     try {
@@ -184,7 +184,7 @@ const ChatWidget = () => {
               {/* Header */}
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', px: 2, py: 1.25, borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <img src={`${process.env.PUBLIC_URL}/DevOra.png`} alt="DevOra" style={{ width: 24, height: 24, borderRadius: 6 }} />
+                  <img src={`/DevOra.png`} alt="DevOra" style={{ width: 24, height: 24, borderRadius: 6 }} />
                   <Box>
                     <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>DevOra Assistant</Typography>
                     <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.7)' }}>Typically replies in minutes</Typography>

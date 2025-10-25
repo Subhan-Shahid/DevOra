@@ -79,7 +79,7 @@ export default function SplashScreen({ onFinish }) {
               width: 220,
               height: 220,
               borderRadius: 0,
-              backgroundImage: `url(${process.env.PUBLIC_URL}/DevOra.png)`,
+              backgroundImage: `url(/DevOra.png)`,
               backgroundSize: '200% 200%',
               backgroundRepeat: 'no-repeat',
               backgroundPosition: getBgPosition(i),

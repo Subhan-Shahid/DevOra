@@ -5,6 +5,7 @@ import Grid from '@mui/material/Grid';
 import { motion, useReducedMotion } from 'framer-motion';
 import { FaCode, FaGlobe, FaMobileAlt, FaArrowRight } from 'react-icons/fa';
 import { MdSpeed, MdSecurity, MdCloud, MdStar, MdCheckCircle } from 'react-icons/md';
+import { CardContainer, CardBody, CardItem } from '@/components/ui/3d-card';
 
 // Optimized services data
 const servicesData = [
@@ -43,10 +44,9 @@ const servicesData = [
   }
 ];
 
-// Optimized service card component with minimal animations
-const OptimizedServiceCard = ({ service, index, theme }) => {
+// 3D Service card component
+const ServiceCard3D = ({ service, index, theme }) => {
   const Icon = service.icon;
-  const [isHovered, setIsHovered] = useState(false);
   
   const colors = useMemo(() => {
     const colorMap = {
@@ -69,237 +69,229 @@ const OptimizedServiceCard = ({ service, index, theme }) => {
     return colorMap[service.colorKey] || colorMap.primary;
   }, [service.colorKey]);
 
-  const cardVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { duration: 0.5, delay: index * 0.1 }
-    },
-    hover: { 
-      y: -8,
-      transition: { duration: 0.3 }
-    }
-  };
 
   return (
     <motion.div
-      variants={cardVariants}
-      initial="hidden"
-      whileInView="visible"
-      whileHover="hover"
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
       viewport={{ once: true }}
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
     >
-      <Card
-        sx={{
-          height: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          borderRadius: 4,
-          overflow: 'hidden',
-          position: 'relative',
-          background: theme.palette.mode === 'dark' 
-            ? 'rgba(20,24,35,0.8)'
-            : 'rgba(255,255,255,0.9)',
-          backdropFilter: 'blur(10px)',
-          border: theme.palette.mode === 'dark'
-            ? '1px solid rgba(255,255,255,0.1)'
-            : '1px solid rgba(0,0,0,0.08)',
-          boxShadow: isHovered
-            ? `0 20px 40px ${colors.light}`
-            : (theme.palette.mode === 'dark' ? '0 8px 32px rgba(0,0,0,0.3)' : '0 8px 32px rgba(0,0,0,0.1)'),
-          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-          willChange: 'transform, box-shadow',
-        }}
-      >
-        {/* Top accent bar */}
-        <Box
-          sx={{
-            height: '4px',
-            background: colors.gradient,
-            opacity: isHovered ? 1 : 0.8,
-            transition: 'opacity 0.3s ease',
-          }}
-        />
-
-        <CardContent sx={{ p: 4, flexGrow: 1, position: 'relative' }}>
-          {/* Badge */}
-          {service.badge && (
-            <Box
-              sx={{
-                position: 'absolute',
-                top: -8,
-                right: 16,
-                px: 2,
-                py: 0.5,
-                borderRadius: '12px',
-                background: colors.gradient,
-                color: '#fff',
-                fontSize: '0.75rem',
-                fontWeight: 700,
-                textTransform: 'uppercase',
-                letterSpacing: 0.5,
-                boxShadow: `0 4px 12px ${colors.light}`,
-              }}
-            >
-              <MdStar style={{ marginRight: 4, fontSize: '0.8rem' }} />
-              {service.badge}
-            </Box>
-          )}
-
-          {/* Icon */}
+      <CardContainer containerClassName="py-0">
+        <CardBody className="w-full h-auto">
           <Box
             sx={{
-              width: 64,
-              height: 64,
-              borderRadius: '16px',
-              background: colors.gradient,
+              height: '100%',
               display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              mb: 3,
-              boxShadow: `0 8px 24px ${colors.light}`,
-              transform: isHovered ? 'scale(1.05)' : 'scale(1)',
-              transition: 'transform 0.3s ease',
+              flexDirection: 'column',
+              borderRadius: 4,
+              overflow: 'hidden',
+              position: 'relative',
+              background: theme.palette.mode === 'dark' 
+                ? 'rgba(20,24,35,0.8)'
+                : 'rgba(255,255,255,0.9)',
+              backdropFilter: 'blur(10px)',
+              border: theme.palette.mode === 'dark'
+                ? '1px solid rgba(255,255,255,0.1)'
+                : '1px solid rgba(0,0,0,0.08)',
+              boxShadow: theme.palette.mode === 'dark' ? '0 8px 32px rgba(0,0,0,0.3)' : '0 8px 32px rgba(0,0,0,0.1)',
             }}
           >
-            <Icon style={{ 
-              color: '#fff', 
-              fontSize: '1.8rem',
-            }} />
-          </Box>
-
-          {/* Title */}
-          <Typography
-            variant="h5"
-            sx={{ 
-              fontWeight: 800, 
-              mb: 2, 
-              color: theme.palette.text.primary,
-              fontSize: '1.5rem',
-            }}
-          >
-            {service.title}
-          </Typography>
-
-          {/* Description */}
-          <Typography
-            variant="body2"
-            sx={{ 
-              color: theme.palette.text.secondary, 
-              mb: 3, 
-              lineHeight: 1.6,
-              fontSize: '0.95rem',
-            }}
-          >
-            {service.description}
-          </Typography>
-
-          {/* Features */}
-          <Box sx={{ mb: 3 }}>
-            {service.features.map((feature, i) => (
-              <Box 
-                key={i}
-                sx={{ 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  gap: 1,
-                  mb: 1,
+            <CardItem translateZ={5}>
+              <Box
+                sx={{
+                  height: '4px',
+                  background: colors.gradient,
                 }}
-              >
-                <MdCheckCircle style={{ 
-                  color: colors.main, 
-                  fontSize: '1rem' 
-                }} />
-                <Typography 
-                  variant="body2" 
-                  sx={{ 
-                    color: theme.palette.text.secondary, 
-                    fontWeight: 500,
+              />
+            </CardItem>
+
+            <Box sx={{ p: 4, flexGrow: 1, position: 'relative' }}>
+              {service.badge && (
+                <CardItem translateZ={20}>
+                  <Box
+                    sx={{
+                      position: 'absolute',
+                      top: -8,
+                      right: 16,
+                      px: 2,
+                      py: 0.5,
+                      borderRadius: '12px',
+                      background: colors.gradient,
+                      color: '#fff',
+                      fontSize: '0.75rem',
+                      fontWeight: 700,
+                      textTransform: 'uppercase',
+                      letterSpacing: 0.5,
+                      boxShadow: `0 4px 12px ${colors.light}`,
+                      display: 'flex',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <MdStar style={{ marginRight: 4, fontSize: '0.8rem' }} />
+                    {service.badge}
+                  </Box>
+                </CardItem>
+              )}
+
+              <CardItem translateZ={30}>
+                <Box
+                  sx={{
+                    width: 64,
+                    height: 64,
+                    borderRadius: '16px',
+                    background: colors.gradient,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    mb: 3,
+                    boxShadow: `0 8px 24px ${colors.light}`,
                   }}
                 >
-                  {feature}
+                  <Icon style={{ 
+                    color: '#fff', 
+                    fontSize: '1.8rem',
+                  }} />
+                </Box>
+              </CardItem>
+
+              <CardItem translateZ={20}>
+                <Typography
+                  variant="h5"
+                  sx={{ 
+                    fontWeight: 800, 
+                    mb: 2, 
+                    color: theme.palette.text.primary,
+                    fontSize: '1.5rem',
+                  }}
+                >
+                  {service.title}
                 </Typography>
-              </Box>
-            ))}
+              </CardItem>
+
+              <CardItem translateZ={15}>
+                <Typography
+                  variant="body2"
+                  sx={{ 
+                    color: theme.palette.text.secondary, 
+                    mb: 3, 
+                    lineHeight: 1.6,
+                    fontSize: '0.95rem',
+                  }}
+                >
+                  {service.description}
+                </Typography>
+              </CardItem>
+
+              <CardItem translateZ={10}>
+                <Box sx={{ mb: 3 }}>
+                  {service.features.map((feature, i) => (
+                    <Box 
+                      key={i}
+                      sx={{ 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        gap: 1,
+                        mb: 1,
+                      }}
+                    >
+                      <MdCheckCircle style={{ 
+                        color: colors.main, 
+                        fontSize: '1rem' 
+                      }} />
+                      <Typography 
+                        variant="body2" 
+                        sx={{ 
+                          color: theme.palette.text.secondary, 
+                          fontWeight: 500,
+                        }}
+                      >
+                        {feature}
+                      </Typography>
+                    </Box>
+                  ))}
+                </Box>
+              </CardItem>
+
+              <CardItem translateZ={25}>
+                <Box 
+                  sx={{ 
+                    mb: 3,
+                    p: 2,
+                    borderRadius: '12px',
+                    background: theme.palette.mode === 'dark' 
+                      ? 'rgba(255,255,255,0.05)' 
+                      : 'rgba(0,0,0,0.03)',
+                  }}
+                >
+                  <Typography 
+                    variant="h4" 
+                    sx={{ 
+                      fontWeight: 800,
+                      background: colors.gradient,
+                      backgroundClip: 'text',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      mb: 0.5,
+                    }}
+                  >
+                    {service.projects}+
+                  </Typography>
+                  <Typography 
+                    variant="caption" 
+                    sx={{ 
+                      color: theme.palette.text.secondary,
+                      fontWeight: 600,
+                      textTransform: 'uppercase',
+                      letterSpacing: 1,
+                    }}
+                  >
+                    projects done
+                  </Typography>
+                </Box>
+              </CardItem>
+
+              <CardItem translateZ={15}>
+                <Typography 
+                  variant="h6" 
+                  sx={{ 
+                    fontWeight: 700, 
+                    mb: 3,
+                    color: theme.palette.text.primary,
+                  }}
+                >
+                  {service.price}
+                </Typography>
+              </CardItem>
+
+              <CardItem translateZ={35}>
+                <Button
+                  component={Link}
+                  to={`/services/${service.slug}`}
+                  variant="contained"
+                  fullWidth
+                  endIcon={<FaArrowRight />}
+                  sx={{ 
+                    borderRadius: '12px', 
+                    py: 1.5, 
+                    textTransform: 'none', 
+                    fontWeight: 600,
+                    background: colors.gradient,
+                    boxShadow: `0 8px 24px ${colors.light}`,
+                    transition: 'all 0.3s ease',
+                    '&:hover': {
+                      boxShadow: `0 12px 32px ${colors.light}`,
+                      transform: 'translateY(-2px)',
+                    },
+                  }}
+                >
+                  Get Started
+                </Button>
+              </CardItem>
+            </Box>
           </Box>
-
-          {/* Projects count */}
-          <Box 
-            sx={{ 
-              mb: 3,
-              p: 2,
-              borderRadius: '12px',
-              background: theme.palette.mode === 'dark' 
-                ? 'rgba(255,255,255,0.05)' 
-                : 'rgba(0,0,0,0.03)',
-            }}
-          >
-            <Typography 
-              variant="h4" 
-              sx={{ 
-                fontWeight: 800,
-                background: colors.gradient,
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                mb: 0.5,
-              }}
-            >
-              {service.projects}+
-            </Typography>
-            <Typography 
-              variant="caption" 
-              sx={{ 
-                color: theme.palette.text.secondary,
-                fontWeight: 600,
-                textTransform: 'uppercase',
-                letterSpacing: 1,
-              }}
-            >
-              projects done
-            </Typography>
-          </Box>
-
-          {/* Price */}
-          <Typography 
-            variant="h6" 
-            sx={{ 
-              fontWeight: 700, 
-              mb: 3,
-              color: theme.palette.text.primary,
-            }}
-          >
-            {service.price}
-          </Typography>
-
-          {/* CTA Button */}
-          <Button
-            component={Link}
-            to={`/services/${service.slug}`}
-            variant="contained"
-            fullWidth
-            endIcon={<FaArrowRight />}
-            sx={{ 
-              borderRadius: '12px', 
-              py: 1.5, 
-              textTransform: 'none', 
-              fontWeight: 600,
-              background: colors.gradient,
-              boxShadow: `0 8px 24px ${colors.light}`,
-              transition: 'all 0.3s ease',
-              '&:hover': {
-                boxShadow: `0 12px 32px ${colors.light}`,
-                transform: 'translateY(-2px)',
-              },
-            }}
-          >
-            Get Started
-          </Button>
-        </CardContent>
-      </Card>
+        </CardBody>
+      </CardContainer>
     </motion.div>
   );
 };
@@ -526,7 +518,7 @@ const Services = () => {
         <Grid container spacing={{ xs: 3, md: 4 }} justifyContent="center">
           {servicesData.map((service, index) => (
             <Grid item key={index} xs={12} sm={6} md={4}>
-              <OptimizedServiceCard service={service} index={index} theme={theme} />
+              <ServiceCard3D service={service} index={index} theme={theme} />
             </Grid>
           ))}
         </Grid>

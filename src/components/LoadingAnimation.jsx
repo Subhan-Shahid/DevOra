@@ -103,7 +103,7 @@ const LoadingAnimation = ({ isVisible }) => {
 
         {/* Center logo */}
         <motion.img
-          src={`${process.env.PUBLIC_URL}/DevOra.png`}
+          src={`/DevOra.png`}
           alt="DevOra logo"
           style={{
             position: 'absolute',

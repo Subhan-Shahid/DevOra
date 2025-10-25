@@ -177,7 +177,7 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
                 style={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}
               >
                 <img
-                  src={`${process.env.PUBLIC_URL}/DevOra.png`}
+                  src={import.meta.env.BASE_URL + 'DevOra.png'}
                   alt="DevOra logo"
                   style={{
                     height: '32px',
@@ -359,7 +359,7 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
           <Box sx={{ p: 2.5, px: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.08)', position: 'relative' }}>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <img
-                src={`${process.env.PUBLIC_URL}/DevOra.png`}
+                src={`/DevOra.png`}
                 alt="DevOra logo"
                 style={{ height: '28px', width: '28px', marginRight: '10px', borderRadius: '6px' }}
               />
@@ -422,19 +422,19 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
             </Button>
             <Divider sx={{ my: 3, opacity: 0.12, borderColor: 'rgba(255,255,255,0.12)' }} />
             <Box sx={{ display: 'flex', justifyContent: 'center', gap: 1.5 }}>
-              <IconButton href={process.env.REACT_APP_FACEBOOK_URL || '#'} target="_blank" rel="noopener noreferrer" sx={{ color: 'white', bgcolor: 'rgba(255,255,255,0.08)', '&:hover': { bgcolor: 'rgba(255,255,255,0.15)' } }} aria-label="Facebook">
+              <IconButton href={import.meta.env.VITE_FACEBOOK_URL || '#'} target="_blank" rel="noopener noreferrer" sx={{ color: 'white', bgcolor: 'rgba(255,255,255,0.08)', '&:hover': { bgcolor: 'rgba(255,255,255,0.15)' } }} aria-label="Facebook">
                 <FaFacebookF />
               </IconButton>
-              <IconButton href={process.env.REACT_APP_TWITTER_URL || '#'} target="_blank" rel="noopener noreferrer" sx={{ color: 'white', bgcolor: 'rgba(255,255,255,0.08)', '&:hover': { bgcolor: 'rgba(255,255,255,0.15)' } }} aria-label="Twitter">
+              <IconButton href={import.meta.env.VITE_TWITTER_URL || '#'} target="_blank" rel="noopener noreferrer" sx={{ color: 'white', bgcolor: 'rgba(255,255,255,0.08)', '&:hover': { bgcolor: 'rgba(255,255,255,0.15)' } }} aria-label="Twitter">
                 <FaTwitter />
               </IconButton>
-              <IconButton href={process.env.REACT_APP_LINKEDIN_URL || '#'} target="_blank" rel="noopener noreferrer" sx={{ color: 'white', bgcolor: 'rgba(255,255,255,0.08)', '&:hover': { bgcolor: 'rgba(255,255,255,0.15)' } }} aria-label="LinkedIn">
+              <IconButton href={import.meta.env.VITE_LINKEDIN_URL || '#'} target="_blank" rel="noopener noreferrer" sx={{ color: 'white', bgcolor: 'rgba(255,255,255,0.08)', '&:hover': { bgcolor: 'rgba(255,255,255,0.15)' } }} aria-label="LinkedIn">
                 <FaLinkedinIn />
               </IconButton>
-              <IconButton href={process.env.REACT_APP_INSTAGRAM_URL || '#'} target="_blank" rel="noopener noreferrer" sx={{ color: 'white', bgcolor: 'rgba(255,255,255,0.08)', '&:hover': { bgcolor: 'rgba(255,255,255,0.15)' } }} aria-label="Instagram">
+              <IconButton href={import.meta.env.VITE_INSTAGRAM_URL || '#'} target="_blank" rel="noopener noreferrer" sx={{ color: 'white', bgcolor: 'rgba(255,255,255,0.08)', '&:hover': { bgcolor: 'rgba(255,255,255,0.15)' } }} aria-label="Instagram">
                 <FaInstagram />
               </IconButton>
-              <IconButton href={process.env.REACT_APP_GITHUB_URL || '#'} target="_blank" rel="noopener noreferrer" sx={{ color: 'white', bgcolor: 'rgba(255,255,255,0.08)', '&:hover': { bgcolor: 'rgba(255,255,255,0.15)' } }} aria-label="GitHub">
+              <IconButton href={import.meta.env.VITE_GITHUB_URL || '#'} target="_blank" rel="noopener noreferrer" sx={{ color: 'white', bgcolor: 'rgba(255,255,255,0.08)', '&:hover': { bgcolor: 'rgba(255,255,255,0.15)' } }} aria-label="GitHub">
                 <FaGithub />
               </IconButton>
             </Box>
