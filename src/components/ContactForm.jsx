@@ -162,7 +162,6 @@ const ContactForm = () => {
         : "rgba(255,255,255,0.95)",
       backdropFilter: "blur(20px)",
       color: theme.palette.mode === 'dark' ? "#e8eefc" : "#2c3e50",
-      transition: "background 0.3s ease, color 0.3s ease",
       border: "1px solid rgba(255,255,255,0.2)",
       borderRadius: 24,
       padding: 32,

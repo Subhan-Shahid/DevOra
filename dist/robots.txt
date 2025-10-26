@@ -1,0 +1,3 @@
+User-agent: *
+ Disallow:
+ Sitemap: https://dev-ora.vercel.app/sitemap.xml
