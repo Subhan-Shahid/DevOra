@@ -202,7 +202,7 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
                     }
                   }}
                 >
-                  DevOra
+                  <span style={{ color: '#2563eb' }}>D</span>ev<span style={{ color: '#2563eb' }}>O</span>ra
                 </Typography>
               </motion.div>
 
@@ -364,7 +364,7 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
                 style={{ height: '28px', width: '28px', marginRight: '10px', borderRadius: '6px' }}
               />
               <Typography variant="h6" sx={{ fontWeight: 800, color: 'rgba(255,255,255,0.95)' }}>
-                DevOra
+                <span style={{ color: '#2563eb' }}>D</span>ev<span style={{ color: '#2563eb' }}>O</span>ra
               </Typography>
             </Box>
             <Box sx={{ display: 'flex', gap: 1 }}>

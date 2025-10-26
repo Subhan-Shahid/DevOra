@@ -106,7 +106,7 @@ const ServiceCard3D = ({ service, index, theme }) => {
               />
             </CardItem>
 
-            <Box sx={{ p: 4, flexGrow: 1, position: 'relative' }}>
+            <Box sx={{ p: 3, flexGrow: 1, position: 'relative' }}>
               {service.badge && (
                 <CardItem translateZ={20}>
                   <Box
@@ -137,14 +137,14 @@ const ServiceCard3D = ({ service, index, theme }) => {
               <CardItem translateZ={30}>
                 <Box
                   sx={{
-                    width: 64,
-                    height: 64,
+                    width: 48,
+                    height: 48,
                     borderRadius: '16px',
                     background: colors.gradient,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    mb: 3,
+                    mb: 2,
                     boxShadow: `0 8px 24px ${colors.light}`,
                   }}
                 >
@@ -157,12 +157,12 @@ const ServiceCard3D = ({ service, index, theme }) => {
 
               <CardItem translateZ={20}>
                 <Typography
-                  variant="h5"
+                  variant="h6"
                   sx={{ 
                     fontWeight: 800, 
-                    mb: 2, 
+                    mb: 1.5, 
                     color: theme.palette.text.primary,
-                    fontSize: '1.5rem',
+                    fontSize: '1.25rem',
                   }}
                 >
                   {service.title}
@@ -174,9 +174,9 @@ const ServiceCard3D = ({ service, index, theme }) => {
                   variant="body2"
                   sx={{ 
                     color: theme.palette.text.secondary, 
-                    mb: 3, 
+                    mb: 2, 
                     lineHeight: 1.6,
-                    fontSize: '0.95rem',
+                    fontSize: '0.85rem',
                   }}
                 >
                   {service.description}
@@ -184,7 +184,7 @@ const ServiceCard3D = ({ service, index, theme }) => {
               </CardItem>
 
               <CardItem translateZ={10}>
-                <Box sx={{ mb: 3 }}>
+                <Box sx={{ mb: 2 }}>
                   {service.features.map((feature, i) => (
                     <Box 
                       key={i}
@@ -216,8 +216,8 @@ const ServiceCard3D = ({ service, index, theme }) => {
               <CardItem translateZ={25}>
                 <Box 
                   sx={{ 
-                    mb: 3,
-                    p: 2,
+                    mb: 2,
+                    p: 1.5,
                     borderRadius: '12px',
                     background: theme.palette.mode === 'dark' 
                       ? 'rgba(255,255,255,0.05)' 
@@ -225,7 +225,7 @@ const ServiceCard3D = ({ service, index, theme }) => {
                   }}
                 >
                   <Typography 
-                    variant="h4" 
+                    variant="h5" 
                     sx={{ 
                       fontWeight: 800,
                       background: colors.gradient,
@@ -256,7 +256,7 @@ const ServiceCard3D = ({ service, index, theme }) => {
                   variant="h6" 
                   sx={{ 
                     fontWeight: 700, 
-                    mb: 3,
+                    mb: 2,
                     color: theme.palette.text.primary,
                   }}
                 >
@@ -273,7 +273,7 @@ const ServiceCard3D = ({ service, index, theme }) => {
                   endIcon={<FaArrowRight />}
                   sx={{ 
                     borderRadius: '12px', 
-                    py: 1.5, 
+                    py: 1.2, 
                     textTransform: 'none', 
                     fontWeight: 600,
                     background: colors.gradient,
@@ -543,7 +543,7 @@ const Services = () => {
                 fontSize: { xs: '2rem', md: '2.5rem' }
               }}
             >
-              Why Choose DevOra?
+              Why Choose <span style={{ color: '#2563eb' }}>D</span>ev<span style={{ color: '#2563eb' }}>O</span>ra?
             </Typography>
             <Typography 
               variant="h6" 

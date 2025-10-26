@@ -112,7 +112,7 @@ const Footer = () => {
                   color: 'white',
                   fontSize: { xs: '1.5rem', md: '2rem' }
                 }}>
-                  DevOra
+                  <span style={{ color: '#2563eb' }}>D</span>ev<span style={{ color: '#2563eb' }}>O</span>ra
                 </Typography>
               </Box>
               <Typography variant="body1" sx={{ 
@@ -287,7 +287,7 @@ const Footer = () => {
             }}
           >
             <Typography variant="body2" sx={{ opacity: 0.8, mb: 1 }}>
-              © {new Date().getFullYear()} DevOra. All rights reserved.
+              © {new Date().getFullYear()} <span style={{ color: '#2563eb' }}>D</span>ev<span style={{ color: '#2563eb' }}>O</span>ra. All rights reserved.
             </Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
               <Typography variant="body2" sx={{ opacity: 0.8 }}>
@@ -300,7 +300,7 @@ const Footer = () => {
                 <FaHeart style={{ color: '#ff6b6b', fontSize: '1rem' }} />
               </motion.div>
               <Typography variant="body2" sx={{ opacity: 0.8 }}>
-                by DevOra Team
+                by <span style={{ color: '#2563eb' }}>D</span>ev<span style={{ color: '#2563eb' }}>O</span>ra Team
               </Typography>
             </Box>
           </Box>

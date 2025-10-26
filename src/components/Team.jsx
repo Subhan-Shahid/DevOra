@@ -531,7 +531,7 @@ const Team = () => {
                   animation: 'holographicShift 6s ease infinite'
                 }}
               >
-                DevOra
+                <span style={{ color: '#2563eb' }}>D</span>ev<span style={{ color: '#2563eb' }}>O</span>ra
               </span>
             </Typography>
 

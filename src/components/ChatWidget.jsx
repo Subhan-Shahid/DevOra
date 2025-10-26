@@ -186,7 +186,7 @@ const ChatWidget = () => {
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                   <img src={`/DevOra.png`} alt="DevOra" style={{ width: 24, height: 24, borderRadius: 6 }} />
                   <Box>
-                    <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>DevOra Assistant</Typography>
+                    <Typography variant="subtitle1" sx={{ fontWeight: 700 }}><span style={{ color: '#2563eb' }}>D</span>ev<span style={{ color: '#2563eb' }}>O</span>ra Assistant</Typography>
                     <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.7)' }}>Typically replies in minutes</Typography>
                   </Box>
                 </Box>

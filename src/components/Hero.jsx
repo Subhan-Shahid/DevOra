@@ -8,6 +8,7 @@ import { MdAutoAwesome, MdRocketLaunch, MdTrendingUp } from 'react-icons/md';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import ParticleBackground from './ParticleBackground';
+import { LayoutTextFlip } from './ui/layout-text-flip';
 
 const FloatingIcon = React.memo(({ icon: Icon, delay, x, y, color = '#1976d2', disabled = false }) => (
   disabled ? null : (
@@ -180,26 +181,26 @@ const Hero = () => {
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
+            style={{ marginBottom: '2rem' }}
           >
-            <Typography
-              component="h1"
-              sx={{
-                fontSize: { xs: '2rem', sm: '2.8rem', md: '4rem', lg: '5rem' },
-                fontWeight: 800,
-                color: 'white',
-                mb: { xs: 2, md: 3 },
-                background: 'linear-gradient(45deg, #fff 30%, #e3f2fd 90%)',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                textShadow: '0 0 30px rgba(255,255,255,0.3)',
-                lineHeight: { xs: 1.1, md: 1.2 }
-              }}
-            >
-              Transform Your
-              <br />
-              <span style={{ color: '#22d3ee' }}>Digital Dreams</span>
-            </Typography>
+            <Box sx={{
+              fontSize: { xs: '1.8rem', sm: '2.2rem', md: '3rem', lg: '4rem' },
+              fontWeight: 800,
+              textAlign: 'center',
+              width: '100%'
+            }}>
+              <LayoutTextFlip
+                text="Transform Your "
+                words={[
+                  "Digital Dreams",
+                  "Business Vision",
+                  "Creative Ideas", 
+                  "Tech Solutions",
+                  "Future Goals"
+                ]}
+                duration={3000}
+              />
+            </Box>
           </motion.div>
 
           <motion.div

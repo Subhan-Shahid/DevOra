@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
@@ -14,11 +14,11 @@ import Team from './components/Team';
 import ContactForm from './components/ContactForm';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
-import SplashScreen from './components/SplashScreen';
-import ComingSoonHeader from './components/ComingSoonHeader';
+import VideoSplashScreen from './components/VideoSplashScreen';
 import ServiceDetail from './pages/ServiceDetail';
 import NotFound from './pages/NotFound';
 import ThankYou from './pages/ThankYou';
+import ScrollAwareFloatingDock from './components/ScrollAwareFloatingDock';
 
 // Theme factory honoring light/dark mode
 const createAppTheme = (mode) => createTheme({
@@ -210,7 +210,7 @@ function App() {
       <CssBaseline />
       <AnimatePresence mode="wait">
         {loading && (
-          <SplashScreen key="splash" onFinish={() => setLoading(false)} />
+          <VideoSplashScreen key="splash" onFinish={() => setLoading(false)} />
         )}
         {!loading && (
           <Router key="app">
@@ -226,7 +226,6 @@ function App() {
               }}
             >
               <Navbar mode={mode} onToggleTheme={toggleColorMode} />
-              <ComingSoonHeader />
               <Box component="main" sx={{ flexGrow: 1 }}>
                 <Routes>
                   <Route path="/" element={<Home />} />
@@ -241,6 +240,9 @@ function App() {
               <Footer />
               <ChatWidget />
               <ScrollToTop />
+              
+              {/* Scroll-Aware Floating Dock */}
+              <ScrollAwareFloatingDock />
             </Box>
           </Router>
         )}
