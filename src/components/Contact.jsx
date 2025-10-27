@@ -77,7 +77,7 @@ const Contact = () => {
       background: 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)',
       position: 'relative',
       overflow: 'hidden',
-      minHeight: '100vh'
+      minHeight: '100dvh'
     }}>
       {/* Particle Background (disabled on small/reduced motion) */}
       {!(typeof window !== 'undefined' && (window.innerWidth < 600 || (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches))) && (
@@ -175,6 +175,7 @@ const Contact = () => {
                   borderRadius: '20px',
                   background: 'rgba(255,255,255,0.95)',
                   backdropFilter: 'blur(20px)',
+                  WebkitBackdropFilter: 'blur(20px)',
                   boxShadow: '0 20px 60px rgba(0,0,0,0.1)',
                   border: '1px solid rgba(255,255,255,0.2)',
                   maxWidth: 760,

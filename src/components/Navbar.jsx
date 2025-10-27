@@ -32,6 +32,7 @@ const NavButton = ({ to, children, icon: Icon, isActive }) => (
         transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
         background: isActive ? 'rgba(255,255,255,0.25)' : 'transparent',
         backdropFilter: isActive ? 'blur(20px)' : 'none',
+        WebkitBackdropFilter: isActive ? 'blur(20px)' : 'none',
         border: isActive ? '1px solid rgba(255,255,255,0.4)' : '1px solid transparent',
         boxShadow: isActive ? '0 8px 32px rgba(0,0,0,0.1)' : 'none',
         overflow: 'hidden',
@@ -48,6 +49,7 @@ const NavButton = ({ to, children, icon: Icon, isActive }) => (
         '&:hover': {
           background: 'rgba(255,255,255,0.2)',
           backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
           border: '1px solid rgba(255,255,255,0.4)',
           boxShadow: '0 12px 40px rgba(0,0,0,0.15)',
           '&::before': {
@@ -152,6 +154,7 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
               ? 'rgba(15, 15, 20, 0.8)'
               : 'rgba(15, 15, 20, 0.6)',
             backdropFilter: 'saturate(130%) blur(10px)',
+            WebkitBackdropFilter: 'saturate(130%) blur(10px)',
             boxShadow: scrolled 
               ? '0 6px 18px rgba(0,0,0,0.25)'
               : '0 4px 14px rgba(0,0,0,0.18)',
@@ -265,6 +268,8 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
                           color: 'white',
                           background: 'rgba(255,255,255,0.12)',
                           border: '1px solid rgba(255,255,255,0.2)',
+                          backdropFilter: 'blur(8px)',
+                          WebkitBackdropFilter: 'blur(8px)',
                           '&:hover': { 
                             background: 'rgba(255,255,255,0.2)',
                             transform: 'rotate(180deg)'
@@ -295,6 +300,7 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
                       sx={{
                         background: 'rgba(255,255,255,0.1)',
                         backdropFilter: 'blur(8px)',
+                        WebkitBackdropFilter: 'blur(8px)',
                         border: '1px solid rgba(255,255,255,0.2)',
                         '&:hover': {
                           background: 'rgba(255,255,255,0.2)',
@@ -333,7 +339,8 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
           BackdropProps: {
             sx: {
               background: 'rgba(2, 6, 23, 0.6)',
-              backdropFilter: 'blur(4px)'
+              backdropFilter: 'blur(4px)',
+              WebkitBackdropFilter: 'blur(4px)'
             }
           }
         }}
@@ -346,7 +353,8 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
             color: 'rgba(255,255,255,0.9)',
             borderLeft: '1px solid rgba(37, 99, 235, 0.25)',
             boxShadow: '0 10px 40px rgba(2,6,23,0.5)',
-            backdropFilter: 'blur(8px)'
+            backdropFilter: 'blur(8px)',
+            WebkitBackdropFilter: 'blur(8px)'
           },
         }}
       >

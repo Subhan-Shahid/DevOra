@@ -91,6 +91,7 @@ const ServiceCard3D = ({ service, index, theme }) => {
                 ? 'rgba(20,24,35,0.8)'
                 : 'rgba(255,255,255,0.9)',
               backdropFilter: 'blur(10px)',
+              WebkitBackdropFilter: 'blur(10px)',
               border: theme.palette.mode === 'dark'
                 ? '1px solid rgba(255,255,255,0.1)'
                 : '1px solid rgba(0,0,0,0.08)',
@@ -344,6 +345,7 @@ const FeatureCard = ({ feature, index, theme }) => {
             ? 'rgba(20,24,35,0.8)'
             : 'rgba(255,255,255,0.9)',
           backdropFilter: 'blur(10px)',
+          WebkitBackdropFilter: 'blur(10px)',
           border: theme.palette.mode === 'dark'
             ? '1px solid rgba(255,255,255,0.1)'
             : '1px solid rgba(0,0,0,0.08)',

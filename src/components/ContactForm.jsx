@@ -126,7 +126,7 @@ const ContactForm = () => {
     wrap: { 
       display: "grid", 
       placeItems: "center", 
-      minHeight: "100vh", 
+      minHeight: "100dvh", 
       padding: 16,
       background: theme.palette.mode === 'dark' 
         ? "linear-gradient(135deg, #0b0d12 0%, #1a1d29 50%, #0f1320 100%)"
@@ -161,6 +161,7 @@ const ContactForm = () => {
         ? "rgba(26, 29, 41, 0.95)"
         : "rgba(255,255,255,0.95)",
       backdropFilter: "blur(20px)",
+      WebkitBackdropFilter: "blur(20px)",
       color: theme.palette.mode === 'dark' ? "#e8eefc" : "#2c3e50",
       border: "1px solid rgba(255,255,255,0.2)",
       borderRadius: 24,
@@ -304,6 +305,7 @@ const ContactForm = () => {
       overflow: "hidden",
       animation: "messageSlideIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)",
       backdropFilter: "blur(10px)",
+      WebkitBackdropFilter: "blur(10px)",
       border: "2px solid transparent",
       boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
     },

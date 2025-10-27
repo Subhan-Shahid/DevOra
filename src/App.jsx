@@ -132,6 +132,7 @@ const createAppTheme = (mode) => createTheme({
           borderRadius: 20,
           background: 'rgba(255, 255, 255, 0.1)',
           backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
           border: '1px solid rgba(255, 255, 255, 0.2)',
           boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
           transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
@@ -149,6 +150,7 @@ const createAppTheme = (mode) => createTheme({
             borderRadius: 15,
             background: 'rgba(255, 255, 255, 0.1)',
             backdropFilter: 'blur(10px)',
+            WebkitBackdropFilter: 'blur(10px)',
             transition: 'all 0.3s ease',
             '&:hover': {
               background: 'rgba(255, 255, 255, 0.15)',
@@ -218,7 +220,7 @@ function App() {
               sx={{
                 display: 'flex',
                 flexDirection: 'column',
-                minHeight: '100vh',
+                minHeight: '100dvh',
                 background: theme.palette.mode === 'dark' 
                   ? 'linear-gradient(135deg, #0b0d12 0%, #1a1d29 50%, #0f1320 100%)' 
                   : 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',

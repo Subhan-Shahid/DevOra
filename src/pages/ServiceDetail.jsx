@@ -22,7 +22,7 @@ const ServiceDetail = () => {
       background: 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)',
       position: 'relative',
       overflow: 'hidden',
-      minHeight: '100vh'
+      minHeight: '100dvh'
     }}>
       <Container maxWidth="lg">
         <Breadcrumbs sx={{ color: 'white', mb: 2 }}>
@@ -34,6 +34,7 @@ const ServiceDetail = () => {
         <Box sx={{
           background: 'rgba(255, 255, 255, 0.1)',
           backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
           borderRadius: '20px',
           border: '1px solid rgba(255,255,255,0.2)',
           p: { xs: 3, md: 5 },
@@ -71,7 +72,9 @@ const ServiceDetail = () => {
                 borderRadius: '16px',
                 p: 3,
                 background: 'rgba(255,255,255,0.1)',
-                border: '1px solid rgba(255,255,255,0.2)'
+                border: '1px solid rgba(255,255,255,0.2)',
+                backdropFilter: 'blur(10px)',
+                WebkitBackdropFilter: 'blur(10px)'
               }}>
                 <Typography variant="subtitle1" sx={{ mb: 1, opacity: 0.9 }}>Includes</Typography>
                 <ul style={{ marginTop: 0 }}>

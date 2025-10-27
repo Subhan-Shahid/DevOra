@@ -117,7 +117,7 @@ const Hero = () => {
     <Box 
       sx={{
         position: 'relative',
-        minHeight: '100vh',
+        minHeight: '100dvh',
         display: 'flex',
         alignItems: 'center',
         background: theme.palette.mode === 'dark' 
@@ -170,6 +170,7 @@ const Hero = () => {
                 bgcolor: 'rgba(255,255,255,0.2)', 
                 color: 'white',
                 backdropFilter: 'blur(10px)',
+                WebkitBackdropFilter: 'blur(10px)',
                 fontSize: { xs: '0.8rem', sm: '0.9rem', md: '1rem' },
                 py: { xs: 1, md: 2 },
                 px: { xs: 2, md: 3 }

@@ -6,6 +6,7 @@ export default function VideoSplashScreen({ onFinish }) {
   const [isHiding, setIsHiding] = useState(false);
   const [videoLoaded, setVideoLoaded] = useState(false);
   const videoRef = useRef(null);
+  const safetyTimerRef = useRef(null);
 
   useEffect(() => {
     if (!videoLoaded) return;
@@ -28,12 +29,41 @@ export default function VideoSplashScreen({ onFinish }) {
     return () => clearTimeout(outTimer);
   }, [onFinish, videoLoaded]);
 
+  // Ensure we always finish even if video cannot load/play (iOS codecs/autoplay)
+  useEffect(() => {
+    // Safety timeout: hide splash after 4s regardless of video state
+    safetyTimerRef.current = setTimeout(() => {
+      if (!isHiding && visible) {
+        setIsHiding(true);
+        setTimeout(() => {
+          setVisible(false);
+          onFinish?.();
+        }, 500);
+      }
+    }, 4000);
+    return () => {
+      if (safetyTimerRef.current) clearTimeout(safetyTimerRef.current);
+    };
+  }, [visible, isHiding, onFinish]);
+
+  const finishEarly = () => {
+    if (!isHiding && visible) {
+      setIsHiding(true);
+      setTimeout(() => {
+        setVisible(false);
+        onFinish?.();
+      }, 500);
+    }
+  };
+
   const handleVideoLoaded = () => {
     setVideoLoaded(true);
-    // Auto-play the video
+    // Auto-play the video (required attrs also set on element)
     if (videoRef.current) {
       videoRef.current.play().catch(error => {
         console.warn("Video autoplay failed:", error);
+        // Fall back: finish splash quickly if autoplay is blocked
+        finishEarly();
       });
     }
   };
@@ -47,6 +77,12 @@ export default function VideoSplashScreen({ onFinish }) {
         onFinish?.();
       }, 500);
     }, 300); // Small delay before hiding
+  };
+
+  const handleVideoError = (e) => {
+    console.warn("Video failed to load:", e?.message || e);
+    // Finish early if the video cannot load on this device
+    finishEarly();
   };
 
   if (!visible) return null;
@@ -122,8 +158,12 @@ export default function VideoSplashScreen({ onFinish }) {
           }}
           onLoadedData={handleVideoLoaded}
           onEnded={handleVideoEnded}
+          onError={handleVideoError}
           muted // Required for autoplay in most browsers
           playsInline // Better mobile support
+          autoPlay // Ensure iOS attempts inline autoplay
+          preload="auto"
+          poster="/DevOra.png"
         >
           <source src="/DevOra.mp4" type="video/mp4" />
           {/* Fallback for browsers that don't support video */}
