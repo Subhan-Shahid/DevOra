@@ -1,22 +1,33 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
 import { AnimatePresence } from 'framer-motion';
 
-// Import components
+// Import critical components (above the fold)
 import Navbar from './components/Navbar';
-import ChatWidget from './components/ChatWidget';
-import Hero from './components/Hero';
-import Services from './components/Services';
-import ContactForm from './components/ContactForm';
-import Footer from './components/Footer';
-import ScrollToTop from './components/ScrollToTop';
 import VideoSplashScreen from './components/VideoSplashScreen';
-import ServiceDetail from './pages/ServiceDetail';
-import NotFound from './pages/NotFound';
-import ThankYou from './pages/ThankYou';
+
+// Lazy load components for code splitting
+const Hero = lazy(() => import('./components/Hero'));
+const Services = lazy(() => import('./components/Services'));
+const ContactForm = lazy(() => import('./components/ContactForm'));
+const Footer = lazy(() => import('./components/Footer'));
+const ScrollToTop = lazy(() => import('./components/ScrollToTop'));
+const ChatWidget = lazy(() => import('./components/ChatWidget'));
+const ServiceDetail = lazy(() => import('./pages/ServiceDetail'));
+const NotFound = lazy(() => import('./pages/NotFound'));
+const ThankYou = lazy(() => import('./pages/ThankYou'));
+
+// Import loading skeletons
+import { 
+  HeroSkeleton, 
+  ServicesSkeleton, 
+  ContactFormSkeleton, 
+  ServiceDetailSkeleton 
+} from './components/LoadingSkeletons';
 
 // Theme factory honoring light/dark mode
 const createAppTheme = (mode) => createTheme({
@@ -170,11 +181,32 @@ const createAppTheme = (mode) => createTheme({
   },
 });
 
+// Loading fallback component
+const LoadingFallback = () => (
+  <Box
+    sx={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      minHeight: '60vh',
+      flexDirection: 'column',
+      gap: 2
+    }}
+  >
+    <CircularProgress size={50} />
+    <Box sx={{ color: 'text.secondary', fontSize: '0.9rem' }}>Loading...</Box>
+  </Box>
+);
+
 function Home() {
   return (
     <>
-      <Hero />
-      <Services />
+      <Suspense fallback={<HeroSkeleton />}>
+        <Hero />
+      </Suspense>
+      <Suspense fallback={<ServicesSkeleton />}>
+        <Services />
+      </Suspense>
     </>
   );
 }
@@ -234,17 +266,61 @@ function App() {
               <Box component="main" sx={{ flexGrow: 1 }}>
                 <Routes>
                   <Route path="/" element={<Home />} />
-                  <Route path="/services" element={<Services />} />
-                  <Route path="/services/:slug" element={<ServiceDetail />} />
-                  <Route path="/contact" element={<ContactForm />} />
-                  <Route path="/thank-you" element={<ThankYou />} />
-                  <Route path="/not-found" element={<NotFound />} />
-                  <Route path="*" element={<NotFound />} />
+                  <Route 
+                    path="/services" 
+                    element={
+                      <Suspense fallback={<ServicesSkeleton />}>
+                        <Services />
+                      </Suspense>
+                    } 
+                  />
+                  <Route 
+                    path="/services/:slug" 
+                    element={
+                      <Suspense fallback={<ServiceDetailSkeleton />}>
+                        <ServiceDetail />
+                      </Suspense>
+                    } 
+                  />
+                  <Route 
+                    path="/contact" 
+                    element={
+                      <Suspense fallback={<ContactFormSkeleton />}>
+                        <ContactForm />
+                      </Suspense>
+                    } 
+                  />
+                  <Route 
+                    path="/thank-you" 
+                    element={
+                      <Suspense fallback={<LoadingFallback />}>
+                        <ThankYou />
+                      </Suspense>
+                    } 
+                  />
+                  <Route 
+                    path="/not-found" 
+                    element={
+                      <Suspense fallback={<LoadingFallback />}>
+                        <NotFound />
+                      </Suspense>
+                    } 
+                  />
+                  <Route 
+                    path="*" 
+                    element={
+                      <Suspense fallback={<LoadingFallback />}>
+                        <NotFound />
+                      </Suspense>
+                    } 
+                  />
                 </Routes>
               </Box>
-              <Footer />
-              <ChatWidget />
-              <ScrollToTop />
+              <Suspense fallback={null}>
+                <Footer />
+                <ChatWidget />
+                <ScrollToTop />
+              </Suspense>
             </Box>
           </Router>
         )}
