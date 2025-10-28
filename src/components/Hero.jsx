@@ -127,6 +127,7 @@ const Hero = () => {
         minHeight: '100dvh',
         display: 'flex',
         alignItems: 'center',
+        pt: { xs: 8, md: 10 },
         background: theme.palette.mode === 'dark' 
           ? 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)'
           : 'linear-gradient(135deg, #ffffff 0%, #f0f9ff 30%, #e0e7ff 70%, #fae8ff 100%)',
@@ -417,7 +418,7 @@ const Hero = () => {
                     fontWeight: 'bold', 
                     mb: 1 
                   }}>
-                    <AnimatedCounter end={99} suffix="%" />
+                    <AnimatedCounter end={100} suffix="%" />
                   </Typography>
                   <Typography variant="body2" sx={{ 
                     color: theme.palette.mode === 'dark' ? '#cbd5e1' : '#475569',

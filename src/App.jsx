@@ -17,7 +17,6 @@ import VideoSplashScreen from './components/VideoSplashScreen';
 import ServiceDetail from './pages/ServiceDetail';
 import NotFound from './pages/NotFound';
 import ThankYou from './pages/ThankYou';
-import ScrollAwareFloatingDock from './components/ScrollAwareFloatingDock';
 
 // Theme factory honoring light/dark mode
 const createAppTheme = (mode) => createTheme({
@@ -246,9 +245,6 @@ function App() {
               <Footer />
               <ChatWidget />
               <ScrollToTop />
-              
-              {/* Scroll-Aware Floating Dock */}
-              <ScrollAwareFloatingDock />
             </Box>
           </Router>
         )}
