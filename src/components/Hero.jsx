@@ -47,23 +47,30 @@ const FloatingIcon = React.memo(({ icon: Icon, delay, x, y, color = '#1976d2', d
   )
 ));
 
-const GlassmorphismCard = ({ children, delay = 0 }) => (
+const GlassmorphismCard = ({ children, delay = 0, theme }) => (
   <motion.div
     initial={{ opacity: 0, y: 50, scale: 0.9 }}
     animate={{ opacity: 1, y: 0, scale: 1 }}
     transition={{ duration: 0.8, delay }}
     whileHover={{ 
-      scale: 1.05,
-      y: -10,
-      transition: { duration: 0.3 }
+      scale: 1.08,
+      y: -12,
+      rotate: [0, -2, 2, 0],
+      transition: { duration: 0.4 }
     }}
     style={{
-      background: 'rgba(255, 255, 255, 0.1)',
+      background: theme?.palette.mode === 'dark'
+        ? 'rgba(30, 41, 59, 0.6)'
+        : 'rgba(255, 255, 255, 0.8)',
       backdropFilter: 'blur(20px)',
-      borderRadius: '20px',
-      border: '1px solid rgba(255, 255, 255, 0.2)',
-      padding: '20px',
-      boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+      borderRadius: '24px',
+      border: theme?.palette.mode === 'dark'
+        ? '2px solid rgba(129, 140, 248, 0.3)'
+        : '2px solid rgba(99, 102, 241, 0.2)',
+      padding: '24px',
+      boxShadow: theme?.palette.mode === 'dark'
+        ? '0 20px 60px rgba(0, 0, 0, 0.4), 0 0 40px rgba(129, 140, 248, 0.1)'
+        : '0 20px 60px rgba(99, 102, 241, 0.15), 0 8px 32px rgba(0, 0, 0, 0.08)'
     }}
   >
     {children}
@@ -121,9 +128,9 @@ const Hero = () => {
         display: 'flex',
         alignItems: 'center',
         background: theme.palette.mode === 'dark' 
-          ? 'linear-gradient(135deg, #0b0d12 0%, #0f172a 50%, #0a1323 100%)'
-          : 'linear-gradient(135deg, #0ea5e9 0%, #2563eb 50%, #60a5fa 100%)',
-        transition: 'background 0.3s ease',
+          ? 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)'
+          : 'linear-gradient(135deg, #ffffff 0%, #f0f9ff 30%, #e0e7ff 70%, #fae8ff 100%)',
+        transition: 'background 0.5s ease',
         overflow: 'hidden',
         '&::before': {
           content: '""',
@@ -134,18 +141,18 @@ const Hero = () => {
           bottom: 0,
           background: theme.palette.mode === 'dark' 
             ? `
-              radial-gradient(circle at 20% 80%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
-              radial-gradient(circle at 80% 20%, rgba(14, 165, 233, 0.12) 0%, transparent 50%),
-              radial-gradient(circle at 40% 40%, rgba(59, 130, 246, 0.12) 0%, transparent 50%)
+              radial-gradient(circle at 20% 80%, rgba(129, 140, 248, 0.15) 0%, transparent 50%),
+              radial-gradient(circle at 80% 20%, rgba(244, 114, 182, 0.12) 0%, transparent 50%),
+              radial-gradient(circle at 50% 50%, rgba(56, 189, 248, 0.1) 0%, transparent 60%)
             `
             : `
-              radial-gradient(circle at 20% 80%, rgba(96, 165, 250, 0.35) 0%, transparent 50%),
-              radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
-              radial-gradient(circle at 40% 40%, rgba(14, 165, 233, 0.3) 0%, transparent 50%)
+              radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.12) 0%, transparent 50%),
+              radial-gradient(circle at 80% 20%, rgba(236, 72, 153, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 50% 50%, rgba(14, 165, 233, 0.08) 0%, transparent 60%)
             `,
-          zIndex: 1
+          zIndex: 1,
+          animation: 'gradientShift 15s ease infinite'
         },
-        // Removed mouse-follow background for performance
       }}
     >
       {/* Particle Background */}
@@ -167,13 +174,20 @@ const Hero = () => {
               label="🚀 Welcome to the Future of Development" 
               sx={{ 
                 mb: { xs: 2, md: 3 }, 
-                bgcolor: 'rgba(255,255,255,0.2)', 
-                color: 'white',
+                background: theme.palette.mode === 'dark'
+                  ? 'linear-gradient(135deg, rgba(129, 140, 248, 0.2), rgba(244, 114, 182, 0.2))'
+                  : 'linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(236, 72, 153, 0.15))',
+                color: theme.palette.mode === 'dark' ? '#f1f5f9' : '#1e293b',
                 backdropFilter: 'blur(10px)',
                 WebkitBackdropFilter: 'blur(10px)',
+                border: theme.palette.mode === 'dark' ? '1px solid rgba(129, 140, 248, 0.3)' : '1px solid rgba(99, 102, 241, 0.2)',
                 fontSize: { xs: '0.8rem', sm: '0.9rem', md: '1rem' },
                 py: { xs: 1, md: 2 },
-                px: { xs: 2, md: 3 }
+                px: { xs: 2, md: 3 },
+                fontWeight: 600,
+                boxShadow: theme.palette.mode === 'dark' 
+                  ? '0 8px 32px rgba(129, 140, 248, 0.2)'
+                  : '0 8px 32px rgba(99, 102, 241, 0.15)'
               }} 
             />
           </motion.div>
@@ -212,13 +226,17 @@ const Hero = () => {
             <Typography 
               variant="h5" 
               sx={{ 
-                color: 'rgba(255,255,255,0.9)', 
+                color: theme.palette.mode === 'dark' ? '#e2e8f0' : '#334155', 
                 mb: { xs: 3, md: 5 },
                 maxWidth: { xs: '90%', sm: '80%', md: '600px' },
                 mx: 'auto',
-                lineHeight: 1.6,
+                lineHeight: 1.7,
                 fontSize: { xs: '1rem', sm: '1.1rem', md: '1.3rem' },
-                px: { xs: 1, sm: 0 }
+                px: { xs: 1, sm: 0 },
+                fontWeight: 500,
+                textShadow: theme.palette.mode === 'dark' 
+                  ? '0 2px 8px rgba(0, 0, 0, 0.3)'
+                  : '0 2px 8px rgba(255, 255, 255, 0.5)'
               }}
             >
               We craft exceptional digital experiences through cutting-edge software, 
@@ -254,17 +272,24 @@ const Hero = () => {
                     py: { xs: 1.5, md: 2 },
                     fontSize: { xs: '1rem', md: '1.1rem' },
                     borderRadius: '50px',
-                    background: 'linear-gradient(45deg, #0ea5e9, #2563eb, #60a5fa)',
+                    background: theme.palette.mode === 'dark'
+                      ? 'linear-gradient(135deg, #818cf8, #6366f1, #8b5cf6)'
+                      : 'linear-gradient(135deg, #6366f1, #8b5cf6, #a855f7)',
                     backgroundSize: '200% 200%',
-                    animation: 'gradientShift 3s ease infinite',
-                    boxShadow: '0 8px 25px rgba(37, 99, 235, 0.35)',
-                    transition: 'all 0.3s ease',
+                    animation: 'gradientShift 4s ease infinite',
+                    boxShadow: theme.palette.mode === 'dark'
+                      ? '0 10px 40px rgba(129, 140, 248, 0.4)'
+                      : '0 10px 40px rgba(99, 102, 241, 0.3)',
+                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                     minWidth: { xs: '140px', sm: 'auto' },
                     position: 'relative',
                     overflow: 'hidden',
+                    fontWeight: 600,
                     '&:hover': {
-                      transform: 'translateY(-3px)',
-                      boxShadow: '0 12px 35px rgba(37, 99, 235, 0.5)'
+                      transform: 'translateY(-4px) scale(1.02)',
+                      boxShadow: theme.palette.mode === 'dark'
+                        ? '0 15px 50px rgba(129, 140, 248, 0.5)'
+                        : '0 15px 50px rgba(99, 102, 241, 0.4)'
                     },
                     '&::before': {
                       content: '""',
@@ -299,19 +324,27 @@ const Hero = () => {
                     py: { xs: 1.5, md: 2 },
                     fontSize: { xs: '1rem', md: '1.1rem' },
                     borderRadius: '50px',
-                    borderColor: 'white',
-                    color: 'white',
+                    borderWidth: '2px',
+                    borderColor: theme.palette.mode === 'dark' ? '#818cf8' : '#6366f1',
+                    color: theme.palette.mode === 'dark' ? '#e0e7ff' : '#4f46e5',
                     backdropFilter: 'blur(20px)',
-                    bgcolor: 'rgba(255,255,255,0.15)',
-                    transition: 'all 0.3s ease',
+                    bgcolor: theme.palette.mode === 'dark' 
+                      ? 'rgba(129, 140, 248, 0.1)'
+                      : 'rgba(255, 255, 255, 0.8)',
+                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                     minWidth: { xs: '140px', sm: 'auto' },
                     position: 'relative',
                     overflow: 'hidden',
+                    fontWeight: 600,
                     '&:hover': {
-                      bgcolor: 'rgba(255,255,255,0.25)',
-                      transform: 'translateY(-3px)',
-                      boxShadow: '0 8px 25px rgba(255,255,255,0.3)',
-                      borderColor: '#64b5f6'
+                      bgcolor: theme.palette.mode === 'dark'
+                        ? 'rgba(129, 140, 248, 0.2)'
+                        : 'rgba(99, 102, 241, 0.15)',
+                      transform: 'translateY(-4px) scale(1.02)',
+                      boxShadow: theme.palette.mode === 'dark'
+                        ? '0 12px 40px rgba(129, 140, 248, 0.3)'
+                        : '0 12px 40px rgba(99, 102, 241, 0.25)',
+                      borderColor: theme.palette.mode === 'dark' ? '#a5b4fc' : '#8b5cf6'
                     }
                   }}
                 >
@@ -327,33 +360,69 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.8 }}
           >
-            <Grid container spacing={3} sx={{ mt: { xs: 2, md: 4 }, maxWidth: '600px', mx: 'auto' }} justifyContent="center">
+            <Grid container spacing={3} sx={{ mt: { xs: 2, md: 4 }, maxWidth: '700px', mx: 'auto' }} justifyContent="center">
               <Grid item xs={12} sm={4}>
-                <GlassmorphismCard delay={0.9}>
-                  <Typography variant="h4" sx={{ color: 'white', fontWeight: 'bold', mb: 1 }}>
+                <GlassmorphismCard delay={0.9} theme={theme}>
+                  <Typography variant="h4" sx={{ 
+                    background: theme.palette.mode === 'dark'
+                      ? 'linear-gradient(135deg, #a5b4fc, #818cf8)'
+                      : 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                    backgroundClip: 'text',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    fontWeight: 'bold', 
+                    mb: 1 
+                  }}>
                     <AnimatedCounter end={100} suffix="+" />
                   </Typography>
-                  <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
+                  <Typography variant="body2" sx={{ 
+                    color: theme.palette.mode === 'dark' ? '#cbd5e1' : '#475569',
+                    fontWeight: 600
+                  }}>
                     Projects
                   </Typography>
                 </GlassmorphismCard>
               </Grid>
               <Grid item xs={12} sm={4}>
-                <GlassmorphismCard delay={1.0}>
-                  <Typography variant="h4" sx={{ color: 'white', fontWeight: 'bold', mb: 1 }}>
+                <GlassmorphismCard delay={1.0} theme={theme}>
+                  <Typography variant="h4" sx={{ 
+                    background: theme.palette.mode === 'dark'
+                      ? 'linear-gradient(135deg, #f9a8d4, #f472b6)'
+                      : 'linear-gradient(135deg, #ec4899, #f43f5e)',
+                    backgroundClip: 'text',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    fontWeight: 'bold', 
+                    mb: 1 
+                  }}>
                     <AnimatedCounter end={50} suffix="+" />
                   </Typography>
-                  <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
+                  <Typography variant="body2" sx={{ 
+                    color: theme.palette.mode === 'dark' ? '#cbd5e1' : '#475569',
+                    fontWeight: 600
+                  }}>
                     Clients
                   </Typography>
                 </GlassmorphismCard>
               </Grid>
               <Grid item xs={12} sm={4}>
-                <GlassmorphismCard delay={1.1}>
-                  <Typography variant="h4" sx={{ color: 'white', fontWeight: 'bold', mb: 1 }}>
+                <GlassmorphismCard delay={1.1} theme={theme}>
+                  <Typography variant="h4" sx={{ 
+                    background: theme.palette.mode === 'dark'
+                      ? 'linear-gradient(135deg, #7dd3fc, #38bdf8)'
+                      : 'linear-gradient(135deg, #0ea5e9, #06b6d4)',
+                    backgroundClip: 'text',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    fontWeight: 'bold', 
+                    mb: 1 
+                  }}>
                     <AnimatedCounter end={99} suffix="%" />
                   </Typography>
-                  <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
+                  <Typography variant="body2" sx={{ 
+                    color: theme.palette.mode === 'dark' ? '#cbd5e1' : '#475569',
+                    fontWeight: 600
+                  }}>
                     Success
                   </Typography>
                 </GlassmorphismCard>
@@ -380,12 +449,17 @@ const Hero = () => {
               position: 'absolute',
               top: '10%',
               right: '10%',
-              width: '100px',
-              height: '100px',
+              width: '120px',
+              height: '120px',
               borderRadius: '50%',
-              background: 'linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))',
+              background: theme.palette.mode === 'dark'
+                ? 'linear-gradient(45deg, rgba(129, 140, 248, 0.15), rgba(244, 114, 182, 0.1))'
+                : 'linear-gradient(45deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.08))',
               zIndex: 1,
-              willChange: 'transform'
+              willChange: 'transform',
+              boxShadow: theme.palette.mode === 'dark'
+                ? '0 0 60px rgba(129, 140, 248, 0.2)'
+                : '0 0 60px rgba(99, 102, 241, 0.15)'
             }}
           />
           
@@ -403,12 +477,17 @@ const Hero = () => {
               position: 'absolute',
               bottom: '15%',
               left: '5%',
-              width: '150px',
-              height: '150px',
+              width: '180px',
+              height: '180px',
               borderRadius: '50%',
-              background: 'linear-gradient(45deg, rgba(255,255,255,0.05), rgba(255,255,255,0.1))',
+              background: theme.palette.mode === 'dark'
+                ? 'linear-gradient(45deg, rgba(56, 189, 248, 0.1), rgba(129, 140, 248, 0.15))'
+                : 'linear-gradient(45deg, rgba(14, 165, 233, 0.08), rgba(99, 102, 241, 0.1))',
               zIndex: 1,
-              willChange: 'transform'
+              willChange: 'transform',
+              boxShadow: theme.palette.mode === 'dark'
+                ? '0 0 80px rgba(56, 189, 248, 0.2)'
+                : '0 0 80px rgba(14, 165, 233, 0.15)'
             }}
           />
         </>

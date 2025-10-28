@@ -7,7 +7,7 @@ import { BsSun, BsMoon } from 'react-icons/bs';
 import { CgMenu, CgClose } from 'react-icons/cg';
 import { MdHome, MdBusiness, MdContactMail } from 'react-icons/md';
 
-const NavButton = ({ to, children, icon: Icon, isActive }) => (
+const NavButton = ({ to, children, icon: Icon, isActive, mode }) => (
   <motion.div
     whileHover={{ scale: 1.05, y: -2 }}
     whileTap={{ scale: 0.95 }}
@@ -20,7 +20,7 @@ const NavButton = ({ to, children, icon: Icon, isActive }) => (
       to={to}
       startIcon={Icon && <Icon />}
       sx={{
-        color: 'white',
+        color: mode === 'dark' ? '#f1f5f9' : '#1e293b',
         mx: 1,
         px: 3,
         py: 1.2,
@@ -30,11 +30,17 @@ const NavButton = ({ to, children, icon: Icon, isActive }) => (
         fontSize: '1rem',
         textTransform: 'none',
         transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-        background: isActive ? 'rgba(255,255,255,0.25)' : 'transparent',
+        background: isActive 
+          ? (mode === 'dark' ? 'rgba(129, 140, 248, 0.15)' : 'rgba(99, 102, 241, 0.1)')
+          : 'transparent',
         backdropFilter: isActive ? 'blur(20px)' : 'none',
         WebkitBackdropFilter: isActive ? 'blur(20px)' : 'none',
-        border: isActive ? '1px solid rgba(255,255,255,0.4)' : '1px solid transparent',
-        boxShadow: isActive ? '0 8px 32px rgba(0,0,0,0.1)' : 'none',
+        border: isActive 
+          ? (mode === 'dark' ? '1px solid rgba(129, 140, 248, 0.3)' : '1px solid rgba(99, 102, 241, 0.2)')
+          : '1px solid transparent',
+        boxShadow: isActive 
+          ? (mode === 'dark' ? '0 8px 32px rgba(129, 140, 248, 0.2)' : '0 8px 32px rgba(99, 102, 241, 0.15)')
+          : 'none',
         overflow: 'hidden',
         '&::before': {
           content: '""',
@@ -47,11 +53,11 @@ const NavButton = ({ to, children, icon: Icon, isActive }) => (
           transition: 'left 0.5s ease',
         },
         '&:hover': {
-          background: 'rgba(255,255,255,0.2)',
+          background: mode === 'dark' ? 'rgba(129, 140, 248, 0.2)' : 'rgba(99, 102, 241, 0.15)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
-          border: '1px solid rgba(255,255,255,0.4)',
-          boxShadow: '0 12px 40px rgba(0,0,0,0.15)',
+          border: mode === 'dark' ? '1px solid rgba(129, 140, 248, 0.4)' : '1px solid rgba(99, 102, 241, 0.3)',
+          boxShadow: mode === 'dark' ? '0 12px 40px rgba(129, 140, 248, 0.25)' : '0 12px 40px rgba(99, 102, 241, 0.2)',
           '&::before': {
             left: '100%'
           }
@@ -63,7 +69,7 @@ const NavButton = ({ to, children, icon: Icon, isActive }) => (
   </motion.div>
 );
 
-const MobileNavItem = ({ to, children, icon: Icon, onClick, isActive = false }) => (
+const MobileNavItem = ({ to, children, icon: Icon, onClick, isActive = false, mode }) => (
   <motion.div
     whileHover={{ x: 10 }}
     whileTap={{ scale: 0.95 }}
@@ -76,12 +82,23 @@ const MobileNavItem = ({ to, children, icon: Icon, onClick, isActive = false }) 
         sx={{
           borderRadius: '14px',
           transition: 'all 0.25s ease',
-          background: isActive ? 'linear-gradient(135deg, rgba(14,165,233,0.15), rgba(37,99,235,0.15))' : 'transparent',
-          border: isActive ? '1px solid rgba(59,130,246,0.35)' : '1px solid transparent',
-          boxShadow: isActive ? '0 8px 24px rgba(37,99,235,0.25)' : 'none',
+          color: mode === 'dark' ? '#f1f5f9' : '#1e293b',
+          background: isActive 
+            ? (mode === 'dark' 
+                ? 'linear-gradient(135deg, rgba(129, 140, 248, 0.15), rgba(99, 102, 241, 0.15))'
+                : 'linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1))')
+            : 'transparent',
+          border: isActive 
+            ? (mode === 'dark' ? '1px solid rgba(129, 140, 248, 0.35)' : '1px solid rgba(99, 102, 241, 0.25)')
+            : '1px solid transparent',
+          boxShadow: isActive 
+            ? (mode === 'dark' ? '0 8px 24px rgba(129, 140, 248, 0.25)' : '0 8px 24px rgba(99, 102, 241, 0.2)')
+            : 'none',
           '&:hover': {
-            background: 'linear-gradient(135deg, rgba(14,165,233,0.18), rgba(37,99,235,0.18))',
-            color: 'white',
+            background: mode === 'dark'
+              ? 'linear-gradient(135deg, rgba(129, 140, 248, 0.2), rgba(99, 102, 241, 0.2))'
+              : 'linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(139, 92, 246, 0.15))',
+            color: mode === 'dark' ? '#f1f5f9' : '#1e293b',
             transform: 'translateX(8px)'
           }
         }}
@@ -150,15 +167,15 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
         <AppBar 
           position="fixed" 
           sx={{ 
-            background: scrolled 
-              ? 'rgba(15, 15, 20, 0.8)'
-              : 'rgba(15, 15, 20, 0.6)',
+            background: mode === 'dark'
+              ? (scrolled ? 'rgba(15, 23, 42, 0.85)' : 'rgba(15, 23, 42, 0.7)')
+              : (scrolled ? 'rgba(255, 255, 255, 0.9)' : 'rgba(255, 255, 255, 0.8)'),
             backdropFilter: 'saturate(130%) blur(10px)',
             WebkitBackdropFilter: 'saturate(130%) blur(10px)',
             boxShadow: scrolled 
-              ? '0 6px 18px rgba(0,0,0,0.25)'
-              : '0 4px 14px rgba(0,0,0,0.18)',
-            border: '1px solid rgba(255,255,255,0.06)',
+              ? (mode === 'dark' ? '0 6px 18px rgba(0,0,0,0.3)' : '0 6px 18px rgba(0,0,0,0.08)')
+              : (mode === 'dark' ? '0 4px 14px rgba(0,0,0,0.2)' : '0 4px 14px rgba(0,0,0,0.05)'),
+            border: mode === 'dark' ? '1px solid rgba(129, 140, 248, 0.1)' : '1px solid rgba(99, 102, 241, 0.1)',
             transition: 'background 0.3s ease, box-shadow 0.3s ease',
             py: { xs: 0.25, md: 0.75 },
             '&::before': {
@@ -196,7 +213,7 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
                   to="/"
                   sx={{ 
                     fontWeight: 800,
-                    color: '#ffffff',
+                    color: mode === 'dark' ? '#f1f5f9' : '#1e293b',
                     textDecoration: 'none',
                     textShadow: '0 2px 6px rgba(0,0,0,0.3)',
                     fontSize: { xs: '1.15rem', sm: '1.25rem', md: '1.35rem' },
@@ -205,7 +222,7 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
                     }
                   }}
                 >
-                  <span style={{ color: '#2563eb' }}>D</span>ev<span style={{ color: '#2563eb' }}>O</span>ra
+                  <span style={{ color: mode === 'dark' ? '#818cf8' : '#6366f1' }}>D</span>ev<span style={{ color: mode === 'dark' ? '#818cf8' : '#6366f1' }}>O</span>ra
                 </Typography>
               </motion.div>
 
@@ -217,6 +234,7 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
                       to={item.to}
                       icon={item.icon}
                       isActive={location.pathname === item.to}
+                      mode={mode}
                     >
                       {item.label}
                     </NavButton>
@@ -230,12 +248,12 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
                       onClick={onToggleTheme}
                       sx={{
                         ml: 0.5,
-                        color: 'white',
-                        background: 'rgba(255,255,255,0.12)',
-                        border: '1px solid rgba(255,255,255,0.2)',
+                        color: mode === 'dark' ? '#f1f5f9' : '#1e293b',
+                        background: mode === 'dark' ? 'rgba(129, 140, 248, 0.15)' : 'rgba(99, 102, 241, 0.1)',
+                        border: mode === 'dark' ? '1px solid rgba(129, 140, 248, 0.3)' : '1px solid rgba(99, 102, 241, 0.2)',
                         transition: 'all 0.3s ease',
                         '&:hover': { 
-                          background: 'rgba(255,255,255,0.2)',
+                          background: mode === 'dark' ? 'rgba(129, 140, 248, 0.25)' : 'rgba(99, 102, 241, 0.2)',
                           transform: 'rotate(180deg)'
                         }
                       }}
@@ -293,17 +311,17 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
                   </motion.div>
                   <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
                     <IconButton
-                      color="inherit"
                       aria-label="open drawer"
                       edge="start"
                       onClick={handleDrawerToggle}
                       sx={{
-                        background: 'rgba(255,255,255,0.1)',
+                        color: mode === 'dark' ? '#f1f5f9' : '#1e293b',
+                        background: mode === 'dark' ? 'rgba(129, 140, 248, 0.15)' : 'rgba(99, 102, 241, 0.1)',
                         backdropFilter: 'blur(8px)',
                         WebkitBackdropFilter: 'blur(8px)',
-                        border: '1px solid rgba(255,255,255,0.2)',
+                        border: mode === 'dark' ? '1px solid rgba(129, 140, 248, 0.3)' : '1px solid rgba(99, 102, 241, 0.2)',
                         '&:hover': {
-                          background: 'rgba(255,255,255,0.2)',
+                          background: mode === 'dark' ? 'rgba(129, 140, 248, 0.25)' : 'rgba(99, 102, 241, 0.2)',
                           transform: 'rotate(90deg)'
                         }
                       }}
@@ -349,10 +367,12 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
           '& .MuiDrawer-paper': {
             boxSizing: 'border-box',
             width: 320,
-            background: 'linear-gradient(180deg, #0b1220 0%, #0e1a2f 100%)',
-            color: 'rgba(255,255,255,0.9)',
-            borderLeft: '1px solid rgba(37, 99, 235, 0.25)',
-            boxShadow: '0 10px 40px rgba(2,6,23,0.5)',
+            background: mode === 'dark'
+              ? 'linear-gradient(180deg, #0f172a 0%, #1e293b 100%)'
+              : 'linear-gradient(180deg, #ffffff 0%, #f8fafc 100%)',
+            color: mode === 'dark' ? '#f1f5f9' : '#1e293b',
+            borderLeft: mode === 'dark' ? '1px solid rgba(129, 140, 248, 0.25)' : '1px solid rgba(99, 102, 241, 0.15)',
+            boxShadow: mode === 'dark' ? '0 10px 40px rgba(0,0,0,0.5)' : '0 10px 40px rgba(0,0,0,0.1)',
             backdropFilter: 'blur(8px)',
             WebkitBackdropFilter: 'blur(8px)'
           },
@@ -364,31 +384,38 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
           exit={{ x: 300 }}
           transition={{ duration: 0.3, ease: "easeOut" }}
         >
-          <Box sx={{ p: 2.5, px: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.08)', position: 'relative' }}>
+          <Box sx={{ p: 2.5, px: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: mode === 'dark' ? '1px solid rgba(129, 140, 248, 0.1)' : '1px solid rgba(99, 102, 241, 0.1)', position: 'relative' }}>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <img
                 src={`/DevOra.png`}
                 alt="DevOra logo"
                 style={{ height: '28px', width: '28px', marginRight: '10px', borderRadius: '6px' }}
               />
-              <Typography variant="h6" sx={{ fontWeight: 800, color: 'rgba(255,255,255,0.95)' }}>
-                <span style={{ color: '#2563eb' }}>D</span>ev<span style={{ color: '#2563eb' }}>O</span>ra
+              <Typography variant="h6" sx={{ fontWeight: 800, color: mode === 'dark' ? '#f1f5f9' : '#1e293b' }}>
+                <span style={{ color: mode === 'dark' ? '#818cf8' : '#6366f1' }}>D</span>ev<span style={{ color: mode === 'dark' ? '#818cf8' : '#6366f1' }}>O</span>ra
               </Typography>
             </Box>
             <Box sx={{ display: 'flex', gap: 1 }}>
               <IconButton
                 onClick={handleDrawerToggle}
-                sx={{ color: 'rgba(255,255,255,0.9)', background: 'rgba(255,255,255,0.08)', '&:hover': { background: 'rgba(255,255,255,0.15)', transform: 'rotate(90deg)' } }}
+                sx={{ 
+                  color: mode === 'dark' ? '#f1f5f9' : '#1e293b', 
+                  background: mode === 'dark' ? 'rgba(129, 140, 248, 0.1)' : 'rgba(99, 102, 241, 0.08)', 
+                  '&:hover': { 
+                    background: mode === 'dark' ? 'rgba(129, 140, 248, 0.2)' : 'rgba(99, 102, 241, 0.15)', 
+                    transform: 'rotate(90deg)' 
+                  } 
+                }}
                 aria-label="Close menu"
               >
                 <CgClose size={22} />
               </IconButton>
             </Box>
           </Box>
-          <Box sx={{ px: 3, py: 2, color: 'rgba(255,255,255,0.75)' }}>
+          <Box sx={{ px: 3, py: 2, color: mode === 'dark' ? '#cbd5e1' : '#64748b' }}>
             <Typography variant="body2">Digital Innovation Hub</Typography>
           </Box>
-          <Divider sx={{ opacity: 0.12, borderColor: 'rgba(255,255,255,0.12)' }} />
+          <Divider sx={{ opacity: 0.12, borderColor: mode === 'dark' ? 'rgba(129, 140, 248, 0.15)' : 'rgba(99, 102, 241, 0.1)' }} />
           
           <List sx={{ pt: 1 }}>
             {navItems.map((item) => (
@@ -398,6 +425,7 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
                 icon={item.icon}
                 onClick={handleDrawerToggle}
                 isActive={location.pathname === item.to}
+                mode={mode}
               >
                 {item.label}
               </MobileNavItem>
@@ -406,7 +434,7 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
 
           <Box sx={{ p: 3, mt: 'auto', textAlign: 'center' }}>
             
-            <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 2 }}>
+            <Typography variant="body2" sx={{ color: mode === 'dark' ? '#cbd5e1' : '#64748b', mb: 2 }}>
               Ready to start your project?
             </Typography>
             <Button
@@ -418,7 +446,9 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
                 borderRadius: '25px',
                 px: 4,
                 py: 1.5,
-                background: 'linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%)',
+                background: mode === 'dark'
+                  ? 'linear-gradient(135deg, #818cf8 0%, #6366f1 100%)'
+                  : 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
                 boxShadow: '0 8px 24px rgba(37, 99, 235, 0.35)',
                 '&:hover': {
                   transform: 'translateY(-2px)',
@@ -428,21 +458,66 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
             >
               Get Started
             </Button>
-            <Divider sx={{ my: 3, opacity: 0.12, borderColor: 'rgba(255,255,255,0.12)' }} />
+            <Divider sx={{ my: 3, opacity: 0.12, borderColor: mode === 'dark' ? 'rgba(129, 140, 248, 0.15)' : 'rgba(99, 102, 241, 0.1)' }} />
             <Box sx={{ display: 'flex', justifyContent: 'center', gap: 1.5 }}>
-              <IconButton href={import.meta.env.VITE_FACEBOOK_URL || '#'} target="_blank" rel="noopener noreferrer" sx={{ color: 'white', bgcolor: 'rgba(255,255,255,0.08)', '&:hover': { bgcolor: 'rgba(255,255,255,0.15)' } }} aria-label="Facebook">
+              <IconButton 
+                href={import.meta.env.VITE_FACEBOOK_URL || '#'} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                sx={{ 
+                  color: mode === 'dark' ? '#f1f5f9' : '#1e293b', 
+                  bgcolor: mode === 'dark' ? 'rgba(129, 140, 248, 0.1)' : 'rgba(99, 102, 241, 0.08)', 
+                  '&:hover': { bgcolor: mode === 'dark' ? 'rgba(129, 140, 248, 0.2)' : 'rgba(99, 102, 241, 0.15)' } 
+                }} 
+                aria-label="Facebook">
                 <FaFacebookF />
               </IconButton>
-              <IconButton href={import.meta.env.VITE_TWITTER_URL || '#'} target="_blank" rel="noopener noreferrer" sx={{ color: 'white', bgcolor: 'rgba(255,255,255,0.08)', '&:hover': { bgcolor: 'rgba(255,255,255,0.15)' } }} aria-label="Twitter">
+              <IconButton 
+                href={import.meta.env.VITE_TWITTER_URL || '#'} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                sx={{ 
+                  color: mode === 'dark' ? '#f1f5f9' : '#1e293b', 
+                  bgcolor: mode === 'dark' ? 'rgba(129, 140, 248, 0.1)' : 'rgba(99, 102, 241, 0.08)', 
+                  '&:hover': { bgcolor: mode === 'dark' ? 'rgba(129, 140, 248, 0.2)' : 'rgba(99, 102, 241, 0.15)' } 
+                }} 
+                aria-label="Twitter">
                 <FaTwitter />
               </IconButton>
-              <IconButton href={import.meta.env.VITE_LINKEDIN_URL || '#'} target="_blank" rel="noopener noreferrer" sx={{ color: 'white', bgcolor: 'rgba(255,255,255,0.08)', '&:hover': { bgcolor: 'rgba(255,255,255,0.15)' } }} aria-label="LinkedIn">
+              <IconButton 
+                href={import.meta.env.VITE_LINKEDIN_URL || '#'} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                sx={{ 
+                  color: mode === 'dark' ? '#f1f5f9' : '#1e293b', 
+                  bgcolor: mode === 'dark' ? 'rgba(129, 140, 248, 0.1)' : 'rgba(99, 102, 241, 0.08)', 
+                  '&:hover': { bgcolor: mode === 'dark' ? 'rgba(129, 140, 248, 0.2)' : 'rgba(99, 102, 241, 0.15)' } 
+                }} 
+                aria-label="LinkedIn">
                 <FaLinkedinIn />
               </IconButton>
-              <IconButton href={import.meta.env.VITE_INSTAGRAM_URL || '#'} target="_blank" rel="noopener noreferrer" sx={{ color: 'white', bgcolor: 'rgba(255,255,255,0.08)', '&:hover': { bgcolor: 'rgba(255,255,255,0.15)' } }} aria-label="Instagram">
+              <IconButton 
+                href={import.meta.env.VITE_INSTAGRAM_URL || '#'} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                sx={{ 
+                  color: mode === 'dark' ? '#f1f5f9' : '#1e293b', 
+                  bgcolor: mode === 'dark' ? 'rgba(129, 140, 248, 0.1)' : 'rgba(99, 102, 241, 0.08)', 
+                  '&:hover': { bgcolor: mode === 'dark' ? 'rgba(129, 140, 248, 0.2)' : 'rgba(99, 102, 241, 0.15)' } 
+                }} 
+                aria-label="Instagram">
                 <FaInstagram />
               </IconButton>
-              <IconButton href={import.meta.env.VITE_GITHUB_URL || '#'} target="_blank" rel="noopener noreferrer" sx={{ color: 'white', bgcolor: 'rgba(255,255,255,0.08)', '&:hover': { bgcolor: 'rgba(255,255,255,0.15)' } }} aria-label="GitHub">
+              <IconButton 
+                href={import.meta.env.VITE_GITHUB_URL || '#'} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                sx={{ 
+                  color: mode === 'dark' ? '#f1f5f9' : '#1e293b', 
+                  bgcolor: mode === 'dark' ? 'rgba(129, 140, 248, 0.1)' : 'rgba(99, 102, 241, 0.08)', 
+                  '&:hover': { bgcolor: mode === 'dark' ? 'rgba(129, 140, 248, 0.2)' : 'rgba(99, 102, 241, 0.15)' } 
+                }} 
+                aria-label="GitHub">
                 <FaGithub />
               </IconButton>
             </Box>

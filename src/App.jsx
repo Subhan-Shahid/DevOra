@@ -10,7 +10,6 @@ import Navbar from './components/Navbar';
 import ChatWidget from './components/ChatWidget';
 import Hero from './components/Hero';
 import Services from './components/Services';
-import Team from './components/Team';
 import ContactForm from './components/ContactForm';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
@@ -25,34 +24,40 @@ const createAppTheme = (mode) => createTheme({
   palette: {
     mode,
     primary: {
-      main: '#667eea',
-      light: '#8fa7f3',
-      dark: '#4a56cc',
+      main: mode === 'dark' ? '#818cf8' : '#6366f1',
+      light: '#a5b4fc',
+      dark: '#4f46e5',
       contrastText: '#ffffff',
     },
     secondary: {
-      main: '#f093fb',
-      light: '#f3a9fc',
-      dark: '#e066f0',
+      main: mode === 'dark' ? '#f472b6' : '#ec4899',
+      light: '#f9a8d4',
+      dark: '#db2777',
       contrastText: '#ffffff',
     },
     tertiary: {
-      main: '#4facfe',
-      light: '#7bc8fe',
-      dark: '#2196f3',
+      main: mode === 'dark' ? '#38bdf8' : '#0ea5e9',
+      light: '#7dd3fc',
+      dark: '#0284c7',
       contrastText: '#ffffff',
     },
     background: mode === 'dark'
-      ? { default: '#0b0d12', paper: '#121520' }
-      : { default: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)', paper: 'rgba(255, 255, 255, 0.9)' },
+      ? { default: '#0f172a', paper: '#1e293b' }
+      : { default: '#ffffff', paper: '#f8fafc' },
     text: {
-      primary: mode === 'dark' ? '#e8eefc' : '#2c3e50',
-      secondary: mode === 'dark' ? '#b6c2e2' : '#64748b',
+      primary: mode === 'dark' ? '#f1f5f9' : '#1e293b',
+      secondary: mode === 'dark' ? '#cbd5e1' : '#64748b',
     },
     gradient: {
-      primary: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-      secondary: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-      tertiary: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+      primary: mode === 'dark' 
+        ? 'linear-gradient(135deg, #818cf8 0%, #6366f1 100%)'
+        : 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
+      secondary: mode === 'dark'
+        ? 'linear-gradient(135deg, #f472b6 0%, #ec4899 100%)'
+        : 'linear-gradient(135deg, #ec4899 0%, #f43f5e 100%)',
+      tertiary: mode === 'dark'
+        ? 'linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%)'
+        : 'linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%)',
     },
   },
   typography: {
@@ -171,7 +176,6 @@ function Home() {
     <>
       <Hero />
       <Services />
-      <Team />
     </>
   );
 }
@@ -222,8 +226,8 @@ function App() {
                 flexDirection: 'column',
                 minHeight: '100dvh',
                 background: theme.palette.mode === 'dark' 
-                  ? 'linear-gradient(135deg, #0b0d12 0%, #1a1d29 50%, #0f1320 100%)' 
-                  : 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
+                  ? 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)' 
+                  : 'linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #e0e7ff 100%)',
                 transition: 'background 0.3s ease',
               }}
             >

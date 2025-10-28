@@ -67,11 +67,6 @@ const EnhancedFloatingDock = ({ className }) => {
       href: "#portfolio",
     },
     {
-      title: "Team",
-      icon: <IconUsers className="h-full w-full text-neutral-500 dark:text-neutral-300 hover:text-orange-500 dark:hover:text-orange-400 transition-colors" />,
-      href: "#team",
-    },
-    {
       title: "Contact",
       icon: (
         <IconMail 
