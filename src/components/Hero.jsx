@@ -360,7 +360,7 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.8 }}
           >
-            <Grid container spacing={3} sx={{ mt: { xs: 2, md: 4 }, maxWidth: '700px', mx: 'auto' }} justifyContent="center">
+            <Grid container spacing={{ xs: 3, md: 5 }} sx={{ mt: { xs: 2, md: 4 }, mb: { xs: 6, md: 10 }, maxWidth: '800px', mx: 'auto' }} justifyContent="center">
               <Grid item xs={12} sm={4}>
                 <GlassmorphismCard delay={0.9} theme={theme}>
                   <Typography variant="h4" sx={{ 
@@ -423,7 +423,7 @@ const Hero = () => {
                     color: theme.palette.mode === 'dark' ? '#cbd5e1' : '#475569',
                     fontWeight: 600
                   }}>
-                    Success
+                    Satisfaction
                   </Typography>
                 </GlassmorphismCard>
               </Grid>
