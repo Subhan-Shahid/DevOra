@@ -1,6 +1,5 @@
 import React from 'react';
-import { Container, Typography, Link as MuiLink, Box, IconButton, useTheme } from '@mui/material';
-import Grid from '@mui/material/Grid';
+import { Container, Typography, Link as MuiLink, Box, IconButton, useTheme, Grid } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FaFacebookF, FaTwitter, FaLinkedinIn, FaInstagram, FaGithub, FaHeart, FaWhatsapp } from 'react-icons/fa';
@@ -94,7 +93,7 @@ const Footer = () => {
     >
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, py: { xs: 6, md: 8 }, px: { xs: 2, sm: 3 } }}>
         <Grid container spacing={{ xs: 3, md: 4 }} justifyContent="center">
-          <Grid item xs={12} md={4} sx={{ textAlign: { xs: 'center', md: 'left' } }}>
+          <Grid size={{ xs: 12, md: 4 }} sx={{ textAlign: { xs: 'center', md: 'left' } }}>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -138,7 +137,7 @@ const Footer = () => {
             </motion.div>
           </Grid>
           
-          <Grid item xs={12} sm={6} md={2} sx={{ textAlign: { xs: 'center', md: 'left' } }}>
+          <Grid size={{ xs: 12, sm: 6, md: 2 }} sx={{ textAlign: { xs: 'center', md: 'left' } }}>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -165,7 +164,7 @@ const Footer = () => {
             </motion.div>
           </Grid>
           
-          <Grid item xs={12} sm={6} md={3} sx={{ textAlign: { xs: 'center', md: 'left' } }}>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }} sx={{ textAlign: { xs: 'center', md: 'left' } }}>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -192,7 +191,7 @@ const Footer = () => {
             </motion.div>
           </Grid>
           
-          <Grid item xs={12} md={3} sx={{ textAlign: { xs: 'center', md: 'left' } }}>
+          <Grid size={{ xs: 12, md: 3 }} sx={{ textAlign: { xs: 'center', md: 'left' } }}>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}

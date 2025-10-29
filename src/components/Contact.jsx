@@ -1,6 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Container, TextField, Button, Typography, Box, Card, CardContent, Snackbar, Alert } from '@mui/material';
-import Grid from '@mui/material/Grid';
+import { Container, TextField, Button, Typography, Box, Card, CardContent, Snackbar, Alert, Grid } from '@mui/material';
 import { motion } from 'framer-motion';
 import { FaPaperPlane, FaCheckCircle } from 'react-icons/fa';
 import ParticleBackground from './ParticleBackground';
@@ -163,7 +162,7 @@ const Contact = () => {
         </motion.div>
         
         <Grid container spacing={{ xs: 4, md: 6 }} justifyContent="center">
-          <Grid item xs={12} md={8}>
+          <Grid xs={12} md={8}>
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -193,7 +192,7 @@ const Contact = () => {
                   </Typography>
                   <form ref={formRef} onSubmit={handleSubmit}>
                     <Grid container spacing={3}>
-                      <Grid item xs={12} sm={6}>
+                      <Grid xs={12} sm={6}>
                         <TextField
                           required
                           fullWidth
@@ -212,7 +211,7 @@ const Contact = () => {
                           }}
                         />
                       </Grid>
-                      <Grid item xs={12} sm={6}>
+                      <Grid xs={12} sm={6}>
                         <TextField
                           required
                           fullWidth
@@ -231,7 +230,7 @@ const Contact = () => {
                           }}
                         />
                       </Grid>
-                      <Grid item xs={12}>
+                      <Grid xs={12}>
                         <TextField
                           required
                           fullWidth
@@ -251,7 +250,7 @@ const Contact = () => {
                           }}
                         />
                       </Grid>
-                      <Grid item xs={12}>
+                      <Grid xs={12}>
                         <TextField
                           fullWidth
                           name="phone"
@@ -269,7 +268,7 @@ const Contact = () => {
                           }}
                         />
                       </Grid>
-                      <Grid item xs={12}>
+                      <Grid xs={12}>
                         <TextField
                           required
                           fullWidth
@@ -290,7 +289,7 @@ const Contact = () => {
                           }}
                         />
                       </Grid>
-                      <Grid item xs={12}>
+                      <Grid xs={12}>
                         <Button 
                           type="submit" 
                           variant="contained" 

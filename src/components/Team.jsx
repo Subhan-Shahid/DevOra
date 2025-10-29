@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Typography, Box, Card, CardContent, Avatar, useTheme } from '@mui/material';
-import Grid from '@mui/material/Grid';
+import { Container, Typography, Box, Card, CardContent, Avatar, useTheme, Grid } from '@mui/material';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { FaCode, FaBullhorn, FaPalette, FaLinkedin, FaTwitter, FaGithub, FaUsers, FaLightbulb, FaRocket } from 'react-icons/fa';
 import { MdDesignServices, MdCampaign, MdDeveloperMode } from 'react-icons/md';
@@ -411,7 +410,7 @@ const TeamSection = ({ team, theme, index }) => {
       {/* Team Members */}
       <Grid container spacing={{ xs: 3, md: 4 }} justifyContent="center">
         {team.members.map((member, memberIndex) => (
-          <Grid item key={member.name} xs={12} sm={6} md={4}>
+          <Grid size={{ xs: 12, sm: 6, md: 4 }} key={member.name}>
             <TeamMemberCard
               member={member}
               teamColor={team.color}

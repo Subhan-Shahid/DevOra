@@ -5,6 +5,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import { AnimatePresence } from 'framer-motion';
+import { initScrollOptimization } from './utils/scrollPerformance';
 
 // Import critical components (above the fold)
 import Navbar from './components/Navbar';
@@ -146,8 +147,9 @@ const createAppTheme = (mode) => createTheme({
         root: {
           borderRadius: 20,
           background: 'rgba(255, 255, 255, 0.1)',
-          backdropFilter: 'blur(20px)',
-          WebkitBackdropFilter: 'blur(20px)',
+          backdropFilter: 'blur(8px)',
+          WebkitBackdropFilter: 'blur(8px)',
+          contain: 'layout style paint',
           border: '1px solid rgba(255, 255, 255, 0.2)',
           boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
           transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
@@ -164,8 +166,8 @@ const createAppTheme = (mode) => createTheme({
           '& .MuiOutlinedInput-root': {
             borderRadius: 15,
             background: 'rgba(255, 255, 255, 0.1)',
-            backdropFilter: 'blur(10px)',
-            WebkitBackdropFilter: 'blur(10px)',
+            backdropFilter: 'blur(6px)',
+            WebkitBackdropFilter: 'blur(6px)',
             transition: 'all 0.3s ease',
             '&:hover': {
               background: 'rgba(255, 255, 255, 0.15)',
@@ -237,6 +239,12 @@ function App() {
   useEffect(() => {
     document.body.setAttribute('data-theme', mode);
   }, [mode]);
+
+  // Initialize scroll performance optimization
+  useEffect(() => {
+    const cleanup = initScrollOptimization();
+    return cleanup;
+  }, []);
 
   if (!mounted) {
     return null; // Prevent hydration mismatch

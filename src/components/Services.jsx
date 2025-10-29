@@ -1,11 +1,9 @@
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { Container, Card, CardContent, Typography, Box, Button, useTheme } from '@mui/material';
-import Grid from '@mui/material/Grid';
+import { Container, Card, CardContent, Typography, Box, Button, useTheme, Grid } from '@mui/material';
 import { motion, useReducedMotion } from 'framer-motion';
 import { FaCode, FaGlobe, FaMobileAlt, FaArrowRight } from 'react-icons/fa';
 import { MdSpeed, MdSecurity, MdCloud, MdStar, MdCheckCircle } from 'react-icons/md';
-import { CardContainer, CardBody, CardItem } from '@/components/ui/3d-card';
 
 // Optimized services data
 const servicesData = [
@@ -44,9 +42,20 @@ const servicesData = [
   }
 ];
 
-// 3D Service card component
+// 3D Flip Service card component
 const ServiceCard3D = ({ service, index, theme }) => {
   const Icon = service.icon;
+  const [isFlipped, setIsFlipped] = React.useState(false);
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  React.useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 900);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
   
   const colors = useMemo(() => {
     const colorMap = {
@@ -87,261 +96,393 @@ const ServiceCard3D = ({ service, index, theme }) => {
         stiffness: 100
       }}
       viewport={{ once: true, margin: '-50px' }}
+      onHoverStart={() => !isMobile && setIsFlipped(true)}
+      onHoverEnd={() => !isMobile && setIsFlipped(false)}
+      style={{ perspective: '1000px', height: '100%' }}
     >
-      <CardContainer containerClassName="py-0">
-        <CardBody className="w-full h-auto">
+      <Box
+        sx={{
+          position: 'relative',
+          width: '100%',
+          height: { xs: '380px', sm: '420px', md: '500px' },
+          transformStyle: 'preserve-3d',
+          transition: 'transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
+          transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
+        }}
+      >
+        {/* FRONT SIDE */}
+        <Box
+          sx={{
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+            backfaceVisibility: 'hidden',
+            borderRadius: 5,
+            overflow: 'hidden',
+            background: theme.palette.mode === 'dark'
+              ? `linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.9) 100%)`
+              : `linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%)`,
+            backdropFilter: 'blur(20px) saturate(180%)',
+            WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+            border: `2px solid ${colors.light}`,
+            boxShadow: `0 20px 60px rgba(0,0,0,0.3), 0 0 40px ${colors.light}`,
+          }}
+        >
+          {/* Gradient overlay at top */}
           <Box
             sx={{
-              height: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-              borderRadius: 5,
-              overflow: 'hidden',
-              position: 'relative',
-              background: theme.palette.mode === 'dark' 
-                ? 'rgba(30, 41, 59, 0.7)'
-                : 'rgba(255, 255, 255, 0.95)',
-              backdropFilter: 'blur(20px)',
-              WebkitBackdropFilter: 'blur(20px)',
-              border: theme.palette.mode === 'dark'
-                ? `2px solid ${colors.light}`
-                : `2px solid ${colors.light}`,
-              boxShadow: theme.palette.mode === 'dark' 
-                ? `0 20px 60px rgba(0,0,0,0.4), 0 0 40px ${colors.light}`
-                : `0 20px 60px ${colors.light}, 0 8px 32px rgba(0,0,0,0.08)`,
-              transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-              '&:hover': {
-                transform: 'translateY(-8px) scale(1.02)',
-                boxShadow: theme.palette.mode === 'dark'
-                  ? `0 30px 80px rgba(0,0,0,0.5), 0 0 60px ${colors.light}`
-                  : `0 30px 80px ${colors.light}, 0 12px 40px rgba(0,0,0,0.12)`,
-              }
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              height: '60%',
+              background: colors.gradient,
+              opacity: 0.15,
+              pointerEvents: 'none',
             }}
-          >
-            <CardItem translateZ={5}>
+          />
+
+          {/* Content */}
+          <Box sx={{ p: { xs: 2.5, sm: 3.5, md: 4 }, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', position: 'relative', zIndex: 1 }}>
+            {/* Hexagon Icon Container */}
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', mb: { xs: 1.5, md: 3 }, mt: { xs: 1, sm: 3, md: 4 } }}>
               <Box
                 sx={{
-                  height: '6px',
-                  background: colors.gradient,
-                  boxShadow: `0 4px 12px ${colors.light}`,
+                  width: { xs: 100, sm: 150, md: 180 },
+                  height: { xs: 100, sm: 150, md: 180 },
+                  position: 'relative',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                 }}
-              />
-            </CardItem>
-
-            <Box sx={{ p: 3, flexGrow: 1, position: 'relative' }}>
-              {service.badge && (
-                <CardItem translateZ={20}>
-                  <Box
-                    sx={{
-                      position: 'absolute',
-                      top: -8,
-                      right: 16,
-                      px: 2.5,
-                      py: 0.75,
-                      borderRadius: '16px',
-                      background: colors.gradient,
-                      color: '#fff',
-                      fontSize: '0.75rem',
-                      fontWeight: 700,
-                      textTransform: 'uppercase',
-                      letterSpacing: 0.8,
-                      boxShadow: `0 8px 24px ${colors.light}`,
-                      display: 'flex',
-                      alignItems: 'center',
-                      animation: 'energyPulse 2s ease-in-out infinite',
-                    }}
-                  >
-                    <MdStar style={{ marginRight: 4, fontSize: '0.9rem' }} />
-                    {service.badge}
-                  </Box>
-                </CardItem>
-              )}
-
-              <CardItem translateZ={30}>
+              >
+                {/* Hexagon background */}
                 <Box
                   sx={{
-                    width: 64,
-                    height: 64,
-                    borderRadius: '20px',
+                    position: 'absolute',
+                    width: '100%',
+                    height: '100%',
+                    background: `linear-gradient(135deg, ${colors.light}, rgba(255,255,255,0.1))`,
+                    backdropFilter: 'blur(40px)',
+                    clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
+                    boxShadow: `0 20px 60px ${colors.light}, inset 0 0 60px rgba(255,255,255,0.1)`,
+                  }}
+                />
+                {/* Icon */}
+                <Icon style={{ 
+                  color: colors.main, 
+                  fontSize: 'clamp(2rem, 5vw, 4rem)',
+                  zIndex: 1,
+                  filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.3))',
+                }} />
+              </Box>
+            </Box>
+
+            {/* Title and Description */}
+            <Box sx={{ textAlign: 'center', px: { xs: 0.5, sm: 2 } }}>
+              <Typography
+                variant="h5"
+                sx={{ 
+                  fontWeight: 800, 
+                  mb: { xs: 1, md: 2 }, 
+                  color: theme.palette.mode === 'dark' ? '#f1f5f9' : '#1e293b',
+                  fontSize: { xs: '1.1rem', sm: '1.35rem', md: '1.5rem' },
+                  letterSpacing: '-0.02em',
+                }}
+              >
+                {service.title}
+              </Typography>
+
+              <Typography
+                variant="body2"
+                sx={{ 
+                  color: theme.palette.mode === 'dark' ? '#94a3b8' : '#64748b', 
+                  lineHeight: 1.5,
+                  fontSize: { xs: '0.8rem', sm: '0.9rem', md: '0.95rem' },
+                  mb: { xs: 1.5, md: 3 },
+                }}
+              >
+                {service.description.substring(0, 100)}...
+              </Typography>
+
+              {isMobile ? (
+                <Button
+                  onClick={() => setIsFlipped(!isFlipped)}
+                  variant="contained"
+                  sx={{
+                    borderRadius: '25px',
+                    px: { xs: 3, sm: 4 },
+                    py: { xs: 1, sm: 1.25 },
+                    fontWeight: 600,
+                    fontSize: { xs: '0.85rem', sm: '0.9rem' },
+                    textTransform: 'none',
                     background: colors.gradient,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    mb: 2.5,
-                    boxShadow: `0 12px 32px ${colors.light}`,
+                    color: '#fff',
+                    boxShadow: `0 8px 24px ${colors.light}`,
                     transition: 'all 0.3s ease',
                     '&:hover': {
-                      transform: 'rotate(5deg) scale(1.1)',
-                      boxShadow: `0 16px 40px ${colors.light}`,
+                      transform: 'translateY(-2px)',
+                      boxShadow: `0 12px 32px ${colors.light}`,
                     }
                   }}
                 >
-                  <Icon style={{ 
-                    color: '#fff', 
-                    fontSize: '2rem',
-                  }} />
-                </Box>
-              </CardItem>
-
-              <CardItem translateZ={20}>
-                <Typography
-                  variant="h6"
-                  sx={{ 
-                    fontWeight: 800, 
-                    mb: 1.5, 
+                  {isFlipped ? 'Show Less' : 'View Details'}
+                </Button>
+              ) : (
+                <Button
+                  variant="outlined"
+                  sx={{
+                    borderRadius: '25px',
+                    px: { xs: 3, sm: 4 },
+                    py: { xs: 1, sm: 1.25 },
+                    border: `2px solid ${colors.light}`,
                     color: theme.palette.mode === 'dark' ? '#f1f5f9' : '#1e293b',
-                    fontSize: '1.35rem',
-                    letterSpacing: '-0.02em',
-                  }}
-                >
-                  {service.title}
-                </Typography>
-              </CardItem>
-
-              <CardItem translateZ={15}>
-                <Typography
-                  variant="body2"
-                  sx={{ 
-                    color: theme.palette.mode === 'dark' ? '#cbd5e1' : '#475569', 
-                    mb: 2.5, 
-                    lineHeight: 1.7,
-                    fontSize: '0.9rem',
-                  }}
-                >
-                  {service.description}
-                </Typography>
-              </CardItem>
-
-              <CardItem translateZ={10}>
-                <Box sx={{ mb: 2 }}>
-                  {service.features.map((feature, i) => (
-                    <Box 
-                      key={i}
-                      sx={{ 
-                        display: 'flex', 
-                        alignItems: 'center', 
-                        gap: 1,
-                        mb: 1,
-                      }}
-                    >
-                      <MdCheckCircle style={{ 
-                        color: colors.main, 
-                        fontSize: '1rem' 
-                      }} />
-                      <Typography 
-                        variant="body2" 
-                        sx={{ 
-                          color: theme.palette.mode === 'dark' ? '#cbd5e1' : '#475569',
-                          fontSize: '0.85rem',
-                        }}
-                      >
-                        {feature}
-                      </Typography>
-                    </Box>
-                  ))}
-                </Box>
-              </CardItem>
-
-              <CardItem translateZ={25}>
-                <Box 
-                  sx={{ 
-                    mb: 2.5,
-                    p: 2,
-                    borderRadius: '16px',
-                    background: theme.palette.mode === 'dark' 
-                      ? `linear-gradient(135deg, ${colors.light}, rgba(255,255,255,0.03))` 
-                      : `linear-gradient(135deg, ${colors.light}, rgba(255,255,255,0.5))`,
-                    border: theme.palette.mode === 'dark'
-                      ? `1px solid ${colors.light}`
-                      : `1px solid ${colors.light}`,
-                  }}
-                >
-                  <Typography 
-                    variant="h4" 
-                    sx={{ 
-                      fontWeight: 900,
+                    fontWeight: 600,
+                    fontSize: { xs: '0.85rem', sm: '0.9rem' },
+                    textTransform: 'none',
+                    background: `linear-gradient(135deg, ${colors.light}, rgba(255,255,255,0.05))`,
+                    backdropFilter: 'blur(10px)',
+                    transition: 'all 0.3s ease',
+                    '&:hover': {
                       background: colors.gradient,
-                      backgroundClip: 'text',
-                      WebkitBackgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                      mb: 0.5,
-                    }}
-                  >
-                    {service.projects}+
-                  </Typography>
-                  <Typography 
-                    variant="caption" 
-                    sx={{ 
-                      color: theme.palette.mode === 'dark' ? '#94a3b8' : '#64748b',
-                      fontWeight: 700,
-                      textTransform: 'uppercase',
-                      letterSpacing: 1.2,
-                      fontSize: '0.75rem',
-                    }}
-                  >
-                    projects done
-                  </Typography>
-                </Box>
-              </CardItem>
-
-              <CardItem translateZ={15}>
-                <Typography 
-                  variant="h6" 
-                  sx={{ 
-                    fontWeight: 800, 
-                    mb: 2.5,
-                    color: theme.palette.mode === 'dark' ? '#f1f5f9' : '#1e293b',
-                    fontSize: '1.1rem',
+                      borderColor: colors.main,
+                      color: '#fff',
+                      transform: 'translateY(-2px)',
+                      boxShadow: `0 8px 24px ${colors.light}`,
+                    }
                   }}
                 >
-                  {service.price}
-                </Typography>
-              </CardItem>
+                  Hover to see details
+                </Button>
+              )}
+            </Box>
+          </Box>
+        </Box>
 
-              <CardItem translateZ={35}>
+        {/* BACK SIDE */}
+        <Box
+          sx={{
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+            backfaceVisibility: 'hidden',
+            transform: 'rotateY(180deg)',
+            borderRadius: 5,
+            overflow: 'hidden',
+            background: `linear-gradient(135deg, ${colors.main}15 0%, ${colors.main}05 100%)`,
+            backdropFilter: 'blur(20px) saturate(180%)',
+            WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+            border: `2px solid ${colors.main}`,
+            boxShadow: `0 20px 60px rgba(0,0,0,0.4), 0 0 60px ${colors.light}`,
+          }}
+        >
+          {/* Gradient glow effect */}
+          <Box
+            sx={{
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+              right: 0,
+              height: '50%',
+              background: colors.gradient,
+              opacity: 0.3,
+              filter: 'blur(60px)',
+            }}
+          />
+
+          <Box sx={{ p: { xs: 2.5, sm: 3.5, md: 4 }, height: '100%', display: 'flex', flexDirection: 'column', position: 'relative', zIndex: 1, overflow: 'hidden' }}>
+            <Typography
+              variant="h5"
+              sx={{
+                fontWeight: 800,
+                mb: { xs: 1.5, md: 3 },
+                color: theme.palette.mode === 'dark' ? '#f1f5f9' : '#1e293b',
+                fontSize: { xs: '1.2rem', sm: '1.5rem', md: '1.75rem' },
+                background: colors.gradient,
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                wordBreak: 'break-word',
+              }}
+            >
+              {service.title}
+            </Typography>
+
+            <Typography
+              variant="body1"
+              sx={{
+                color: theme.palette.mode === 'dark' ? '#cbd5e1' : '#475569',
+                mb: { xs: 1.5, md: 3 },
+                lineHeight: 1.6,
+                fontSize: { xs: '0.8rem', sm: '0.9rem', md: '0.95rem' },
+                wordBreak: 'break-word',
+                overflowWrap: 'break-word',
+              }}
+            >
+              {service.description}
+            </Typography>
+
+            <Typography
+              variant="subtitle2"
+              sx={{
+                color: colors.main,
+                fontWeight: 700,
+                mb: { xs: 1, md: 2 },
+                fontSize: { xs: '0.75rem', sm: '0.85rem', md: '0.9rem' },
+                textTransform: 'uppercase',
+                letterSpacing: { xs: 0.5, sm: 1 },
+              }}
+            >
+              KEY FEATURES:
+            </Typography>
+
+            <Box sx={{ mb: { xs: 1.5, md: 3 }, flexGrow: 1 }}>
+              {service.features.map((feature, i) => (
+                <Box
+                  key={i}
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: { xs: 0.75, sm: 1.5 },
+                    mb: { xs: 0.75, sm: 1.5 },
+                  }}
+                >
+                  <MdCheckCircle style={{ 
+                    color: colors.main, 
+                    fontSize: 'clamp(0.9rem, 2vw, 1.2rem)',
+                    flexShrink: 0,
+                  }} />
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      color: theme.palette.mode === 'dark' ? '#cbd5e1' : '#475569',
+                      fontSize: { xs: '0.75rem', sm: '0.85rem', md: '0.9rem' },
+                      fontWeight: 500,
+                      wordBreak: 'break-word',
+                      overflowWrap: 'break-word',
+                    }}
+                  >
+                    {feature}
+                  </Typography>
+                </Box>
+              ))}
+            </Box>
+
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: { xs: 1.5, md: 3 }, gap: { xs: 1, sm: 2 } }}>
+              <Box>
+                <Typography variant="caption" sx={{ color: '#94a3b8', fontSize: { xs: '0.65rem', sm: '0.75rem' } }}>
+                  Projects
+                </Typography>
+                <Typography
+                  variant="h4"
+                  sx={{
+                    fontWeight: 900,
+                    fontSize: { xs: '1.5rem', sm: '2rem', md: '2.25rem' },
+                    background: colors.gradient,
+                    backgroundClip: 'text',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                  }}
+                >
+                  {service.projects}+
+                </Typography>
+              </Box>
+              <Box sx={{ textAlign: 'right' }}>
+                <Typography variant="caption" sx={{ color: '#94a3b8', fontSize: { xs: '0.65rem', sm: '0.75rem' } }}>
+                  From
+                </Typography>
+                <Typography
+                  variant="h5"
+                  sx={{
+                    fontWeight: 800,
+                    fontSize: { xs: '1rem', sm: '1.25rem', md: '1.5rem' },
+                    color: theme.palette.mode === 'dark' ? '#f1f5f9' : '#1e293b',
+                  }}
+                >
+                  {service.price.split(' ')[2]}
+                </Typography>
+              </Box>
+            </Box>
+
+{isMobile ? (
+              <Box sx={{ display: 'flex', gap: { xs: 1, sm: 2 }, flexWrap: 'wrap' }}>
+                <Button
+                  onClick={() => setIsFlipped(false)}
+                  variant="outlined"
+                  sx={{
+                    flex: '0 0 auto',
+                    minWidth: { xs: '80px', sm: '100px' },
+                    borderRadius: '16px',
+                    py: { xs: 1.25, sm: 1.75 },
+                    px: { xs: 2, sm: 3 },
+                    textTransform: 'none',
+                    fontWeight: 700,
+                    fontSize: { xs: '0.85rem', sm: '0.95rem' },
+                    border: `2px solid ${colors.main}`,
+                    color: colors.main,
+                    transition: 'all 0.3s ease',
+                    '&:hover': {
+                      background: `${colors.main}15`,
+                      transform: 'translateY(-2px)',
+                    }
+                  }}
+                >
+                  Back
+                </Button>
                 <Button
                   component={Link}
                   to={`/services/${service.slug}`}
                   variant="contained"
-                  fullWidth
                   endIcon={<FaArrowRight />}
-                  sx={{ 
-                    borderRadius: '16px', 
-                    py: 1.5, 
-                    textTransform: 'none', 
+                  sx={{
+                    flex: 1,
+                    borderRadius: '16px',
+                    py: { xs: 1.25, sm: 1.75 },
+                    px: { xs: 2, sm: 3 },
+                    textTransform: 'none',
                     fontWeight: 700,
-                    fontSize: '1rem',
+                    fontSize: { xs: '0.85rem', sm: '0.95rem' },
                     background: colors.gradient,
                     boxShadow: `0 12px 32px ${colors.light}`,
-                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                    position: 'relative',
-                    overflow: 'hidden',
-                    '&::before': {
-                      content: '""',
-                      position: 'absolute',
-                      top: 0,
-                      left: '-100%',
-                      width: '100%',
-                      height: '100%',
-                      background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)',
-                      transition: 'left 0.5s',
-                    },
+                    transition: 'all 0.3s ease',
+                    whiteSpace: 'nowrap',
                     '&:hover': {
                       boxShadow: `0 16px 48px ${colors.light}`,
-                      transform: 'translateY(-3px) scale(1.02)',
-                    },
-                    '&:hover::before': {
-                      left: '100%'
+                      transform: 'translateY(-3px)',
                     }
                   }}
                 >
                   Get Started
                 </Button>
-              </CardItem>
-            </Box>
+              </Box>
+            ) : (
+              <Button
+                component={Link}
+                to={`/services/${service.slug}`}
+                variant="contained"
+                fullWidth
+                endIcon={<FaArrowRight />}
+                sx={{
+                  borderRadius: '16px',
+                  py: { xs: 1.5, sm: 1.75 },
+                  textTransform: 'none',
+                  fontWeight: 700,
+                  fontSize: { xs: '0.9rem', sm: '0.95rem', md: '1rem' },
+                  background: colors.gradient,
+                  boxShadow: `0 12px 32px ${colors.light}`,
+                  transition: 'all 0.3s ease',
+                  '&:hover': {
+                    boxShadow: `0 16px 48px ${colors.light}`,
+                    transform: 'translateY(-3px)',
+                  }
+                }}
+              >
+                Get Started Now
+              </Button>
+            )}
           </Box>
-        </CardBody>
-      </CardContainer>
+        </Box>
+      </Box>
     </motion.div>
   );
 };
@@ -422,8 +563,10 @@ const FeatureCard = ({ feature, index, theme }) => {
           background: theme.palette.mode === 'dark' 
             ? 'rgba(30, 41, 59, 0.7)'
             : 'rgba(255, 255, 255, 0.95)',
-          backdropFilter: 'blur(20px)',
-          WebkitBackdropFilter: 'blur(20px)',
+          backdropFilter: 'blur(8px)',
+          WebkitBackdropFilter: 'blur(8px)',
+          contain: 'layout style paint',
+          willChange: 'transform',
           border: theme.palette.mode === 'dark'
             ? `2px solid ${colors.light}`
             : `2px solid ${colors.light}`,
@@ -559,13 +702,14 @@ const Services = () => {
                   ? 'linear-gradient(135deg, #818cf8, #f472b6, #38bdf8)'
                   : 'linear-gradient(135deg, #6366f1, #ec4899, #0ea5e9)',
                 backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
+                WebkitBackdropFilter: 'text',
                 WebkitTextFillColor: 'transparent',
                 fontWeight: 800, 
                 fontSize: { xs: '0.95rem', md: '1.15rem' },
                 letterSpacing: 3,
                 mb: 2,
-                display: 'block'
+                display: 'block',
+                transition: 'all 0.3s ease'
               }}
             >
               ✨ WHAT WE OFFER ✨
@@ -576,23 +720,29 @@ const Services = () => {
               component="h2"
               sx={{ 
                 fontWeight: 900, 
-                color: theme.palette.text.primary,
+                color: theme.palette.mode === 'dark' ? '#f1f5f9' : '#1e293b',
                 mb: { xs: 3, md: 4 },
                 fontSize: { xs: '2.5rem', sm: '3rem', md: '4rem' },
-                lineHeight: 1.1
+                lineHeight: 1.1,
+                transition: 'color 0.3s ease'
               }}
             >
               Our{' '}
-              <span style={{ 
-                background: theme.palette.mode === 'dark'
-                  ? 'linear-gradient(135deg, #818cf8 0%, #f472b6 50%, #38bdf8 100%)'
-                  : 'linear-gradient(135deg, #6366f1 0%, #ec4899 50%, #0ea5e9 100%)',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-              }}>
+              <Box
+                component="span"
+                sx={{
+                  background: theme.palette.mode === 'dark'
+                    ? 'linear-gradient(135deg, #818cf8 0%, #f472b6 50%, #38bdf8 100%)'
+                    : 'linear-gradient(135deg, #6366f1 0%, #ec4899 50%, #0ea5e9 100%)',
+                  backgroundClip: 'text',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  transition: 'all 0.3s ease',
+                  display: 'inline-block'
+                }}
+              >
                 Services
-              </span>
+              </Box>
             </Typography>
             
             <Typography 
@@ -603,7 +753,8 @@ const Services = () => {
                 mx: 'auto',
                 lineHeight: 1.6,
                 fontSize: { xs: '1.1rem', md: '1.25rem' },
-                fontWeight: 400
+                fontWeight: 400,
+                transition: 'color 0.3s ease'
               }}
             >
               🚀 Transforming ideas into powerful digital solutions with cutting-edge technology and innovative design
@@ -614,7 +765,7 @@ const Services = () => {
         {/* Services Grid */}
         <Grid container spacing={{ xs: 3, md: 4 }} justifyContent="center">
           {servicesData.map((service, index) => (
-            <Grid item key={index} xs={12} sm={6} md={4}>
+            <Grid size={{ xs: 12, sm: 6, md: 4 }} key={index}>
               <ServiceCard3D service={service} index={index} theme={theme} />
             </Grid>
           ))}
@@ -661,7 +812,7 @@ const Services = () => {
             
             <Grid container spacing={{ xs: 3, md: 4 }} justifyContent="center">
               {whyChooseFeatures.map((feature, idx) => (
-                <Grid item key={idx} xs={12} sm={6} md={4}>
+                <Grid size={{ xs: 12, sm: 6, md: 4 }} key={idx}>
                   <FeatureCard feature={feature} index={idx} theme={theme} />
                 </Grid>
               ))}

@@ -17,6 +17,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
   transition: background-color 0.3s ease;
+  /* Performance optimizations */
+  contain: layout style paint;
+  will-change: scroll-position;
 }
 
 /* Theme-aware body backgrounds */
@@ -230,21 +233,25 @@ body[data-theme="dark"] {
   }
 }
 
-/* Glassmorphism utilities */
+/* Glassmorphism utilities - Optimized blur for performance */
 .glass {
   background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 20px;
+  will-change: transform;
+  contain: layout style paint;
 }
 
 .glass-dark {
   background: rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 20px;
+  will-change: transform;
+  contain: layout style paint;
 }
 
 /* Neumorphism utilities */
@@ -422,9 +429,40 @@ code {
   }
 }
 
-/* Smooth scrolling */
+/* Smooth scrolling with performance optimization */
 html {
   scroll-behavior: smooth;
+}
+
+/* Performance: Reduce paint areas during scroll */
+* {
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* Optimize animations during scroll */
+@media (prefers-reduced-motion: no-preference) {
+  .scroll-optimized {
+    will-change: transform;
+    contain: layout style paint;
+  }
+}
+
+/* Pause expensive effects during scroll */
+body.is-scrolling .energy-pulse,
+body.is-scrolling .holographic,
+body.is-scrolling .liquid-morph,
+body.is-scrolling .crystalline-effect,
+body.is-scrolling .neon-glow {
+  animation-play-state: paused !important;
+}
+
+/* Reduce backdrop blur during scroll for performance */
+body.is-scrolling [style*="backdrop-filter"] {
+  backdrop-filter: blur(2px) !important;
+  -webkit-backdrop-filter: blur(2px) !important;
 }
 
 /* Custom scrollbar */

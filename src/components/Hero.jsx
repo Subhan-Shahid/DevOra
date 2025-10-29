@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Typography, Button, Container, Chip, useTheme } from '@mui/material';
-import Grid from '@mui/material/Grid';
+import { Box, Typography, Button, Container, Chip, useTheme, Grid } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { FaCode, FaRocket, FaMobile, FaStar, FaHeart, FaLightbulb, FaGem, FaMagic } from 'react-icons/fa';
@@ -8,9 +7,8 @@ import { MdAutoAwesome, MdRocketLaunch, MdTrendingUp } from 'react-icons/md';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import ParticleBackground from './ParticleBackground';
-import { LayoutTextFlip } from './ui/layout-text-flip';
 
-const FloatingIcon = React.memo(({ icon: Icon, delay, x, y, color = '#1976d2', disabled = false }) => (
+const FloatingIcon = React.memo(({ icon: Icon, delay, x, y, color = '#1976d2', disabled = false, position = {} }) => (
   disabled ? null : (
     <motion.div
       initial={{ opacity: 0, scale: 0, rotate: 0 }}
@@ -39,7 +37,8 @@ const FloatingIcon = React.memo(({ icon: Icon, delay, x, y, color = '#1976d2', d
         zIndex: 1,
         filter: 'drop-shadow(0 0 10px rgba(255,255,255,0.3))',
         cursor: 'pointer',
-        willChange: 'transform'
+        willChange: 'transform',
+        ...position
       }}
     >
       <Icon />
@@ -62,7 +61,9 @@ const GlassmorphismCard = ({ children, delay = 0, theme }) => (
       background: theme?.palette.mode === 'dark'
         ? 'rgba(30, 41, 59, 0.6)'
         : 'rgba(255, 255, 255, 0.8)',
-      backdropFilter: 'blur(20px)',
+      backdropFilter: 'blur(8px)',
+      contain: 'layout style paint',
+      willChange: 'transform',
       borderRadius: '24px',
       border: theme?.palette.mode === 'dark'
         ? '2px solid rgba(129, 140, 248, 0.3)'
@@ -159,10 +160,62 @@ const Hero = () => {
       {/* Particle Background */}
       {!disableDecor && <ParticleBackground />}
       
-      {/* Reduced/disabled decorative icons for performance */}
-      <FloatingIcon icon={FaCode} delay={0} x={20} y={-15} color="#64b5f6" disabled={disableDecor} />
-      <FloatingIcon icon={FaRocket} delay={1} x={-18} y={12} color="#22d3ee" disabled={disableDecor} />
-      <FloatingIcon icon={FaMobile} delay={2} x={15} y={-18} color="#4fc3f7" disabled={disableDecor} />
+      {/* Decorative floating icons with proper positioning */}
+      <FloatingIcon 
+        icon={FaCode} 
+        delay={0} 
+        x={20} 
+        y={-15} 
+        color="#64b5f6" 
+        disabled={disableDecor}
+        position={{ top: '15%', left: '8%' }}
+      />
+      <FloatingIcon 
+        icon={FaRocket} 
+        delay={1} 
+        x={-18} 
+        y={12} 
+        color="#22d3ee" 
+        disabled={disableDecor}
+        position={{ top: '25%', right: '10%' }}
+      />
+      <FloatingIcon 
+        icon={FaMobile} 
+        delay={2} 
+        x={15} 
+        y={-18} 
+        color="#4fc3f7" 
+        disabled={disableDecor}
+        position={{ bottom: '20%', left: '12%' }}
+      />
+      {/* Additional icons - hidden on mobile via disabled prop */}
+      <FloatingIcon 
+        icon={FaLightbulb} 
+        delay={1.5} 
+        x={-20} 
+        y={15} 
+        color="#fbbf24" 
+        disabled={disableDecor || window.innerWidth < 900}
+        position={{ bottom: '25%', right: '8%' }}
+      />
+      <FloatingIcon 
+        icon={FaStar} 
+        delay={0.5} 
+        x={12} 
+        y={-20} 
+        color="#f472b6" 
+        disabled={disableDecor || window.innerWidth < 900}
+        position={{ top: '40%', right: '15%' }}
+      />
+      <FloatingIcon 
+        icon={FaGem} 
+        delay={2.5} 
+        x={-15} 
+        y={18} 
+        color="#a78bfa" 
+        disabled={disableDecor || window.innerWidth < 900}
+        position={{ top: '50%', left: '5%' }}
+      />
       
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, px: { xs: 2, sm: 3 } }}>
         <Box textAlign="center">
@@ -179,8 +232,9 @@ const Hero = () => {
                   ? 'linear-gradient(135deg, rgba(129, 140, 248, 0.2), rgba(244, 114, 182, 0.2))'
                   : 'linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(236, 72, 153, 0.15))',
                 color: theme.palette.mode === 'dark' ? '#f1f5f9' : '#1e293b',
-                backdropFilter: 'blur(10px)',
-                WebkitBackdropFilter: 'blur(10px)',
+                backdropFilter: 'blur(6px)',
+                WebkitBackdropFilter: 'blur(6px)',
+                contain: 'layout style paint',
                 border: theme.palette.mode === 'dark' ? '1px solid rgba(129, 140, 248, 0.3)' : '1px solid rgba(99, 102, 241, 0.2)',
                 fontSize: { xs: '0.8rem', sm: '0.9rem', md: '1rem' },
                 py: { xs: 1, md: 2 },
@@ -199,24 +253,27 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             style={{ marginBottom: '2rem' }}
           >
-            <Box sx={{
-              fontSize: { xs: '1.8rem', sm: '2.2rem', md: '3rem', lg: '4rem' },
-              fontWeight: 800,
-              textAlign: 'center',
-              width: '100%'
-            }}>
-              <LayoutTextFlip
-                text="Transform Your "
-                words={[
-                  "Digital Dreams",
-                  "Business Vision",
-                  "Creative Ideas", 
-                  "Tech Solutions",
-                  "Future Goals"
-                ]}
-                duration={3000}
-              />
-            </Box>
+            <Typography
+              variant="h1"
+              sx={{
+                fontSize: { xs: '1.8rem', sm: '2.2rem', md: '3rem', lg: '4rem' },
+                fontWeight: 800,
+                textAlign: 'center',
+                width: '100%',
+                background: theme.palette.mode === 'dark'
+                  ? 'linear-gradient(135deg, #a5b4fc, #f9a8d4, #7dd3fc)'
+                  : 'linear-gradient(135deg, #6366f1, #ec4899, #0ea5e9)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                textShadow: theme.palette.mode === 'dark'
+                  ? '0 0 40px rgba(129, 140, 248, 0.3)'
+                  : '0 0 40px rgba(99, 102, 241, 0.2)',
+                transition: 'all 0.3s ease'
+              }}
+            >
+              Transform Your Digital Dreams
+            </Typography>
           </motion.div>
 
           <motion.div
@@ -328,7 +385,7 @@ const Hero = () => {
                     borderWidth: '2px',
                     borderColor: theme.palette.mode === 'dark' ? '#818cf8' : '#6366f1',
                     color: theme.palette.mode === 'dark' ? '#e0e7ff' : '#4f46e5',
-                    backdropFilter: 'blur(20px)',
+                    backdropFilter: 'blur(8px)',
                     bgcolor: theme.palette.mode === 'dark' 
                       ? 'rgba(129, 140, 248, 0.1)'
                       : 'rgba(255, 255, 255, 0.8)',
@@ -362,7 +419,7 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.8 }}
           >
             <Grid container spacing={{ xs: 3, md: 5 }} sx={{ mt: { xs: 2, md: 4 }, mb: { xs: 6, md: 10 }, maxWidth: '800px', mx: 'auto' }} justifyContent="center">
-              <Grid item xs={12} sm={4}>
+              <Grid xs={12} sm={4}>
                 <GlassmorphismCard delay={0.9} theme={theme}>
                   <Typography variant="h4" sx={{ 
                     background: theme.palette.mode === 'dark'
@@ -384,7 +441,7 @@ const Hero = () => {
                   </Typography>
                 </GlassmorphismCard>
               </Grid>
-              <Grid item xs={12} sm={4}>
+              <Grid xs={12} sm={4}>
                 <GlassmorphismCard delay={1.0} theme={theme}>
                   <Typography variant="h4" sx={{ 
                     background: theme.palette.mode === 'dark'
@@ -406,7 +463,7 @@ const Hero = () => {
                   </Typography>
                 </GlassmorphismCard>
               </Grid>
-              <Grid item xs={12} sm={4}>
+              <Grid xs={12} sm={4}>
                 <GlassmorphismCard delay={1.1} theme={theme}>
                   <Typography variant="h4" sx={{ 
                     background: theme.palette.mode === 'dark'

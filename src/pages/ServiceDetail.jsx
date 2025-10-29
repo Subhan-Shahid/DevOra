@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { Container, Box, Typography, Chip, Button, Breadcrumbs, Card, CardContent, useTheme, Divider } from '@mui/material';
-import Grid from '@mui/material/Grid';
+import { Container, Box, Typography, Chip, Button, Breadcrumbs, Card, CardContent, useTheme, Divider, Grid } from '@mui/material';
 import { motion } from 'framer-motion';
 import { servicesData } from '../data/services';
 import { FaArrowLeft, FaCheck, FaClock, FaStar, FaRocket } from 'react-icons/fa';
@@ -148,7 +147,7 @@ const ServiceDetail = () => {
 
             <Grid container spacing={{ xs: 3, sm: 3, md: 4 }} justifyContent="center">
               {service.pricingTiers.map((tier, index) => (
-                <Grid item xs={12} sm={6} md={4} key={tier.name}>
+                <Grid size={{ xs: 12, sm: 6, md: 4 }} key={tier.name}>
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -394,7 +393,7 @@ const ServiceDetail = () => {
 
             <Grid container spacing={{ xs: 2, sm: 2.5, md: 3 }} justifyContent="center">
               {service.timeline.phases.map((phase, index) => (
-                <Grid item xs={12} sm={6} md={4} lg={2.4} key={phase.name}>
+                <Grid size={{ xs: 12, sm: 6, md: 4, lg: 2.4 }} key={phase.name}>
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}

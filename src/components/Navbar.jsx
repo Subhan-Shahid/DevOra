@@ -54,8 +54,8 @@ const NavButton = ({ to, children, icon: Icon, isActive, mode }) => (
         },
         '&:hover': {
           background: mode === 'dark' ? 'rgba(129, 140, 248, 0.2)' : 'rgba(99, 102, 241, 0.15)',
-          backdropFilter: 'blur(20px)',
-          WebkitBackdropFilter: 'blur(20px)',
+          backdropFilter: 'blur(8px)',
+          WebkitBackdropFilter: 'blur(8px)',
           border: mode === 'dark' ? '1px solid rgba(129, 140, 248, 0.4)' : '1px solid rgba(99, 102, 241, 0.3)',
           boxShadow: mode === 'dark' ? '0 12px 40px rgba(129, 140, 248, 0.25)' : '0 12px 40px rgba(99, 102, 241, 0.2)',
           '&::before': {
@@ -196,17 +196,6 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
               <motion.div
                 style={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}
               >
-                <img
-                  src={import.meta.env.BASE_URL + 'DevOra.png'}
-                  alt="DevOra logo"
-                  style={{
-                    height: '32px',
-                    width: '32px',
-                    marginRight: '12px',
-                    borderRadius: '6px',
-                    boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
-                  }}
-                />
                 <Typography 
                   variant="h5" 
                   component={Link}
@@ -286,8 +275,8 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
                           color: 'white',
                           background: 'rgba(255,255,255,0.12)',
                           border: '1px solid rgba(255,255,255,0.2)',
-                          backdropFilter: 'blur(8px)',
-                          WebkitBackdropFilter: 'blur(8px)',
+                          backdropFilter: 'blur(6px)',
+                          WebkitBackdropFilter: 'blur(6px)',
                           '&:hover': { 
                             background: 'rgba(255,255,255,0.2)',
                             transform: 'rotate(180deg)'
@@ -317,8 +306,8 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
                       sx={{
                         color: mode === 'dark' ? '#f1f5f9' : '#1e293b',
                         background: mode === 'dark' ? 'rgba(129, 140, 248, 0.15)' : 'rgba(99, 102, 241, 0.1)',
-                        backdropFilter: 'blur(8px)',
-                        WebkitBackdropFilter: 'blur(8px)',
+                        backdropFilter: 'blur(6px)',
+                        WebkitBackdropFilter: 'blur(6px)',
                         border: mode === 'dark' ? '1px solid rgba(129, 140, 248, 0.3)' : '1px solid rgba(99, 102, 241, 0.2)',
                         '&:hover': {
                           background: mode === 'dark' ? 'rgba(129, 140, 248, 0.25)' : 'rgba(99, 102, 241, 0.2)',
@@ -357,8 +346,8 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
           BackdropProps: {
             sx: {
               background: 'rgba(2, 6, 23, 0.6)',
-              backdropFilter: 'blur(4px)',
-              WebkitBackdropFilter: 'blur(4px)'
+              backdropFilter: 'blur(3px)',
+              WebkitBackdropFilter: 'blur(3px)'
             }
           }
         }}
@@ -373,8 +362,9 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
             color: mode === 'dark' ? '#f1f5f9' : '#1e293b',
             borderLeft: mode === 'dark' ? '1px solid rgba(129, 140, 248, 0.25)' : '1px solid rgba(99, 102, 241, 0.15)',
             boxShadow: mode === 'dark' ? '0 10px 40px rgba(0,0,0,0.5)' : '0 10px 40px rgba(0,0,0,0.1)',
-            backdropFilter: 'blur(8px)',
-            WebkitBackdropFilter: 'blur(8px)'
+            backdropFilter: 'blur(6px)',
+            WebkitBackdropFilter: 'blur(6px)',
+            contain: 'layout style paint'
           },
         }}
       >
