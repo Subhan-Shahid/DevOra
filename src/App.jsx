@@ -9,6 +9,7 @@ import { initScrollOptimization } from './utils/scrollPerformance';
 
 // Import critical components (above the fold)
 import Navbar from './components/Navbar';
+import VideoIntro from './components/VideoIntro';
 
 // Lazy load components for code splitting
 const Hero = lazy(() => import('./components/Hero'));
@@ -215,6 +216,8 @@ function Home() {
 function App() {
   const [mode, setMode] = useState('light');
   const [mounted, setMounted] = useState(false);
+  const [showIntro, setShowIntro] = useState(true);
+  const [introCompleted, setIntroCompleted] = useState(false);
 
   const theme = useMemo(() => createAppTheme(mode), [mode]);
   const toggleColorMode = () => {
@@ -232,6 +235,11 @@ function App() {
     // mark mounted to prevent hydration mismatch
     setMounted(true);
   }, []);
+
+  const handleIntroComplete = () => {
+    setShowIntro(false);
+    setIntroCompleted(true);
+  };
 
   // Update body data-theme attribute when mode changes
   useEffect(() => {
@@ -251,6 +259,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
+      {showIntro && <VideoIntro onComplete={handleIntroComplete} />}
       <Router>
         <Box
           sx={{
