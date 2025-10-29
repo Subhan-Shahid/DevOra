@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Container, Card, CardContent, Typography, Box, Button, useTheme, Grid } from '@mui/material';
 import { motion, useReducedMotion } from 'framer-motion';
 import { FaCode, FaGlobe, FaMobileAlt, FaArrowRight } from 'react-icons/fa';
@@ -47,10 +47,15 @@ const ServiceCard3D = ({ service, index, theme }) => {
   const Icon = service.icon;
   const [isFlipped, setIsFlipped] = React.useState(false);
   const [isMobile, setIsMobile] = React.useState(false);
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 900);
+      const touchCapable = typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0);
+      const narrow = typeof window !== 'undefined' && window.innerWidth < 1024;
+      const noHover = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(hover: none)').matches;
+      // Treat as mobile if no hover (phones) OR (touch + narrow). Large touch desktops remain desktop.
+      setIsMobile(Boolean(noHover || (touchCapable && narrow)));
     };
     checkMobile();
     window.addEventListener('resize', checkMobile);
@@ -104,21 +109,26 @@ const ServiceCard3D = ({ service, index, theme }) => {
         sx={{
           position: 'relative',
           width: '100%',
-          height: { xs: '380px', sm: '420px', md: '500px' },
+          height: { xs: 'auto', sm: '420px', md: '500px' },
           transformStyle: 'preserve-3d',
           transition: 'transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
-          transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
+          transform: isMobile ? 'none' : (isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)'),
         }}
       >
         {/* FRONT SIDE */}
         <Box
           sx={{
-            position: 'absolute',
+            position: isMobile ? 'relative' : 'absolute',
             width: '100%',
-            height: '100%',
+            height: isMobile ? 'auto' : '100%',
             backfaceVisibility: 'hidden',
+            WebkitBackfaceVisibility: 'hidden',
             borderRadius: 5,
             overflow: 'hidden',
+            pointerEvents: isFlipped ? 'none' : 'auto',
+            zIndex: isFlipped ? 0 : 2,
+            transform: isMobile ? 'none' : 'translateZ(0)',
+            display: isMobile ? (isFlipped ? 'none' : 'block') : 'block',
             background: theme.palette.mode === 'dark'
               ? `linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.9) 100%)`
               : `linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%)`,
@@ -230,29 +240,28 @@ const ServiceCard3D = ({ service, index, theme }) => {
                 </Button>
               ) : (
                 <Button
-                  variant="outlined"
+                  component={Link}
+                  to={`/services/${service.slug}`}
+                  onClick={(e) => e.stopPropagation()}
+                  variant="contained"
                   sx={{
                     borderRadius: '25px',
                     px: { xs: 3, sm: 4 },
                     py: { xs: 1, sm: 1.25 },
-                    border: `2px solid ${colors.light}`,
-                    color: theme.palette.mode === 'dark' ? '#f1f5f9' : '#1e293b',
-                    fontWeight: 600,
-                    fontSize: { xs: '0.85rem', sm: '0.9rem' },
+                    fontWeight: 700,
+                    fontSize: { xs: '0.9rem', sm: '1rem' },
                     textTransform: 'none',
-                    background: `linear-gradient(135deg, ${colors.light}, rgba(255,255,255,0.05))`,
-                    backdropFilter: 'blur(10px)',
+                    background: colors.gradient,
+                    color: '#fff',
+                    boxShadow: `0 8px 24px ${colors.light}`,
                     transition: 'all 0.3s ease',
                     '&:hover': {
-                      background: colors.gradient,
-                      borderColor: colors.main,
-                      color: '#fff',
                       transform: 'translateY(-2px)',
-                      boxShadow: `0 8px 24px ${colors.light}`,
+                      boxShadow: `0 12px 32px ${colors.light}`,
                     }
                   }}
                 >
-                  Hover to see details
+                  Get Started Now
                 </Button>
               )}
             </Box>
@@ -262,13 +271,20 @@ const ServiceCard3D = ({ service, index, theme }) => {
         {/* BACK SIDE */}
         <Box
           sx={{
-            position: 'absolute',
+            position: isMobile ? 'relative' : 'absolute',
             width: '100%',
-            height: '100%',
+            height: isMobile ? 'auto' : '100%',
             backfaceVisibility: 'hidden',
-            transform: 'rotateY(180deg)',
+            WebkitBackfaceVisibility: 'hidden',
+            transform: isMobile ? 'none' : 'rotateY(180deg)',
             borderRadius: 5,
             overflow: 'hidden',
+            pointerEvents: isMobile ? 'auto' : (isFlipped ? 'auto' : 'none'),
+            zIndex: isMobile ? 1 : (isFlipped ? 2 : 0),
+            transformStyle: 'preserve-3d',
+            WebkitTransformStyle: 'preserve-3d',
+            willChange: 'transform',
+            display: isMobile ? (isFlipped ? 'block' : 'none') : 'block',
             background: `linear-gradient(135deg, ${colors.main}15 0%, ${colors.main}05 100%)`,
             backdropFilter: 'blur(20px) saturate(180%)',
             WebkitBackdropFilter: 'blur(20px) saturate(180%)',
@@ -287,10 +303,15 @@ const ServiceCard3D = ({ service, index, theme }) => {
               background: colors.gradient,
               opacity: 0.3,
               filter: 'blur(60px)',
+              pointerEvents: 'none',
             }}
           />
 
-          <Box sx={{ p: { xs: 2.5, sm: 3.5, md: 4 }, height: '100%', display: 'flex', flexDirection: 'column', position: 'relative', zIndex: 1, overflow: 'hidden' }}>
+          <Box 
+            sx={{ p: { xs: 2.5, sm: 3.5, md: 4 }, height: '100%', display: 'flex', flexDirection: 'column', position: 'relative', zIndex: 1, overflow: 'hidden', transform: 'translateZ(0)' }}
+            onClick={(e) => e.stopPropagation()}
+            onTouchStart={(e) => e.stopPropagation()}
+          >
             <Typography
               variant="h5"
               sx={{
@@ -368,7 +389,7 @@ const ServiceCard3D = ({ service, index, theme }) => {
               ))}
             </Box>
 
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: { xs: 1.5, md: 3 }, gap: { xs: 1, sm: 2 } }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: { xs: 1.5, md: 3 }, gap: { xs: 1, sm: 2 }, pointerEvents: 'auto', position: 'relative', zIndex: 2 }}>
               <Box>
                 <Typography variant="caption" sx={{ color: '#94a3b8', fontSize: { xs: '0.65rem', sm: '0.75rem' } }}>
                   Projects
@@ -407,7 +428,10 @@ const ServiceCard3D = ({ service, index, theme }) => {
 {isMobile ? (
               <Box sx={{ display: 'flex', gap: { xs: 1, sm: 2 }, flexWrap: 'wrap' }}>
                 <Button
+                  type="button"
                   onClick={() => setIsFlipped(false)}
+                  onClickCapture={() => setIsFlipped(false)}
+                  onTouchEnd={(e) => { e.stopPropagation(); setIsFlipped(false); }}
                   variant="outlined"
                   sx={{
                     flex: '0 0 auto',
@@ -421,6 +445,9 @@ const ServiceCard3D = ({ service, index, theme }) => {
                     border: `2px solid ${colors.main}`,
                     color: colors.main,
                     transition: 'all 0.3s ease',
+                    pointerEvents: 'auto',
+                    position: 'relative',
+                    zIndex: 3,
                     '&:hover': {
                       background: `${colors.main}15`,
                       transform: 'translateY(-2px)',
@@ -430,8 +457,17 @@ const ServiceCard3D = ({ service, index, theme }) => {
                   Back
                 </Button>
                 <Button
-                  component={Link}
-                  to={`/services/${service.slug}`}
+                  onClick={(e) => { 
+                    e.stopPropagation(); 
+                    const target = new URL(`/services/${service.slug}`, window.location.origin).toString();
+                    window.location.assign(target);
+                  }}
+                  onTouchEnd={(e) => { 
+                    e.stopPropagation(); 
+                    const target = new URL(`/services/${service.slug}`, window.location.origin).toString();
+                    window.location.assign(target);
+                  }}
+                  type="button"
                   variant="contained"
                   endIcon={<FaArrowRight />}
                   sx={{
@@ -446,6 +482,9 @@ const ServiceCard3D = ({ service, index, theme }) => {
                     boxShadow: `0 12px 32px ${colors.light}`,
                     transition: 'all 0.3s ease',
                     whiteSpace: 'nowrap',
+                    pointerEvents: 'auto',
+                    position: 'relative',
+                    zIndex: 3,
                     '&:hover': {
                       boxShadow: `0 16px 48px ${colors.light}`,
                       transform: 'translateY(-3px)',
@@ -763,9 +802,9 @@ const Services = () => {
         </motion.div>
 
         {/* Services Grid */}
-        <Grid container spacing={{ xs: 3, md: 4 }} justifyContent="center">
+        <Grid container spacing={{ xs: 2, sm: 3, lg: 4 }} justifyContent="center">
           {servicesData.map((service, index) => (
-            <Grid size={{ xs: 12, sm: 6, md: 4 }} key={index}>
+            <Grid key={index} size={{ xs: 12, sm: 12, md: 6, lg: 4 }}>
               <ServiceCard3D service={service} index={index} theme={theme} />
             </Grid>
           ))}

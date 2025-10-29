@@ -419,7 +419,7 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.8 }}
           >
             <Grid container spacing={{ xs: 3, md: 5 }} sx={{ mt: { xs: 2, md: 4 }, mb: { xs: 6, md: 10 }, maxWidth: '800px', mx: 'auto' }} justifyContent="center">
-              <Grid xs={12} sm={4}>
+              <Grid size={{ xs: 12, sm: 4 }}>
                 <GlassmorphismCard delay={0.9} theme={theme}>
                   <Typography variant="h4" sx={{ 
                     background: theme.palette.mode === 'dark'
@@ -441,7 +441,7 @@ const Hero = () => {
                   </Typography>
                 </GlassmorphismCard>
               </Grid>
-              <Grid xs={12} sm={4}>
+              <Grid size={{ xs: 12, sm: 4 }}>
                 <GlassmorphismCard delay={1.0} theme={theme}>
                   <Typography variant="h4" sx={{ 
                     background: theme.palette.mode === 'dark'
@@ -463,7 +463,7 @@ const Hero = () => {
                   </Typography>
                 </GlassmorphismCard>
               </Grid>
-              <Grid xs={12} sm={4}>
+              <Grid size={{ xs: 12, sm: 4 }}>
                 <GlassmorphismCard delay={1.1} theme={theme}>
                   <Typography variant="h4" sx={{ 
                     background: theme.palette.mode === 'dark'

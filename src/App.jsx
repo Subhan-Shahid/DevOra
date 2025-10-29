@@ -1,15 +1,14 @@
 import React, { useState, useEffect, useMemo, Suspense, lazy } from 'react';
-import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
-import { AnimatePresence } from 'framer-motion';
+// framer-motion no longer needed for splash presence
 import { initScrollOptimization } from './utils/scrollPerformance';
 
 // Import critical components (above the fold)
 import Navbar from './components/Navbar';
-import VideoSplashScreen from './components/VideoSplashScreen';
 
 // Lazy load components for code splitting
 const Hero = lazy(() => import('./components/Hero'));
@@ -214,7 +213,6 @@ function Home() {
 }
 
 function App() {
-  const [loading, setLoading] = useState(true);
   const [mode, setMode] = useState('light');
   const [mounted, setMounted] = useState(false);
 
@@ -253,86 +251,79 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <AnimatePresence mode="wait">
-        {loading && (
-          <VideoSplashScreen key="splash" onFinish={() => setLoading(false)} />
-        )}
-        {!loading && (
-          <Router key="app">
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                minHeight: '100dvh',
-                background: theme.palette.mode === 'dark' 
-                  ? 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)' 
-                  : 'linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #e0e7ff 100%)',
-                transition: 'background 0.3s ease',
-              }}
-            >
-              <Navbar mode={mode} onToggleTheme={toggleColorMode} />
-              <Box component="main" sx={{ flexGrow: 1 }}>
-                <Routes>
-                  <Route path="/" element={<Home />} />
-                  <Route 
-                    path="/services" 
-                    element={
-                      <Suspense fallback={<ServicesSkeleton />}>
-                        <Services />
-                      </Suspense>
-                    } 
-                  />
-                  <Route 
-                    path="/services/:slug" 
-                    element={
-                      <Suspense fallback={<ServiceDetailSkeleton />}>
-                        <ServiceDetail />
-                      </Suspense>
-                    } 
-                  />
-                  <Route 
-                    path="/contact" 
-                    element={
-                      <Suspense fallback={<ContactFormSkeleton />}>
-                        <ContactForm />
-                      </Suspense>
-                    } 
-                  />
-                  <Route 
-                    path="/thank-you" 
-                    element={
-                      <Suspense fallback={<LoadingFallback />}>
-                        <ThankYou />
-                      </Suspense>
-                    } 
-                  />
-                  <Route 
-                    path="/not-found" 
-                    element={
-                      <Suspense fallback={<LoadingFallback />}>
-                        <NotFound />
-                      </Suspense>
-                    } 
-                  />
-                  <Route 
-                    path="*" 
-                    element={
-                      <Suspense fallback={<LoadingFallback />}>
-                        <NotFound />
-                      </Suspense>
-                    } 
-                  />
-                </Routes>
-              </Box>
-              <Suspense fallback={null}>
-                <Footer />
-                <ChatWidget />
-                <ScrollToTop />
-              </Suspense>
-            </Box>
-          </Router>
-        )}
-      </AnimatePresence>
+      <Router>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            minHeight: '100dvh',
+            background: theme.palette.mode === 'dark' 
+              ? 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)' 
+              : 'linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #e0e7ff 100%)',
+            transition: 'background 0.3s ease',
+          }}
+        >
+          <Navbar mode={mode} onToggleTheme={toggleColorMode} />
+          <Box component="main" sx={{ flexGrow: 1 }}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route 
+                path="/services" 
+                element={
+                  <Suspense fallback={<ServicesSkeleton />}>
+                    <Services />
+                  </Suspense>
+                } 
+              />
+              <Route 
+                path="/services/:slug" 
+                element={
+                  <Suspense fallback={<ServiceDetailSkeleton />}>
+                    <ServiceDetail />
+                  </Suspense>
+                } 
+              />
+              <Route 
+                path="/contact" 
+                element={
+                  <Suspense fallback={<ContactFormSkeleton />}>
+                    <ContactForm />
+                  </Suspense>
+                } 
+              />
+              <Route 
+                path="/thank-you" 
+                element={
+                  <Suspense fallback={<LoadingFallback />}>
+                    <ThankYou />
+                  </Suspense>
+                } 
+              />
+              <Route 
+                path="/not-found" 
+                element={
+                  <Suspense fallback={<LoadingFallback />}>
+                    <NotFound />
+                  </Suspense>
+                } 
+              />
+              <Route 
+                path="*" 
+                element={
+                  <Suspense fallback={<LoadingFallback />}>
+                    <NotFound />
+                  </Suspense>
+                } 
+              />
+            </Routes>
+          </Box>
+          <Suspense fallback={null}>
+            <Footer />
+            <ChatWidget />
+            <ScrollToTop />
+          </Suspense>
+        </Box>
+      </Router>
     </ThemeProvider>
   );
 }

@@ -70,7 +70,7 @@ export const HeroSkeleton = () => {
         {/* Stats cards skeleton */}
         <Grid container spacing={5} sx={{ maxWidth: '800px', mx: 'auto', mt: 4 }}>
           {[1, 2, 3].map((item) => (
-            <Grid xs={12} sm={4} key={item}>
+            <Grid key={item} size={{ xs: 12, sm: 4 }}>
               <Skeleton
                 variant="rounded"
                 height={120}
@@ -175,7 +175,7 @@ export const ServicesSkeleton = () => {
         {/* Service cards skeleton */}
         <Grid container spacing={4}>
           {[1, 2, 3].map((item) => (
-            <Grid xs={12} md={4} key={item}>
+            <Grid key={item} size={{ xs: 12, md: 4 }}>
               <ServiceCardSkeleton />
             </Grid>
           ))}
@@ -221,7 +221,7 @@ export const ContactFormSkeleton = () => {
           <Grid container spacing={3}>
             {/* Form fields skeleton */}
             {[1, 2, 3, 4].map((item) => (
-              <Grid xs={12} sm={item === 4 ? 12 : 6} key={item}>
+              <Grid key={item} size={{ xs: 12, sm: item === 4 ? 12 : 6 }}>
                 <Skeleton
                   variant="rounded"
                   height={item === 4 ? 120 : 56}
@@ -231,7 +231,7 @@ export const ContactFormSkeleton = () => {
             ))}
             
             {/* Submit button skeleton */}
-            <Grid xs={12}>
+            <Grid size={{ xs: 12 }}>
               <Skeleton
                 variant="rounded"
                 height={50}
@@ -277,7 +277,7 @@ export const ServiceDetailSkeleton = () => {
         {/* Pricing cards skeleton */}
         <Grid container spacing={4} sx={{ mb: 6 }}>
           {[1, 2, 3].map((item) => (
-            <Grid xs={12} sm={6} md={4} key={item}>
+            <Grid key={item} size={{ xs: 12, sm: 6, md: 4 }}>
               <Skeleton variant="rounded" height={500} sx={{ borderRadius: 4 }} />
             </Grid>
           ))}
@@ -286,7 +286,7 @@ export const ServiceDetailSkeleton = () => {
         {/* Timeline skeleton */}
         <Grid container spacing={3}>
           {[1, 2, 3, 4, 5].map((item) => (
-            <Grid xs={12} sm={6} md={4} lg={2.4} key={item}>
+            <Grid key={item} size={{ xs: 12, sm: 6, md: 4, lg: 2.4 }}>
               <Skeleton variant="rounded" height={180} sx={{ borderRadius: 3 }} />
             </Grid>
           ))}
