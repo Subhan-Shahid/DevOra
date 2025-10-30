@@ -12,6 +12,7 @@ import Navbar from './components/Navbar';
 
 // Lazy load components for code splitting
 const Hero = lazy(() => import('./components/Hero'));
+const ContinuousSlider = lazy(() => import('./components/ContinuousSlider'));
 const Services = lazy(() => import('./components/Services'));
 const ContactForm = lazy(() => import('./components/ContactForm'));
 const Footer = lazy(() => import('./components/Footer'));
@@ -204,6 +205,9 @@ function Home() {
     <>
       <Suspense fallback={<HeroSkeleton />}>
         <Hero />
+      </Suspense>
+      <Suspense fallback={<div style={{ height: '400px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><CircularProgress /></div>}>
+        <ContinuousSlider />
       </Suspense>
       <Suspense fallback={<ServicesSkeleton />}>
         <Services />
