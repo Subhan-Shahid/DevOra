@@ -669,3 +669,64 @@ body[data-theme="dark"] *:focus {
     @apply bg-background text-foreground;
   }
 }
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+
+/* Prevent zoom on mobile devices */
+html {
+  touch-action: manipulation;
+}
+
+/* Video loader specific styles */
+video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Responsive video container */
+.video-loader-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+}
+
+/* Mobile specific adjustments */
+@media (max-width: 768px) {
+  .video-loader-container video {
+    max-width: 95vw;
+    max-height: 95vh;
+  }
+}
+
+/* Tablet specific adjustments */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .video-loader-container video {
+    max-width: 90vw;
+    max-height: 90vh;
+  }
+}
+
+/* Desktop adjustments */
+@media (min-width: 1025px) {
+  .video-loader-container video {
+    max-width: 80vw;
+    max-height: 80vh;
+  }
+}

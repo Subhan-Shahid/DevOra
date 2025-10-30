@@ -9,6 +9,7 @@ import { initScrollOptimization } from './utils/scrollPerformance';
 
 // Import critical components (above the fold)
 import Navbar from './components/Navbar';
+import VideoLoader from './components/VideoLoader';
 
 // Lazy load components for code splitting
 const Hero = lazy(() => import('./components/Hero'));
@@ -218,6 +219,7 @@ function Home() {
 function App() {
   const [mode, setMode] = useState('light');
   const [mounted, setMounted] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const theme = useMemo(() => createAppTheme(mode), [mode]);
   const toggleColorMode = () => {
@@ -236,6 +238,12 @@ function App() {
     setMounted(true);
   }, []);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 5000); // Hide loader after 5s or when video ends
+    return () => clearTimeout(timer);
+  }, []);
 
   // Update body data-theme attribute when mode changes
   useEffect(() => {
@@ -255,78 +263,81 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Router>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            minHeight: '100dvh',
-            background: theme.palette.mode === 'dark' 
-              ? 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)' 
-              : 'linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #e0e7ff 100%)',
-            transition: 'background 0.3s ease',
-          }}
-        >
-          <Navbar mode={mode} onToggleTheme={toggleColorMode} />
-          <Box component="main" sx={{ flexGrow: 1 }}>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route 
-                path="/services" 
-                element={
-                  <Suspense fallback={<ServicesSkeleton />}>
-                    <Services />
-                  </Suspense>
-                } 
-              />
-              <Route 
-                path="/services/:slug" 
-                element={
-                  <Suspense fallback={<ServiceDetailSkeleton />}>
-                    <ServiceDetail />
-                  </Suspense>
-                } 
-              />
-              <Route 
-                path="/contact" 
-                element={
-                  <Suspense fallback={<ContactFormSkeleton />}>
-                    <ContactForm />
-                  </Suspense>
-                } 
-              />
-              <Route 
-                path="/thank-you" 
-                element={
-                  <Suspense fallback={<LoadingFallback />}>
-                    <ThankYou />
-                  </Suspense>
-                } 
-              />
-              <Route 
-                path="/not-found" 
-                element={
-                  <Suspense fallback={<LoadingFallback />}>
-                    <NotFound />
-                  </Suspense>
-                } 
-              />
-              <Route 
-                path="*" 
-                element={
-                  <Suspense fallback={<LoadingFallback />}>
-                    <NotFound />
-                  </Suspense>
-                } 
-              />
-            </Routes>
+      {isLoading && <VideoLoader />}
+      <div className={`${isLoading ? 'overflow-hidden h-screen' : ''}`}>
+        <Router>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              minHeight: '100dvh',
+              background: theme.palette.mode === 'dark' 
+                ? 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)' 
+                : 'linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #e0e7ff 100%)',
+              transition: 'background 0.3s ease',
+            }}
+          >
+            <Navbar mode={mode} onToggleTheme={toggleColorMode} />
+            <Box component="main" sx={{ flexGrow: 1 }}>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route 
+                  path="/services" 
+                  element={
+                    <Suspense fallback={<ServicesSkeleton />}>
+                      <Services />
+                    </Suspense>
+                  } 
+                />
+                <Route 
+                  path="/services/:slug" 
+                  element={
+                    <Suspense fallback={<ServiceDetailSkeleton />}>
+                      <ServiceDetail />
+                    </Suspense>
+                  } 
+                />
+                <Route 
+                  path="/contact" 
+                  element={
+                    <Suspense fallback={<ContactFormSkeleton />}>
+                      <ContactForm />
+                    </Suspense>
+                  } 
+                />
+                <Route 
+                  path="/thank-you" 
+                  element={
+                    <Suspense fallback={<LoadingFallback />}>
+                      <ThankYou />
+                    </Suspense>
+                  } 
+                />
+                <Route 
+                  path="/not-found" 
+                  element={
+                    <Suspense fallback={<LoadingFallback />}>
+                      <NotFound />
+                    </Suspense>
+                  } 
+                />
+                <Route 
+                  path="*" 
+                  element={
+                    <Suspense fallback={<LoadingFallback />}>
+                      <NotFound />
+                    </Suspense>
+                  } 
+                />
+              </Routes>
+            </Box>
+            <Suspense fallback={null}>
+              <Footer />
+              <ScrollToTop />
+            </Suspense>
           </Box>
-          <Suspense fallback={null}>
-            <Footer />
-            <ScrollToTop />
-          </Suspense>
-        </Box>
-      </Router>
+        </Router>
+      </div>
     </ThemeProvider>
   );
 }
