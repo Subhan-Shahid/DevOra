@@ -17,7 +17,6 @@ const Services = lazy(() => import('./components/Services'));
 const ContactForm = lazy(() => import('./components/ContactForm'));
 const Footer = lazy(() => import('./components/Footer'));
 const ScrollToTop = lazy(() => import('./components/ScrollToTop'));
-const ChatWidget = lazy(() => import('./components/ChatWidget'));
 const ServiceDetail = lazy(() => import('./pages/ServiceDetail'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 const ThankYou = lazy(() => import('./pages/ThankYou'));
@@ -324,7 +323,6 @@ function App() {
           </Box>
           <Suspense fallback={null}>
             <Footer />
-            <ChatWidget />
             <ScrollToTop />
           </Suspense>
         </Box>
