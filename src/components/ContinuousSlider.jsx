@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Box, Typography, Container, useTheme } from '@mui/material';
 import { motion } from 'framer-motion';
 
 const ContinuousSlider = () => {
   const theme = useTheme();
-  const [isPaused, setIsPaused] = useState(false);
 
   const programmingLanguages = [
     {
@@ -81,7 +80,7 @@ const ContinuousSlider = () => {
     }
   ];
 
-  // Duplicate items for seamless loop
+  // Duplicate items for seamless loop (translateX(-50%) trick)
   const duplicatedItems = [...programmingLanguages, ...programmingLanguages];
 
   return (
@@ -120,7 +119,10 @@ const ContinuousSlider = () => {
         </Typography>
       </Box>
 
-      {/* Continuous Scrolling Container */}
+      {/* Continuous Scrolling Container */
+      // Uses CSS keyframes to translate the track from 0 to -50% of its own width.
+      // Because the content is duplicated twice, this yields a perfectly seamless loop.
+      }
       <Box
         sx={{
           position: 'relative',
@@ -155,23 +157,26 @@ const ContinuousSlider = () => {
             background: theme.palette.mode === 'dark'
               ? 'linear-gradient(270deg, #0f172a 0%, transparent 100%)'
               : 'linear-gradient(270deg, #ffffff 0%, transparent 100%)'
+          },
+          // Pause the track animation on container hover
+          '&:hover .tech-track': {
+            animationPlayState: 'paused'
+          },
+          '@keyframes techScroll': {
+            '0%': { transform: 'translateX(0)' },
+            '100%': { transform: 'translateX(-50%)' }
           }
         }}
       >
-        {/* Scrolling Content */}
-        <motion.div
-          animate={isPaused ? {} : {
-            x: [0, -50 * programmingLanguages.length + '%']
-          }}
-          transition={{
-            duration: 240,
-            repeat: Infinity,
-            ease: "linear"
-          }}
-          style={{
-            display: 'flex',
-            width: `${duplicatedItems.length * (window.innerWidth < 768 ? 132 : 176)}px`,
+        {/* Scrolling Content Track */}
+        <Box
+          className="tech-track"
+          sx={{
+            display: 'inline-flex',
+            alignItems: 'stretch',
             height: '100%',
+            // The track is twice the content (duplicated); animate -50% for a seamless loop
+            animation: 'techScroll 30s linear infinite',
             willChange: 'transform'
           }}
         >
@@ -187,12 +192,10 @@ const ContinuousSlider = () => {
                 stiffness: 300,
                 damping: 30
               }}
-              onHoverStart={() => setIsPaused(true)}
-              onHoverEnd={() => setIsPaused(false)}
               style={{
-                minWidth: window.innerWidth < 768 ? '120px' : '160px',
+                minWidth: 'auto',
                 height: '100%',
-                margin: window.innerWidth < 768 ? '0 6px' : '0 8px',
+                margin: '0 8px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center'
@@ -200,7 +203,7 @@ const ContinuousSlider = () => {
             >
               <Box
                 sx={{
-                  width: '100%',
+                  width: { xs: 120, sm: 140, md: 160 },
                   height: { xs: '90px', sm: '110px', md: '140px' },
                   background: theme.palette.mode === 'dark'
                     ? 'rgba(255, 255, 255, 0.03)'
@@ -266,7 +269,7 @@ const ContinuousSlider = () => {
               </Box>
             </motion.div>
           ))}
-        </motion.div>
+        </Box>
       </Box>
 
       {/* Bottom Text */}

@@ -159,37 +159,67 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
 
   return (
     <>
-      <motion.div
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-      >
-        <AppBar 
-          position="fixed" 
-          sx={{ 
+      <AppBar 
+        position="fixed"
+        sx={{ 
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 1300,
+          background: mode === 'dark'
+            ? (scrolled 
+                ? 'linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.9) 100%)'
+                : 'linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(30, 41, 59, 0.75) 100%)')
+            : (scrolled 
+                ? 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.9) 100%)'
+                : 'linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(248, 250, 252, 0.8) 100%)'),
+          backdropFilter: scrolled ? 'saturate(180%) blur(20px)' : 'saturate(150%) blur(15px)',
+          WebkitBackdropFilter: scrolled ? 'saturate(180%) blur(20px)' : 'saturate(150%) blur(15px)',
+          boxShadow: scrolled 
+            ? (mode === 'dark' 
+                ? '0 8px 32px rgba(0, 0, 0, 0.4), 0 4px 16px rgba(129, 140, 248, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+                : '0 8px 32px rgba(0, 0, 0, 0.12), 0 4px 16px rgba(99, 102, 241, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8)')
+            : (mode === 'dark' 
+                ? '0 4px 20px rgba(0, 0, 0, 0.25), 0 2px 8px rgba(129, 140, 248, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.05)'
+                : '0 4px 20px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(99, 102, 241, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.6)'),
+          border: mode === 'dark' 
+            ? `1px solid ${scrolled ? 'rgba(129, 140, 248, 0.2)' : 'rgba(129, 140, 248, 0.15)'}`
+            : `1px solid ${scrolled ? 'rgba(99, 102, 241, 0.15)' : 'rgba(99, 102, 241, 0.1)'}`,
+          borderBottom: mode === 'dark'
+            ? `1px solid ${scrolled ? 'rgba(129, 140, 248, 0.25)' : 'rgba(129, 140, 248, 0.1)'}`
+            : `1px solid ${scrolled ? 'rgba(99, 102, 241, 0.2)' : 'rgba(99, 102, 241, 0.08)'}`,
+          transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+          py: { xs: 0.25, md: 0.75 },
+          transform: 'translateY(0px)', // Ensure it stays in place
+          '&::before': {
+            content: '""',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
             background: mode === 'dark'
-              ? (scrolled ? 'rgba(15, 23, 42, 0.85)' : 'rgba(15, 23, 42, 0.7)')
-              : (scrolled ? 'rgba(255, 255, 255, 0.9)' : 'rgba(255, 255, 255, 0.8)'),
-            backdropFilter: 'saturate(130%) blur(10px)',
-            WebkitBackdropFilter: 'saturate(130%) blur(10px)',
-            boxShadow: scrolled 
-              ? (mode === 'dark' ? '0 6px 18px rgba(0,0,0,0.3)' : '0 6px 18px rgba(0,0,0,0.08)')
-              : (mode === 'dark' ? '0 4px 14px rgba(0,0,0,0.2)' : '0 4px 14px rgba(0,0,0,0.05)'),
-            border: mode === 'dark' ? '1px solid rgba(129, 140, 248, 0.1)' : '1px solid rgba(99, 102, 241, 0.1)',
-            transition: 'background 0.3s ease, box-shadow 0.3s ease',
-            py: { xs: 0.25, md: 0.75 },
-            '&::before': {
-              content: '""',
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent)',
-              opacity: scrolled ? 0.8 : 0.5,
-              transition: 'opacity 0.3s ease'
-            }
-          }}
+              ? 'linear-gradient(90deg, transparent, rgba(129, 140, 248, 0.08), transparent)'
+              : 'linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.06), transparent)',
+            opacity: scrolled ? 1 : 0.7,
+            transition: 'opacity 0.4s ease',
+            pointerEvents: 'none'
+          },
+          '&::after': {
+            content: '""',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: mode === 'dark'
+              ? 'radial-gradient(circle at 50% 0%, rgba(129, 140, 248, 0.1) 0%, transparent 50%)'
+              : 'radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.08) 0%, transparent 50%)',
+            opacity: scrolled ? 0.8 : 0.4,
+            transition: 'opacity 0.4s ease',
+            pointerEvents: 'none'
+          }
+        }}
         >
           <Container maxWidth="lg">
             <Toolbar disableGutters sx={{ py: { xs: 0.5, md: 1 }, px: 2 }}>
@@ -272,13 +302,14 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
                       <IconButton
                         onClick={onToggleTheme}
                         sx={{
-                          color: 'white',
-                          background: 'rgba(255,255,255,0.12)',
-                          border: '1px solid rgba(255,255,255,0.2)',
+                          color: mode === 'dark' ? '#f1f5f9' : '#1e293b',
+                          background: mode === 'dark' ? 'rgba(129, 140, 248, 0.15)' : 'rgba(99, 102, 241, 0.1)',
+                          border: mode === 'dark' ? '1px solid rgba(129, 140, 248, 0.3)' : '1px solid rgba(99, 102, 241, 0.2)',
                           backdropFilter: 'blur(6px)',
                           WebkitBackdropFilter: 'blur(6px)',
+                          transition: 'all 0.3s ease',
                           '&:hover': { 
-                            background: 'rgba(255,255,255,0.2)',
+                            background: mode === 'dark' ? 'rgba(129, 140, 248, 0.25)' : 'rgba(99, 102, 241, 0.2)',
                             transform: 'rotate(180deg)'
                           }
                         }}
@@ -333,7 +364,6 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
             </Toolbar>
           </Container>
         </AppBar>
-      </motion.div>
 
       {/* Mobile Drawer */}
       <Drawer
