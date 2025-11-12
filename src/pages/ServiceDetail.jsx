@@ -391,9 +391,92 @@ const ServiceDetail = () => {
               Our proven development process from start to finish
             </Typography>
 
-            <Grid container spacing={{ xs: 2, sm: 2.5, md: 3 }} justifyContent="center">
+            {/* Mobile Timeline - Simple Vertical Stack */}
+            <Box sx={{ 
+              display: { xs: 'block', sm: 'none' },
+              mx: -2,
+              px: 2
+            }}>
               {service.timeline.phases.map((phase, index) => (
-                <Grid size={{ xs: 12, sm: 6, md: 4, lg: 2.4 }} key={phase.name}>
+                <motion.div
+                  key={phase.name}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                >
+                  <Box sx={{ mb: 3, mx: 2 }}>
+                    <Card
+                      sx={{
+                        background: theme.palette.mode === 'dark'
+                          ? 'rgba(30, 41, 59, 0.6)'
+                          : 'rgba(255, 255, 255, 0.8)',
+                        backdropFilter: 'blur(20px)',
+                        WebkitBackdropFilter: 'blur(20px)',
+                        border: theme.palette.mode === 'dark'
+                          ? '1px solid rgba(129, 140, 248, 0.2)'
+                          : '1px solid rgba(99, 102, 241, 0.15)',
+                        borderRadius: 3,
+                        position: 'relative',
+                        overflow: 'visible'
+                      }}
+                    >
+                      <CardContent sx={{ pt: 3, px: 3, pb: 3, textAlign: 'center' }}>
+                        <Typography 
+                          variant="h6" 
+                          sx={{ 
+                            fontWeight: 700, 
+                            mb: 1,
+                            color: theme.palette.mode === 'dark' ? '#f1f5f9' : '#1e293b',
+                            fontSize: '1.1rem',
+                            lineHeight: 1.3
+                          }}
+                        >
+                          {phase.name}
+                        </Typography>
+                        <Chip
+                          icon={<FaClock style={{ fontSize: '0.85rem' }} />}
+                          label={phase.duration}
+                          size="small"
+                          sx={{
+                            mb: 1.5,
+                            background: theme.palette.mode === 'dark'
+                              ? 'rgba(129, 140, 248, 0.15)'
+                              : 'rgba(99, 102, 241, 0.1)',
+                            color: theme.palette.mode === 'dark' ? '#a5b4fc' : '#6366f1',
+                            fontWeight: 600,
+                            fontSize: '0.75rem',
+                            height: '24px'
+                          }}
+                        />
+                        <Typography 
+                          variant="body2" 
+                          sx={{ 
+                            color: theme.palette.mode === 'dark' ? '#cbd5e1' : '#64748b',
+                            lineHeight: 1.6,
+                            fontSize: '0.9rem'
+                          }}
+                        >
+                          {phase.description}
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  </Box>
+                </motion.div>
+              ))}
+            </Box>
+            <Grid 
+              container 
+              spacing={{ xs: 0, sm: 2.5, md: 3 }} 
+              justifyContent="center"
+              sx={{
+                display: { xs: 'none', sm: 'flex' }
+              }}
+            >
+              {service.timeline.phases.map((phase, index) => (
+                <Grid 
+                  size={{ xs: 12, sm: 6, md: 4, lg: 2.4 }} 
+                  key={phase.name}
+                >
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -422,35 +505,14 @@ const ServiceDetail = () => {
                         transition: 'all 0.3s ease'
                       }}
                     >
-                      <Box
-                        sx={{
-                          position: 'absolute',
-                          top: { xs: -16, md: -20 },
-                          left: '50%',
-                          transform: 'translateX(-50%)',
-                          width: { xs: 36, md: 40 },
-                          height: { xs: 36, md: 40 },
-                          borderRadius: '50%',
-                          background: 'linear-gradient(135deg, #818cf8, #6366f1)',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          color: 'white',
-                          fontWeight: 800,
-                          fontSize: { xs: '1rem', md: '1.2rem' },
-                          boxShadow: '0 4px 12px rgba(99, 102, 241, 0.4)'
-                        }}
-                      >
-                        {index + 1}
-                      </Box>
-                      <CardContent sx={{ pt: { xs: 3.5, md: 4 }, px: { xs: 2, md: 2 }, pb: { xs: 2, md: 2 }, textAlign: 'center' }}>
+                      <CardContent sx={{ pt: 3, px: 2, pb: 2, textAlign: 'center' }}>
                         <Typography 
                           variant="h6" 
                           sx={{ 
                             fontWeight: 700, 
-                            mb: { xs: 0.75, md: 1 },
+                            mb: 1,
                             color: theme.palette.mode === 'dark' ? '#f1f5f9' : '#1e293b',
-                            fontSize: { xs: '0.95rem', sm: '1rem', md: '1.05rem' },
+                            fontSize: '1.05rem',
                             lineHeight: 1.3
                           }}
                         >
@@ -461,14 +523,14 @@ const ServiceDetail = () => {
                           label={phase.duration}
                           size="small"
                           sx={{
-                            mb: { xs: 1.2, md: 1.5 },
+                            mb: 1.5,
                             background: theme.palette.mode === 'dark'
                               ? 'rgba(129, 140, 248, 0.15)'
                               : 'rgba(99, 102, 241, 0.1)',
                             color: theme.palette.mode === 'dark' ? '#a5b4fc' : '#6366f1',
                             fontWeight: 600,
-                            fontSize: { xs: '0.7rem', sm: '0.75rem' },
-                            height: { xs: '22px', sm: '24px' }
+                            fontSize: '0.75rem',
+                            height: '24px'
                           }}
                         />
                         <Typography 
@@ -476,7 +538,7 @@ const ServiceDetail = () => {
                           sx={{ 
                             color: theme.palette.mode === 'dark' ? '#cbd5e1' : '#64748b',
                             lineHeight: 1.6,
-                            fontSize: { xs: '0.8rem', sm: '0.825rem', md: '0.85rem' }
+                            fontSize: '0.85rem'
                           }}
                         >
                           {phase.description}

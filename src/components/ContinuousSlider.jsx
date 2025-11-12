@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Typography, Container, useTheme } from '@mui/material';
 import { motion } from 'framer-motion';
 
-const ContinuousSlider = () => {
+const ContinuousSlider = React.memo(() => {
   const theme = useTheme();
 
   const programmingLanguages = [
@@ -181,17 +181,8 @@ const ContinuousSlider = () => {
           }}
         >
           {duplicatedItems.map((item, index) => (
-            <motion.div
+            <Box
               key={`${item.id}-${index}`}
-              whileHover={{
-                scale: 1.08,
-                y: -8
-              }}
-              transition={{
-                type: "spring",
-                stiffness: 300,
-                damping: 30
-              }}
               style={{
                 minWidth: 'auto',
                 height: '100%',
@@ -220,21 +211,18 @@ const ContinuousSlider = () => {
                   border: theme.palette.mode === 'dark'
                     ? '1px solid rgba(255, 255, 255, 0.1)'
                     : '1px solid rgba(0, 0, 0, 0.08)',
-                  backdropFilter: 'blur(10px)',
-                  WebkitBackdropFilter: 'blur(10px)',
+                  backdropFilter: 'blur(4px)',
+                  WebkitBackdropFilter: 'blur(4px)',
                   boxShadow: theme.palette.mode === 'dark'
                     ? '0 8px 32px rgba(0, 0, 0, 0.3)'
                     : '0 8px 32px rgba(0, 0, 0, 0.1)',
-                  transition: 'all 0.8s cubic-bezier(0.23, 1, 0.32, 1)',
+                  transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                  willChange: 'transform',
                   '&:hover': {
-                    transform: 'translateY(-12px) scale(1.08)',
+                    transform: 'translateY(-6px) scale(1.05)',
                     boxShadow: theme.palette.mode === 'dark'
-                      ? `0 30px 60px rgba(0, 0, 0, 0.5), 0 0 0 2px ${item.color}50`
-                      : `0 30px 60px rgba(0, 0, 0, 0.2), 0 0 0 2px ${item.color}40`,
-                    background: theme.palette.mode === 'dark'
-                      ? `rgba(255, 255, 255, 0.12)`
-                      : 'rgba(255, 255, 255, 1)',
-                    filter: 'brightness(1.1)'
+                      ? `0 20px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px ${item.color}40`
+                      : `0 20px 40px rgba(0, 0, 0, 0.15), 0 0 0 1px ${item.color}30`,
                   }
                 }}
               >
@@ -267,7 +255,7 @@ const ContinuousSlider = () => {
                   {item.name}
                 </Typography>
               </Box>
-            </motion.div>
+            </Box>
           ))}
         </Box>
       </Box>
@@ -287,6 +275,6 @@ const ContinuousSlider = () => {
       </Box>
     </Container>
   );
-};
+});
 
 export default ContinuousSlider;

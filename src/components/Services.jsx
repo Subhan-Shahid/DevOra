@@ -42,19 +42,17 @@ const servicesData = [
   }
 ];
 
-// 3D Flip Service card component
+// Simple Service card component with hover overlay
 const ServiceCard3D = ({ service, index, theme }) => {
   const Icon = service.icon;
-  const [isFlipped, setIsFlipped] = React.useState(false);
+  const [isHovered, setIsHovered] = React.useState(false);
   const [isMobile, setIsMobile] = React.useState(false);
-  const navigate = useNavigate();
 
   React.useEffect(() => {
     const checkMobile = () => {
       const touchCapable = typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0);
       const narrow = typeof window !== 'undefined' && window.innerWidth < 1024;
       const noHover = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(hover: none)').matches;
-      // Treat as mobile if no hover (phones) OR (touch + narrow). Large touch desktops remain desktop.
       setIsMobile(Boolean(noHover || (touchCapable && narrow)));
     };
     checkMobile();
@@ -63,27 +61,22 @@ const ServiceCard3D = ({ service, index, theme }) => {
   }, []);
   
   const colors = useMemo(() => {
+    const isDark = theme.palette.mode === 'dark';
     const colorMap = {
       primary: {
-        gradient: theme.palette.mode === 'dark'
-          ? 'linear-gradient(135deg, #818cf8 0%, #6366f1 100%)'
-          : 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
-        main: theme.palette.mode === 'dark' ? '#818cf8' : '#6366f1',
-        light: theme.palette.mode === 'dark' ? 'rgba(129, 140, 248, 0.2)' : 'rgba(99, 102, 241, 0.15)',
+        gradient: isDark ? 'linear-gradient(135deg, #818cf8 0%, #6366f1 100%)' : 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
+        main: isDark ? '#818cf8' : '#6366f1',
+        light: isDark ? 'rgba(129, 140, 248, 0.2)' : 'rgba(99, 102, 241, 0.15)',
       },
       secondary: {
-        gradient: theme.palette.mode === 'dark'
-          ? 'linear-gradient(135deg, #f472b6 0%, #ec4899 100%)'
-          : 'linear-gradient(135deg, #ec4899 0%, #f43f5e 100%)',
-        main: theme.palette.mode === 'dark' ? '#f472b6' : '#ec4899',
-        light: theme.palette.mode === 'dark' ? 'rgba(244, 114, 182, 0.2)' : 'rgba(236, 72, 153, 0.15)',
+        gradient: isDark ? 'linear-gradient(135deg, #f472b6 0%, #ec4899 100%)' : 'linear-gradient(135deg, #ec4899 0%, #f43f5e 100%)',
+        main: isDark ? '#f472b6' : '#ec4899',
+        light: isDark ? 'rgba(244, 114, 182, 0.2)' : 'rgba(236, 72, 153, 0.15)',
       },
       tertiary: {
-        gradient: theme.palette.mode === 'dark'
-          ? 'linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%)'
-          : 'linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%)',
-        main: theme.palette.mode === 'dark' ? '#38bdf8' : '#0ea5e9',
-        light: theme.palette.mode === 'dark' ? 'rgba(56, 189, 248, 0.2)' : 'rgba(14, 165, 233, 0.15)',
+        gradient: isDark ? 'linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%)' : 'linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%)',
+        main: isDark ? '#38bdf8' : '#0ea5e9',
+        light: isDark ? 'rgba(56, 189, 248, 0.2)' : 'rgba(14, 165, 233, 0.15)',
       }
     };
     return colorMap[service.colorKey] || colorMap.primary;
@@ -91,438 +84,231 @@ const ServiceCard3D = ({ service, index, theme }) => {
 
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 50, scale: 0.9 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ 
-        duration: 0.6, 
-        delay: index * 0.15,
-        type: 'spring',
-        stiffness: 100
+    <Box
+      sx={{
+        height: { xs: 'auto', sm: '420px', md: '500px' },
+        position: 'relative',
+        borderRadius: 5,
+        overflow: 'hidden',
+        background: theme.palette.mode === 'dark'
+          ? `linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 0.95) 100%)`
+          : `linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.98) 100%)`,
+        border: `2px solid ${colors.light}`,
+        boxShadow: `0 20px 60px rgba(0,0,0,0.3), 0 0 40px ${colors.light}`,
+        transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+        willChange: 'transform',
+        '&:hover': {
+          transform: 'translateY(-8px) scale(1.02)',
+          boxShadow: `0 25px 50px rgba(0,0,0,0.4), 0 0 40px ${colors.light}`,
+          border: `2px solid ${colors.main}`,
+        }
       }}
-      viewport={{ once: true, margin: '-50px' }}
-      onHoverStart={() => !isMobile && setIsFlipped(true)}
-      onHoverEnd={() => !isMobile && setIsFlipped(false)}
-      style={{ perspective: '1000px', height: '100%' }}
+      onMouseEnter={() => !isMobile && setIsHovered(true)}
+      onMouseLeave={() => !isMobile && setIsHovered(false)}
     >
+      {/* Gradient overlay at top */}
       <Box
         sx={{
-          position: 'relative',
-          width: '100%',
-          height: { xs: 'auto', sm: '420px', md: '500px' },
-          transformStyle: 'preserve-3d',
-          transition: 'transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
-          transform: isMobile ? 'none' : (isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)'),
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          height: '60%',
+          background: colors.gradient,
+          opacity: 0.15,
+          pointerEvents: 'none',
         }}
-      >
-        {/* FRONT SIDE */}
-        <Box
-          sx={{
-            position: isMobile ? 'relative' : 'absolute',
-            width: '100%',
-            height: isMobile ? 'auto' : '100%',
-            backfaceVisibility: 'hidden',
-            WebkitBackfaceVisibility: 'hidden',
-            borderRadius: 5,
-            overflow: 'hidden',
-            pointerEvents: isFlipped ? 'none' : 'auto',
-            zIndex: isFlipped ? 0 : 2,
-            transform: isMobile ? 'none' : 'translateZ(0)',
-            display: isMobile ? (isFlipped ? 'none' : 'block') : 'block',
-            background: theme.palette.mode === 'dark'
-              ? `linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.9) 100%)`
-              : `linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%)`,
-            backdropFilter: 'blur(20px) saturate(180%)',
-            WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-            border: `2px solid ${colors.light}`,
-            boxShadow: `0 20px 60px rgba(0,0,0,0.3), 0 0 40px ${colors.light}`,
-          }}
-        >
-          {/* Gradient overlay at top */}
+      />
+
+      {/* Main Content */}
+      <Box sx={{ p: { xs: 2.5, sm: 3.5, md: 4 }, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', position: 'relative', zIndex: 1 }}>
+        {/* Hexagon Icon Container */}
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', mb: { xs: 1.5, md: 3 }, mt: { xs: 1, sm: 3, md: 4 } }}>
           <Box
             sx={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              height: '60%',
-              background: colors.gradient,
-              opacity: 0.15,
-              pointerEvents: 'none',
+              width: { xs: 100, sm: 150, md: 180 },
+              height: { xs: 100, sm: 150, md: 180 },
+              position: 'relative',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
             }}
-          />
-
-          {/* Content */}
-          <Box sx={{ p: { xs: 2.5, sm: 3.5, md: 4 }, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', position: 'relative', zIndex: 1 }}>
-            {/* Hexagon Icon Container */}
-            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', mb: { xs: 1.5, md: 3 }, mt: { xs: 1, sm: 3, md: 4 } }}>
-              <Box
-                sx={{
-                  width: { xs: 100, sm: 150, md: 180 },
-                  height: { xs: 100, sm: 150, md: 180 },
-                  position: 'relative',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                {/* Hexagon background */}
-                <Box
-                  sx={{
-                    position: 'absolute',
-                    width: '100%',
-                    height: '100%',
-                    background: `linear-gradient(135deg, ${colors.light}, rgba(255,255,255,0.1))`,
-                    backdropFilter: 'blur(40px)',
-                    clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
-                    boxShadow: `0 20px 60px ${colors.light}, inset 0 0 60px rgba(255,255,255,0.1)`,
-                  }}
-                />
-                {/* Icon */}
-                <Icon style={{ 
-                  color: colors.main, 
-                  fontSize: 'clamp(2rem, 5vw, 4rem)',
-                  zIndex: 1,
-                  filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.3))',
-                }} />
-              </Box>
-            </Box>
-
-            {/* Title and Description */}
-            <Box sx={{ textAlign: 'center', px: { xs: 0.5, sm: 2 } }}>
-              <Typography
-                variant="h5"
-                sx={{ 
-                  fontWeight: 800, 
-                  mb: { xs: 1, md: 2 }, 
-                  color: theme.palette.mode === 'dark' ? '#f1f5f9' : '#1e293b',
-                  fontSize: { xs: '1.1rem', sm: '1.35rem', md: '1.5rem' },
-                  letterSpacing: '-0.02em',
-                }}
-              >
-                {service.title}
-              </Typography>
-
-              <Typography
-                variant="body2"
-                sx={{ 
-                  color: theme.palette.mode === 'dark' ? '#94a3b8' : '#64748b', 
-                  lineHeight: 1.5,
-                  fontSize: { xs: '0.8rem', sm: '0.9rem', md: '0.95rem' },
-                  mb: { xs: 1.5, md: 3 },
-                }}
-              >
-                {service.description.substring(0, 100)}...
-              </Typography>
-
-              {isMobile ? (
-                <Button
-                  onClick={() => setIsFlipped(!isFlipped)}
-                  variant="contained"
-                  sx={{
-                    borderRadius: '25px',
-                    px: { xs: 3, sm: 4 },
-                    py: { xs: 1, sm: 1.25 },
-                    fontWeight: 600,
-                    fontSize: { xs: '0.85rem', sm: '0.9rem' },
-                    textTransform: 'none',
-                    background: colors.gradient,
-                    color: '#fff',
-                    boxShadow: `0 8px 24px ${colors.light}`,
-                    transition: 'all 0.3s ease',
-                    '&:hover': {
-                      transform: 'translateY(-2px)',
-                      boxShadow: `0 12px 32px ${colors.light}`,
-                    }
-                  }}
-                >
-                  {isFlipped ? 'Show Less' : 'View Details'}
-                </Button>
-              ) : (
-                <Button
-                  component={Link}
-                  to={`/services/${service.slug}`}
-                  onClick={(e) => e.stopPropagation()}
-                  variant="contained"
-                  sx={{
-                    borderRadius: '25px',
-                    px: { xs: 3, sm: 4 },
-                    py: { xs: 1, sm: 1.25 },
-                    fontWeight: 700,
-                    fontSize: { xs: '0.9rem', sm: '1rem' },
-                    textTransform: 'none',
-                    background: colors.gradient,
-                    color: '#fff',
-                    boxShadow: `0 8px 24px ${colors.light}`,
-                    transition: 'all 0.3s ease',
-                    '&:hover': {
-                      transform: 'translateY(-2px)',
-                      boxShadow: `0 12px 32px ${colors.light}`,
-                    }
-                  }}
-                >
-                  Get Started Now
-                </Button>
-              )}
-            </Box>
+          >
+            {/* Simple circular background */}
+            <Box
+              sx={{
+                position: 'absolute',
+                width: '100%',
+                height: '100%',
+                background: `linear-gradient(135deg, ${colors.light}, rgba(255,255,255,0.1))`,
+                borderRadius: '50%',
+                boxShadow: `0 8px 24px ${colors.light}`,
+                transition: 'all 0.3s ease',
+                transform: isHovered ? 'scale(1.1)' : 'scale(1)',
+                '&::before': {
+                  content: '""',
+                  position: 'absolute',
+                  top: '-2px',
+                  left: '-2px',
+                  right: '-2px',
+                  bottom: '-2px',
+                  background: colors.gradient,
+                  borderRadius: '50%',
+                  opacity: isHovered ? 0.3 : 0,
+                  transition: 'opacity 0.3s ease',
+                  zIndex: -1,
+                }
+              }}
+            />
+            {/* Icon */}
+            <Icon style={{ 
+              color: colors.main, 
+              fontSize: 'clamp(2rem, 5vw, 4rem)',
+              zIndex: 1,
+              filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.3))',
+              transition: 'all 0.3s ease',
+              transform: isHovered ? 'scale(1.1) rotate(5deg)' : 'scale(1) rotate(0deg)',
+            }} />
           </Box>
         </Box>
 
-        {/* BACK SIDE */}
-        <Box
-          sx={{
-            position: isMobile ? 'relative' : 'absolute',
-            width: '100%',
-            height: isMobile ? 'auto' : '100%',
-            backfaceVisibility: 'hidden',
-            WebkitBackfaceVisibility: 'hidden',
-            transform: isMobile ? 'none' : 'rotateY(180deg)',
-            borderRadius: 5,
-            overflow: 'hidden',
-            pointerEvents: isMobile ? 'auto' : (isFlipped ? 'auto' : 'none'),
-            zIndex: isMobile ? 1 : (isFlipped ? 2 : 0),
-            transformStyle: 'preserve-3d',
-            WebkitTransformStyle: 'preserve-3d',
-            willChange: 'transform',
-            display: isMobile ? (isFlipped ? 'block' : 'none') : 'block',
-            background: `linear-gradient(135deg, ${colors.main}15 0%, ${colors.main}05 100%)`,
-            backdropFilter: 'blur(20px) saturate(180%)',
-            WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-            border: `2px solid ${colors.main}`,
-            boxShadow: `0 20px 60px rgba(0,0,0,0.4), 0 0 60px ${colors.light}`,
-          }}
-        >
-          {/* Gradient glow effect */}
-          <Box
-            sx={{
-              position: 'absolute',
-              bottom: 0,
-              left: 0,
-              right: 0,
-              height: '50%',
-              background: colors.gradient,
-              opacity: 0.3,
-              filter: 'blur(60px)',
-              pointerEvents: 'none',
+        {/* Title and Description */}
+        <Box sx={{ textAlign: 'center', px: { xs: 0.5, sm: 2 } }}>
+          <Typography
+            variant="h5"
+            sx={{ 
+              fontWeight: 800, 
+              mb: { xs: 1, md: 2 }, 
+              color: theme.palette.mode === 'dark' ? '#f1f5f9' : '#1e293b',
+              fontSize: { xs: '1.1rem', sm: '1.35rem', md: '1.5rem' },
+              letterSpacing: '-0.02em',
             }}
-          />
-
-          <Box 
-            sx={{ p: { xs: 2.5, sm: 3.5, md: 4 }, height: '100%', display: 'flex', flexDirection: 'column', position: 'relative', zIndex: 1, overflow: 'hidden', transform: 'translateZ(0)' }}
-            onClick={(e) => e.stopPropagation()}
-            onTouchStart={(e) => e.stopPropagation()}
           >
-            <Typography
-              variant="h5"
-              sx={{
-                fontWeight: 800,
-                mb: { xs: 1.5, md: 3 },
-                color: theme.palette.mode === 'dark' ? '#f1f5f9' : '#1e293b',
-                fontSize: { xs: '1.2rem', sm: '1.5rem', md: '1.75rem' },
-                background: colors.gradient,
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                wordBreak: 'break-word',
-              }}
-            >
-              {service.title}
-            </Typography>
+            {service.title}
+          </Typography>
 
-            <Typography
-              variant="body1"
-              sx={{
-                color: theme.palette.mode === 'dark' ? '#cbd5e1' : '#475569',
-                mb: { xs: 1.5, md: 3 },
-                lineHeight: 1.6,
-                fontSize: { xs: '0.8rem', sm: '0.9rem', md: '0.95rem' },
-                wordBreak: 'break-word',
-                overflowWrap: 'break-word',
-              }}
-            >
-              {service.description}
-            </Typography>
+          <Typography
+            variant="body2"
+            sx={{ 
+              color: theme.palette.mode === 'dark' ? '#94a3b8' : '#64748b', 
+              lineHeight: 1.5,
+              fontSize: { xs: '0.8rem', sm: '0.9rem', md: '0.95rem' },
+              mb: { xs: 1.5, md: 3 },
+            }}
+          >
+            {service.description.substring(0, 100)}...
+          </Typography>
 
-            <Typography
-              variant="subtitle2"
-              sx={{
-                color: colors.main,
-                fontWeight: 700,
-                mb: { xs: 1, md: 2 },
-                fontSize: { xs: '0.75rem', sm: '0.85rem', md: '0.9rem' },
-                textTransform: 'uppercase',
-                letterSpacing: { xs: 0.5, sm: 1 },
-              }}
-            >
-              KEY FEATURES:
-            </Typography>
-
-            <Box sx={{ mb: { xs: 1.5, md: 3 }, flexGrow: 1 }}>
-              {service.features.map((feature, i) => (
-                <Box
-                  key={i}
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: { xs: 0.75, sm: 1.5 },
-                    mb: { xs: 0.75, sm: 1.5 },
-                  }}
-                >
-                  <MdCheckCircle style={{ 
-                    color: colors.main, 
-                    fontSize: 'clamp(0.9rem, 2vw, 1.2rem)',
-                    flexShrink: 0,
-                  }} />
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      color: theme.palette.mode === 'dark' ? '#cbd5e1' : '#475569',
-                      fontSize: { xs: '0.75rem', sm: '0.85rem', md: '0.9rem' },
-                      fontWeight: 500,
-                      wordBreak: 'break-word',
-                      overflowWrap: 'break-word',
-                    }}
-                  >
-                    {feature}
-                  </Typography>
-                </Box>
-              ))}
-            </Box>
-
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: { xs: 1.5, md: 3 }, gap: { xs: 1, sm: 2 }, pointerEvents: 'auto', position: 'relative', zIndex: 2 }}>
-              <Box>
-                <Typography variant="caption" sx={{ color: '#94a3b8', fontSize: { xs: '0.65rem', sm: '0.75rem' } }}>
-                  Projects
-                </Typography>
-                <Typography
-                  variant="h4"
-                  sx={{
-                    fontWeight: 900,
-                    fontSize: { xs: '1.5rem', sm: '2rem', md: '2.25rem' },
-                    background: colors.gradient,
-                    backgroundClip: 'text',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                  }}
-                >
-                  {service.projects}+
-                </Typography>
-              </Box>
-              <Box sx={{ textAlign: 'right' }}>
-                <Typography variant="caption" sx={{ color: '#94a3b8', fontSize: { xs: '0.65rem', sm: '0.75rem' } }}>
-                  From
-                </Typography>
-                <Typography
-                  variant="h5"
-                  sx={{
-                    fontWeight: 800,
-                    fontSize: { xs: '1rem', sm: '1.25rem', md: '1.5rem' },
-                    color: theme.palette.mode === 'dark' ? '#f1f5f9' : '#1e293b',
-                  }}
-                >
-                  {service.price.split(' ')[2]}
-                </Typography>
-              </Box>
-            </Box>
-
-{isMobile ? (
-              <Box sx={{ display: 'flex', gap: { xs: 1, sm: 2 }, flexWrap: 'wrap' }}>
-                <Button
-                  type="button"
-                  onClick={() => setIsFlipped(false)}
-                  onClickCapture={() => setIsFlipped(false)}
-                  onTouchEnd={(e) => { e.stopPropagation(); setIsFlipped(false); }}
-                  variant="outlined"
-                  sx={{
-                    flex: '0 0 auto',
-                    minWidth: { xs: '80px', sm: '100px' },
-                    borderRadius: '16px',
-                    py: { xs: 1.25, sm: 1.75 },
-                    px: { xs: 2, sm: 3 },
-                    textTransform: 'none',
-                    fontWeight: 700,
-                    fontSize: { xs: '0.85rem', sm: '0.95rem' },
-                    border: `2px solid ${colors.main}`,
-                    color: colors.main,
-                    transition: 'all 0.3s ease',
-                    pointerEvents: 'auto',
-                    position: 'relative',
-                    zIndex: 3,
-                    '&:hover': {
-                      background: `${colors.main}15`,
-                      transform: 'translateY(-2px)',
-                    }
-                  }}
-                >
-                  Back
-                </Button>
-                <Button
-                  onClick={(e) => { 
-                    e.stopPropagation(); 
-                    const target = new URL(`/services/${service.slug}`, window.location.origin).toString();
-                    window.location.assign(target);
-                  }}
-                  onTouchEnd={(e) => { 
-                    e.stopPropagation(); 
-                    const target = new URL(`/services/${service.slug}`, window.location.origin).toString();
-                    window.location.assign(target);
-                  }}
-                  type="button"
-                  variant="contained"
-                  endIcon={<FaArrowRight />}
-                  sx={{
-                    flex: 1,
-                    borderRadius: '16px',
-                    py: { xs: 1.25, sm: 1.75 },
-                    px: { xs: 2, sm: 3 },
-                    textTransform: 'none',
-                    fontWeight: 700,
-                    fontSize: { xs: '0.85rem', sm: '0.95rem' },
-                    background: colors.gradient,
-                    boxShadow: `0 12px 32px ${colors.light}`,
-                    transition: 'all 0.3s ease',
-                    whiteSpace: 'nowrap',
-                    pointerEvents: 'auto',
-                    position: 'relative',
-                    zIndex: 3,
-                    '&:hover': {
-                      boxShadow: `0 16px 48px ${colors.light}`,
-                      transform: 'translateY(-3px)',
-                    }
-                  }}
-                >
-                  Get Started
-                </Button>
-              </Box>
-            ) : (
-              <Button
-                component={Link}
-                to={`/services/${service.slug}`}
-                variant="contained"
-                fullWidth
-                endIcon={<FaArrowRight />}
-                sx={{
-                  borderRadius: '16px',
-                  py: { xs: 1.5, sm: 1.75 },
-                  textTransform: 'none',
-                  fontWeight: 700,
-                  fontSize: { xs: '0.9rem', sm: '0.95rem', md: '1rem' },
-                  background: colors.gradient,
-                  boxShadow: `0 12px 32px ${colors.light}`,
-                  transition: 'all 0.3s ease',
-                  '&:hover': {
-                    boxShadow: `0 16px 48px ${colors.light}`,
-                    transform: 'translateY(-3px)',
-                  }
-                }}
-              >
-                Get Started Now
-              </Button>
-            )}
-          </Box>
+          <Button
+            variant="outlined"
+            sx={{
+              borderRadius: '25px',
+              px: { xs: 3, sm: 4 },
+              py: { xs: 1, sm: 1.25 },
+              fontWeight: 600,
+              fontSize: { xs: '0.85rem', sm: '0.9rem' },
+              textTransform: 'none',
+              border: `2px solid ${colors.main}`,
+              color: colors.main,
+              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+              transform: isHovered ? 'translateY(-2px) scale(1.05)' : 'translateY(0) scale(1)',
+              background: isHovered ? `${colors.main}20` : 'transparent',
+              boxShadow: isHovered ? `0 8px 20px ${colors.light}` : 'none',
+              '&:hover': {
+                background: `${colors.main}25`,
+                transform: 'translateY(-3px) scale(1.08)',
+                boxShadow: `0 12px 24px ${colors.light}`,
+              }
+            }}
+          >
+            Learn More
+          </Button>
         </Box>
       </Box>
-    </motion.div>
+
+      {/* Hover Overlay with Get Started Button */}
+      <Box
+        sx={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: theme.palette.mode === 'dark'
+            ? `linear-gradient(135deg, rgba(0,0,0,0.85) 0%, rgba(15,23,42,0.9) 100%)`
+            : `linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(248,250,252,0.98) 100%)`,
+          border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+          borderRadius: 5,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          opacity: isHovered ? 1 : 0,
+          visibility: isHovered ? 'visible' : 'hidden',
+          transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+          transform: isHovered ? 'scale(1)' : 'scale(0.95)',
+          zIndex: 10,
+          p: 4
+        }}
+      >
+        <Typography
+          variant="h4"
+          sx={{
+            fontWeight: 800,
+            mb: 2,
+            color: theme.palette.mode === 'dark' ? '#ffffff' : '#1e293b',
+            textAlign: 'center',
+            textShadow: theme.palette.mode === 'dark' 
+              ? '0 2px 4px rgba(0,0,0,0.5)' 
+              : '0 2px 4px rgba(0,0,0,0.1)',
+          }}
+        >
+          {service.title}
+        </Typography>
+        
+        <Typography
+          variant="body1"
+          sx={{
+            color: theme.palette.mode === 'dark' ? '#e2e8f0' : '#334155',
+            mb: 3,
+            textAlign: 'center',
+            lineHeight: 1.6,
+            textShadow: theme.palette.mode === 'dark' 
+              ? '0 1px 2px rgba(0,0,0,0.3)' 
+              : '0 1px 2px rgba(0,0,0,0.05)',
+            fontWeight: 500,
+          }}
+        >
+          {service.description}
+        </Typography>
+
+        <Button
+          component={Link}
+          to={`/services/${service.slug}`}
+          variant="contained"
+          size="large"
+          endIcon={<FaArrowRight />}
+          sx={{
+            borderRadius: '30px',
+            px: 6,
+            py: 2,
+            textTransform: 'none',
+            fontWeight: 800,
+            fontSize: '1.2rem',
+            background: colors.gradient,
+            boxShadow: `0 20px 40px ${colors.light}`,
+            border: `2px solid ${colors.main}`,
+            '&:hover': {
+              boxShadow: `0 25px 50px ${colors.light}`,
+              transform: 'translateY(-3px) scale(1.05)',
+              background: `linear-gradient(135deg, ${colors.main} 0%, ${colors.main}dd 100%)`,
+            }
+          }}
+        >
+          🚀 Get Started Now
+        </Button>
+      </Box>
+    </Box>
   );
 };
 
@@ -578,18 +364,9 @@ const FeatureCard = ({ feature, index, theme }) => {
   }, [feature.colorKey, theme.palette.mode]);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 40, scale: 0.95 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ 
-        duration: 0.5, 
-        delay: index * 0.12,
-        type: 'spring',
-        stiffness: 120
-      }}
-      viewport={{ once: true, margin: '-30px' }}
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
+    <Box
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
       <Card
         sx={{
@@ -600,10 +377,8 @@ const FeatureCard = ({ feature, index, theme }) => {
           overflow: 'hidden',
           position: 'relative',
           background: theme.palette.mode === 'dark' 
-            ? 'rgba(30, 41, 59, 0.7)'
-            : 'rgba(255, 255, 255, 0.95)',
-          backdropFilter: 'blur(8px)',
-          WebkitBackdropFilter: 'blur(8px)',
+            ? 'rgba(30, 41, 59, 0.9)'
+            : 'rgba(255, 255, 255, 0.98)',
           contain: 'layout style paint',
           willChange: 'transform',
           border: theme.palette.mode === 'dark'
@@ -611,13 +386,13 @@ const FeatureCard = ({ feature, index, theme }) => {
             : `2px solid ${colors.light}`,
           boxShadow: isHovered
             ? (theme.palette.mode === 'dark' 
-                ? `0 30px 60px rgba(0,0,0,0.5), 0 0 50px ${colors.light}`
-                : `0 30px 60px ${colors.light}, 0 12px 40px rgba(0,0,0,0.12)`)
+                ? `0 20px 40px rgba(0,0,0,0.4), 0 0 30px ${colors.light}`
+                : `0 20px 40px ${colors.light}, 0 8px 24px rgba(0,0,0,0.1)`)
             : (theme.palette.mode === 'dark' 
-                ? `0 15px 40px rgba(0,0,0,0.4), 0 0 30px ${colors.light}`
-                : `0 15px 40px ${colors.light}, 0 8px 24px rgba(0,0,0,0.08)`),
-          transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-          transform: isHovered ? 'translateY(-12px) scale(1.02)' : 'translateY(0) scale(1)',
+                ? `0 10px 30px rgba(0,0,0,0.3), 0 0 20px ${colors.light}`
+                : `0 10px 30px ${colors.light}, 0 4px 16px rgba(0,0,0,0.06)`),
+          transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+          transform: isHovered ? 'translateY(-6px)' : 'translateY(0)',
         }}
       >
         {/* Gradient accent bar at top */}
@@ -645,8 +420,8 @@ const FeatureCard = ({ feature, index, theme }) => {
               mx: 'auto',
               mb: 3,
               boxShadow: `0 12px 32px ${colors.light}`,
-              transform: isHovered ? 'scale(1.1) rotate(5deg)' : 'scale(1) rotate(0deg)',
-              transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+              transform: isHovered ? 'scale(1.05)' : 'scale(1)',
+              transition: 'transform 0.3s ease',
             }}
           >
             <IconComponent style={{ 
@@ -683,12 +458,12 @@ const FeatureCard = ({ feature, index, theme }) => {
           </Typography>
         </CardContent>
       </Card>
-    </motion.div>
+    </Box>
   );
 };
 
 
-const Services = () => {
+const Services = React.memo(() => {
   const theme = useTheme();
   const prefersReducedMotion = useReducedMotion();
 
@@ -721,18 +496,12 @@ const Services = () => {
               radial-gradient(circle at 50% 80%, rgba(14, 165, 233, 0.05) 0%, transparent 50%)
             `,
           pointerEvents: 'none',
-          animation: 'gradientShift 20s ease infinite',
         }}
       />
 
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2 }}>
         {/* Header Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-        >
+        <Box>
           <Box textAlign="center" sx={{ mb: { xs: 8, md: 10 } }}>
             <Typography 
               variant="overline" 
@@ -799,24 +568,19 @@ const Services = () => {
               🚀 Transforming ideas into powerful digital solutions with cutting-edge technology and innovative design
             </Typography>
           </Box>
-        </motion.div>
+        </Box>
 
         {/* Services Grid */}
         <Grid container spacing={{ xs: 2, sm: 3, lg: 4 }} justifyContent="center">
           {servicesData.map((service, index) => (
-            <Grid key={index} size={{ xs: 12, sm: 12, md: 6, lg: 4 }}>
+            <Grid key={service.slug} size={{ xs: 12, sm: 12, md: 6, lg: 4 }}>
               <ServiceCard3D service={service} index={index} theme={theme} />
             </Grid>
           ))}
         </Grid>
 
         {/* Why Choose Us Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          viewport={{ once: true }}
-        >
+        <Box>
           <Box sx={{ mt: { xs: 12, md: 16 }, textAlign: 'center' }}>
             <Typography 
               variant="h3" 
@@ -857,10 +621,10 @@ const Services = () => {
               ))}
             </Grid>
           </Box>
-        </motion.div>
+        </Box>
       </Container>
     </Box>
   );
-};
+});
 
 export default Services;
