@@ -173,7 +173,16 @@ const ServiceCard3D = ({ service, index, theme }) => {
         </Box>
 
         {/* Title and Description */}
-        <Box sx={{ textAlign: 'center', px: { xs: 0.5, sm: 2 } }}>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            textAlign: { xs: 'left', md: 'center' },
+            alignItems: { xs: 'flex-start', md: 'center' },
+            gap: { xs: 1, md: 1.5 },
+            px: { xs: 0.5, sm: 2 }
+          }}
+        >
           <Typography
             variant="h5"
             sx={{ 
@@ -200,6 +209,8 @@ const ServiceCard3D = ({ service, index, theme }) => {
           </Typography>
 
           <Button
+            component={Link}
+            to={`/services/${service.slug}`}
             variant="outlined"
             sx={{
               borderRadius: '25px',
@@ -214,6 +225,7 @@ const ServiceCard3D = ({ service, index, theme }) => {
               transform: isHovered ? 'translateY(-2px) scale(1.05)' : 'translateY(0) scale(1)',
               background: isHovered ? `${colors.main}20` : 'transparent',
               boxShadow: isHovered ? `0 8px 20px ${colors.light}` : 'none',
+              alignSelf: { xs: 'flex-start', md: 'center' },
               '&:hover': {
                 background: `${colors.main}25`,
                 transform: 'translateY(-3px) scale(1.08)',
@@ -223,6 +235,33 @@ const ServiceCard3D = ({ service, index, theme }) => {
           >
             Learn More
           </Button>
+
+          {/* Mobile-only CTA to ensure visibility on touch devices */}
+          <Box sx={{ mt: 1.5, display: { xs: 'block', md: 'none' }, alignSelf: { xs: 'flex-start', md: 'center' } }}>
+            <Button
+              component={Link}
+              to={`/services/${service.slug}`}
+              variant="contained"
+              size="medium"
+              endIcon={<FaArrowRight />}
+              sx={{
+                borderRadius: '25px',
+                px: 3.5,
+                py: 1.25,
+                mt: 1,
+                textTransform: 'none',
+                fontWeight: 800,
+                background: colors.gradient,
+                boxShadow: `0 10px 20px ${colors.light}`,
+                border: `2px solid ${colors.main}`,
+                '&:hover': {
+                  boxShadow: `0 14px 28px ${colors.light}`,
+                }
+              }}
+            >
+              Get Started Now
+            </Button>
+          </Box>
         </Box>
       </Box>
 
