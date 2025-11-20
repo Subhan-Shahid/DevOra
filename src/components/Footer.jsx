@@ -214,24 +214,7 @@ const Footer = () => {
                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                   <MdPhone style={{ fontSize: '1.2rem', marginRight: '12px', color: '#ffd700' }} />
                   <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                      <MuiLink
-                        href="tel:+923216405272"
-                        sx={{ opacity: 0.9, color: 'white', textDecoration: 'none', '&:hover': { textDecoration: 'underline', color: '#ffd700' } }}
-                      >
-                        +92 321 640 5272
-                      </MuiLink>
-                      <IconButton
-                        href="https://wa.me/923216405272?text=Hello%20DevOra"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label="WhatsApp +92 321 640 5272"
-                        size="small"
-                        sx={{ color: '#25D366', bgcolor: 'rgba(255,255,255,0.08)', '&:hover': { bgcolor: 'rgba(37,211,102,0.15)' } }}
-                      >
-                        <FaWhatsapp />
-                      </IconButton>
-                    </Box>
+                    
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                       <MuiLink
                         href="tel:+923396405272"
