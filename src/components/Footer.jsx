@@ -68,6 +68,33 @@ const Footer = () => {
     { icon: FaGithub, href: import.meta.env.VITE_GITHUB_URL || '#', color: '#333', label: 'GitHub' }
   ];
 
+  const recentProjects = [
+    {
+      title: 'E‑Commerce Dashboard',
+      description: 'Real-time analytics and management panel for a multi-vendor marketplace.',
+      tech: 'React • Node.js • MongoDB',
+      highlight: 'Boosted conversion by 27%',
+      url: '#',
+      accent: '#22d3ee',
+    },
+    {
+      title: 'Physio Clinic Management',
+      description: 'End-to-end management platform for physiotherapy clinics, covering patients, appointments, and billing.',
+      tech: 'React • Node.js • MongoDB',
+      highlight: 'Live production deployment',
+      url: 'https://physio-clinic-one.vercel.app/',
+      accent: '#a855f7',
+    },
+    {
+      title: 'SaaS CRM Platform',
+      description: 'Custom CRM with automation, reporting, and role-based access.',
+      tech: 'Next.js • PostgreSQL • AWS',
+      highlight: 'Scaled for global teams',
+      url: '#',
+      accent: '#f97316',
+    }
+  ];
+
   return (
     <Box 
       component="footer" 
@@ -136,6 +163,315 @@ const Footer = () => {
               </Box>
             </motion.div>
           </Grid>
+
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.15 }}
+          viewport={{ once: true, amount: 0.3 }}
+        >
+          <Box
+            sx={{
+              mt: { xs: 6, md: 9 },
+              mb: { xs: 3, md: 5 },
+              p: { xs: 3, md: 4 },
+              borderRadius: 4,
+              background: 'linear-gradient(135deg, rgba(15,23,42,0.96), rgba(30,64,175,0.9), rgba(236,72,153,0.85))',
+              border: '1px solid rgba(255,255,255,0.2)',
+              boxShadow: '0 30px 80px rgba(15,23,42,0.95)',
+              backdropFilter: 'blur(22px)',
+              position: 'relative',
+              overflow: 'hidden',
+            }}
+          >
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: { xs: 'column', md: 'row' },
+                alignItems: { xs: 'flex-start', md: 'center' },
+                justifyContent: 'space-between',
+                gap: 2.5,
+                mb: 3,
+              }}
+            >
+              <Box>
+                <Typography
+                  variant="h5"
+                  sx={{
+                    fontWeight: 900,
+                    letterSpacing: 0.5,
+                    textTransform: 'uppercase',
+                    fontSize: { xs: '1.35rem', md: '1.6rem' },
+                  }}
+                >
+                  Recent Projects
+                </Typography>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    mt: 1,
+                    opacity: 0.9,
+                    maxWidth: 620,
+                    fontSize: { xs: '0.9rem', md: '1rem' },
+                  }}
+                >
+                  A snapshot of how we turn ideas into high-performance digital products for our clients
+                  across the globe.
+                </Typography>
+              </Box>
+
+              <Box
+                sx={{
+                  px: 2,
+                  py: 1,
+                  borderRadius: 999,
+                  border: '1px solid rgba(148,163,184,0.5)',
+                  background:
+                    'radial-gradient(circle at 0% 0%, rgba(56,189,248,0.35), transparent 55%), radial-gradient(circle at 100% 100%, rgba(244,114,182,0.35), transparent 55%)',
+                  fontSize: '0.75rem',
+                  letterSpacing: 0.08,
+                  textTransform: 'uppercase',
+                  opacity: 0.9,
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                Shipping quality • On time • With measurable impact
+              </Box>
+            </Box>
+
+            <motion.div
+              animate={{ y: [0, -10, 0], rotate: [0, 10, 0] }}
+              transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+              style={{
+                position: 'absolute',
+                top: -16,
+                right: '10%',
+                opacity: 0.35,
+                pointerEvents: 'none',
+              }}
+            >
+              <Box
+                sx={{
+                  p: 1.2,
+                  borderRadius: '999px',
+                  border: '1px solid rgba(148,163,184,0.6)',
+                  background:
+                    'linear-gradient(135deg, rgba(248,250,252,0.14), rgba(59,130,246,0.8))',
+                  boxShadow: '0 0 30px rgba(59,130,246,0.8)',
+                  color: 'white',
+                }}
+              >
+                <FaGithub size={18} />
+              </Box>
+            </motion.div>
+
+            <motion.div
+              animate={{ y: [0, 12, 0], rotate: [0, -12, 0] }}
+              transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
+              style={{
+                position: 'absolute',
+                bottom: -20,
+                left: '6%',
+                opacity: 0.35,
+                pointerEvents: 'none',
+              }}
+            >
+              <Box
+                sx={{
+                  p: 1.4,
+                  borderRadius: '999px',
+                  border: '1px solid rgba(251,113,133,0.7)',
+                  background:
+                    'linear-gradient(135deg, rgba(253,242,248,0.18), rgba(244,114,182,0.9))',
+                  boxShadow: '0 0 32px rgba(244,114,182,0.85)',
+                  color: 'white',
+                }}
+              >
+                <FaInstagram size={18} />
+              </Box>
+            </motion.div>
+
+            <motion.div
+              animate={{ y: [0, -14, 0], rotate: [0, 8, 0] }}
+              transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+              style={{
+                position: 'absolute',
+                bottom: '18%',
+                right: '2%',
+                opacity: 0.3,
+                pointerEvents: 'none',
+              }}
+            >
+              <Box
+                sx={{
+                  p: 1.1,
+                  borderRadius: '999px',
+                  border: '1px solid rgba(45,212,191,0.7)',
+                  background:
+                    'linear-gradient(135deg, rgba(240,253,250,0.18), rgba(34,211,238,0.9))',
+                  boxShadow: '0 0 30px rgba(34,211,238,0.9)',
+                  color: 'white',
+                }}
+              >
+                <FaLinkedinIn size={16} />
+              </Box>
+            </motion.div>
+
+            <Grid
+              container
+              spacing={{ xs: 3, md: 3.5 }}
+            >
+              {recentProjects.map((project, index) => (
+                <Grid
+                  key={project.title}
+                  size={{ xs: 12, sm: 6, md: 4 }}
+                >
+                  <motion.div
+                    initial={{ opacity: 0, y: 25 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.15 + index * 0.12 }}
+                    viewport={{ once: true, amount: 0.4 }}
+                    whileHover={{ y: -8, scale: 1.02 }}
+                  >
+                    <Box
+                      sx={{
+                        height: '100%',
+                        p: 3,
+                        borderRadius: 2.6,
+                        background:
+                          'linear-gradient(145deg, rgba(255,255,255,0.18), rgba(148,163,184,0.12))',
+                        border: `1px solid ${project.accent}55`,
+                        boxShadow:
+                          '0 18px 45px rgba(15,23,42,0.95)',
+                        position: 'relative',
+                        overflow: 'hidden',
+                      }}
+                    >
+                      <Box
+                        sx={{
+                          position: 'absolute',
+                          inset: 0,
+                          background: `radial-gradient(circle at 0% 0%, ${project.accent}22, transparent 60%)`,
+                          opacity: 0.9,
+                          pointerEvents: 'none',
+                        }}
+                      />
+
+                      <Box sx={{ position: 'relative', zIndex: 1 }}>
+                        <Typography
+                          variant="subtitle2"
+                          sx={{
+                            textTransform: 'uppercase',
+                            letterSpacing: 0.12,
+                            fontSize: '0.75rem',
+                            color: 'rgba(191,219,254,0.9)',
+                            mb: 0.75,
+                          }}
+                        >
+                          Featured Case Study
+                        </Typography>
+
+                        <Typography
+                          variant="h6"
+                          sx={{
+                            fontWeight: 700,
+                            mb: 1.2,
+                            fontSize: '1.15rem',
+                          }}
+                        >
+                          {project.title}
+                        </Typography>
+
+                        <Typography
+                          variant="body2"
+                          sx={{
+                            opacity: 0.9,
+                            mb: 1.8,
+                            fontSize: '0.9rem',
+                            lineHeight: 1.6,
+                          }}
+                        >
+                          {project.description}
+                        </Typography>
+
+                        <Typography
+                          variant="body2"
+                          sx={{
+                            fontSize: '0.78rem',
+                            textTransform: 'uppercase',
+                            letterSpacing: 0.1,
+                            color: 'rgba(191,219,254,0.95)',
+                            mb: 1.5,
+                          }}
+                        >
+                          {project.tech}
+                        </Typography>
+
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            gap: 1.5,
+                          }}
+                        >
+                          <Typography
+                            variant="body2"
+                            sx={{
+                              fontSize: '0.82rem',
+                              color: '#bbf7d0',
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: 0.5,
+                            }}
+                          >
+                            <span
+                              style={{
+                                display: 'inline-block',
+                                width: 6,
+                                height: 6,
+                                borderRadius: '999px',
+                                backgroundColor: project.accent,
+                                boxShadow: `0 0 14px ${project.accent}88`,
+                              }}
+                            />
+                            {project.highlight}
+                          </Typography>
+
+                          <motion.div
+                            whileHover={{ x: 4 }}
+                            transition={{ duration: 0.2 }}
+                          >
+                            <MuiLink
+                              href={project.url}
+                              target={project.url && project.url !== '#' ? '_blank' : undefined}
+                              rel={project.url && project.url !== '#' ? 'noopener noreferrer' : undefined}
+                              sx={{
+                                textDecoration: 'none',
+                                '&:hover': { textDecoration: 'none' },
+                              }}
+                            >
+                              <Typography
+                                variant="body2"
+                                sx={{
+                                  fontSize: '0.82rem',
+                                  color: '#bfdbfe',
+                                  cursor: 'pointer',
+                                }}
+                              >
+                                View demo →
+                              </Typography>
+                            </MuiLink>
+                          </motion.div>
+                        </Box>
+                      </Box>
+                    </Box>
+                  </motion.div>
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
+        </motion.div>
           
           <Grid size={{ xs: 12, sm: 6, md: 2 }} sx={{ textAlign: { xs: 'center', md: 'left' } }}>
             <motion.div
@@ -242,7 +578,7 @@ const Footer = () => {
                       Ilfad, London, UK
                     </Typography>
                     <Typography variant="body2" sx={{ opacity: 0.9, lineHeight: 1.5 }}>
-                      Peoples Colony, Gujranwala, Pakistan
+                      Gujranwala, Pakistan
                     </Typography>
                   </Box>
                 </Box>

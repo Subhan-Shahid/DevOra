@@ -13,6 +13,7 @@ import VideoLoader from './components/VideoLoader';
 
 // Lazy load components for code splitting
 const Hero = lazy(() => import('./components/Hero'));
+const ResponsiveShowcase = lazy(() => import('./components/ResponsiveShowcase'));
 const ContinuousSlider = lazy(() => import('./components/ContinuousSlider'));
 const Services = lazy(() => import('./components/Services'));
 const ContactForm = lazy(() => import('./components/ContactForm'));
@@ -205,6 +206,9 @@ function Home() {
     <>
       <Suspense fallback={<HeroSkeleton />}>
         <Hero />
+      </Suspense>
+      <Suspense fallback={<div style={{ height: '400px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><CircularProgress /></div>}>
+        <ResponsiveShowcase />
       </Suspense>
       <Suspense fallback={<div style={{ height: '400px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><CircularProgress /></div>}>
         <ContinuousSlider />
