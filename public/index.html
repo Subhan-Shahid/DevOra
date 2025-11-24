@@ -69,6 +69,29 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <script type="text/javascript">
+      window.Tawk_API = window.Tawk_API || {};
+      window.Tawk_API.onLoad = function () {
+        try {
+          var style = document.createElement('style');
+          style.id = 'tawk-placement-overrides';
+          style.innerHTML = `
+            #tawkchat-container {
+              z-index: 1200 !important;
+              bottom: 96px !important;
+              right: 16px !important;
+            }
+            @media (max-width: 768px) {
+              #tawkchat-container {
+                bottom: 88px !important;
+                right: 12px !important;
+              }
+            }
+          `;
+          document.head.appendChild(style);
+        } catch (e) {}
+      };
+    </script>
     <!--Start of Tawk.to Script-->
     <script type="text/javascript">
     var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();

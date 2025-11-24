@@ -121,7 +121,7 @@ const ServiceCard3D = ({ service, index, theme }) => {
       />
 
       {/* Main Content */}
-      <Box sx={{ p: { xs: 2.5, sm: 3.5, md: 4 }, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', position: 'relative', zIndex: 1 }}>
+      <Box sx={{ p: { xs: 2.5, sm: 3.5, md: 4 }, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', position: 'relative', zIndex: 1 }}>
         {/* Hexagon Icon Container */}
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', mb: { xs: 1.5, md: 3 }, mt: { xs: 1, sm: 3, md: 4 } }}>
           <Box
@@ -170,7 +170,7 @@ const ServiceCard3D = ({ service, index, theme }) => {
               transform: isHovered ? 'scale(1.1) rotate(5deg)' : 'scale(1) rotate(0deg)',
             }} />
           </Box>
-        </Box>
+          </Box>
 
         {/* Title and Description */}
         <Box
@@ -180,61 +180,43 @@ const ServiceCard3D = ({ service, index, theme }) => {
             textAlign: { xs: 'left', md: 'center' },
             alignItems: { xs: 'flex-start', md: 'center' },
             gap: { xs: 1, md: 1.5 },
-            px: { xs: 0.5, sm: 2 }
+            px: { xs: 0.5, sm: 2 },
+            flexGrow: 1,
+            justifyContent: 'flex-start',
+            pb: { xs: 2, md: 3 }
           }}
         >
-          <Typography
-            variant="h5"
-            sx={{ 
-              fontWeight: 800, 
-              mb: { xs: 1, md: 2 }, 
-              color: theme.palette.mode === 'dark' ? '#f1f5f9' : '#1e293b',
-              fontSize: { xs: '1.1rem', sm: '1.35rem', md: '1.5rem' },
-              letterSpacing: '-0.02em',
-            }}
-          >
-            {service.title}
-          </Typography>
+          <Box sx={{ flexGrow: 1, width: '100%', minHeight: { xs: 'auto', md: 210 } }}>
+            <Typography
+              variant="h5"
+              sx={{ 
+                fontWeight: 800, 
+                mb: { xs: 1, md: 2 }, 
+                color: theme.palette.mode === 'dark' ? '#f1f5f9' : '#1e293b',
+                fontSize: { xs: '1.1rem', sm: '1.35rem', md: '1.5rem' },
+                letterSpacing: '-0.02em',
+              }}
+            >
+              {service.title}
+            </Typography>
 
-          <Typography
-            variant="body2"
-            sx={{ 
-              color: theme.palette.mode === 'dark' ? '#94a3b8' : '#64748b', 
-              lineHeight: 1.5,
-              fontSize: { xs: '0.8rem', sm: '0.9rem', md: '0.95rem' },
-              mb: { xs: 1.5, md: 3 },
-            }}
-          >
-            {service.description.substring(0, 100)}...
-          </Typography>
+            <Typography
+              variant="body2"
+              sx={{ 
+                color: theme.palette.mode === 'dark' ? '#94a3b8' : '#64748b', 
+                lineHeight: 1.5,
+                fontSize: { xs: '0.8rem', sm: '0.9rem', md: '0.95rem' },
+                mb: { xs: 1.5, md: 3 },
+                display: '-webkit-box',
+                WebkitLineClamp: { xs: 3, md: 3 },
+                WebkitBoxOrient: 'vertical',
+                overflow: 'hidden',
+              }}
+            >
+              {service.description.substring(0, 100)}...
+            </Typography>
 
-          <Button
-            component={Link}
-            to={`/services/${service.slug}`}
-            variant="outlined"
-            sx={{
-              borderRadius: '25px',
-              px: { xs: 3, sm: 4 },
-              py: { xs: 1, sm: 1.25 },
-              fontWeight: 600,
-              fontSize: { xs: '0.85rem', sm: '0.9rem' },
-              textTransform: 'none',
-              border: `2px solid ${colors.main}`,
-              color: colors.main,
-              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-              transform: isHovered ? 'translateY(-2px) scale(1.05)' : 'translateY(0) scale(1)',
-              background: isHovered ? `${colors.main}20` : 'transparent',
-              boxShadow: isHovered ? `0 8px 20px ${colors.light}` : 'none',
-              alignSelf: { xs: 'flex-start', md: 'center' },
-              '&:hover': {
-                background: `${colors.main}25`,
-                transform: 'translateY(-3px) scale(1.08)',
-                boxShadow: `0 12px 24px ${colors.light}`,
-              }
-            }}
-          >
-            Learn More
-          </Button>
+          </Box>
 
           {/* Mobile-only CTA to ensure visibility on touch devices */}
           <Box sx={{ mt: 1.5, display: { xs: 'block', md: 'none' }, alignSelf: { xs: 'flex-start', md: 'center' } }}>
@@ -262,7 +244,38 @@ const ServiceCard3D = ({ service, index, theme }) => {
               Get Started Now
             </Button>
           </Box>
+
         </Box>
+
+        <Button
+          component={Link}
+          to={`/services/${service.slug}`}
+          variant="outlined"
+          sx={{
+            display: { xs: 'none', md: 'inline-flex' },
+            borderRadius: '25px',
+            px: { xs: 3, sm: 4 },
+            py: { xs: 1, sm: 1.25 },
+            fontWeight: 600,
+            fontSize: { xs: '0.85rem', sm: '0.9rem' },
+            textTransform: 'none',
+            border: `2px solid ${colors.main}`,
+            color: colors.main,
+            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+            transform: isHovered ? 'translateY(-2px) scale(1.05)' : 'translateY(0) scale(1)',
+            background: isHovered ? `${colors.main}20` : 'transparent',
+            boxShadow: isHovered ? `0 8px 20px ${colors.light}` : 'none',
+            alignSelf: 'center',
+            mt: 'auto',
+            '&:hover': {
+              background: `${colors.main}25`,
+              transform: 'translateY(-3px) scale(1.08)',
+              boxShadow: `0 12px 24px ${colors.light}`,
+            }
+          }}
+        >
+          Learn More
+        </Button>
       </Box>
 
       {/* Hover Overlay with Get Started Button */}
