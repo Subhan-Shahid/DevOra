@@ -59,7 +59,7 @@ const ServiceCard3D = ({ service, index, theme }) => {
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
-  
+
   const colors = useMemo(() => {
     const isDark = theme.palette.mode === 'dark';
     const colorMap = {
@@ -161,8 +161,8 @@ const ServiceCard3D = ({ service, index, theme }) => {
               }}
             />
             {/* Icon */}
-            <Icon style={{ 
-              color: colors.main, 
+            <Icon style={{
+              color: colors.main,
               fontSize: 'clamp(2rem, 5vw, 4rem)',
               zIndex: 1,
               filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.3))',
@@ -170,7 +170,7 @@ const ServiceCard3D = ({ service, index, theme }) => {
               transform: isHovered ? 'scale(1.1) rotate(5deg)' : 'scale(1) rotate(0deg)',
             }} />
           </Box>
-          </Box>
+        </Box>
 
         {/* Title and Description */}
         <Box
@@ -189,9 +189,9 @@ const ServiceCard3D = ({ service, index, theme }) => {
           <Box sx={{ flexGrow: 1, width: '100%', minHeight: { xs: 'auto', md: 210 } }}>
             <Typography
               variant="h5"
-              sx={{ 
-                fontWeight: 800, 
-                mb: { xs: 1, md: 2 }, 
+              sx={{
+                fontWeight: 800,
+                mb: { xs: 1, md: 2 },
                 color: theme.palette.mode === 'dark' ? '#f1f5f9' : '#1e293b',
                 fontSize: { xs: '1.1rem', sm: '1.35rem', md: '1.5rem' },
                 letterSpacing: '-0.02em',
@@ -202,8 +202,8 @@ const ServiceCard3D = ({ service, index, theme }) => {
 
             <Typography
               variant="body2"
-              sx={{ 
-                color: theme.palette.mode === 'dark' ? '#94a3b8' : '#64748b', 
+              sx={{
+                color: theme.palette.mode === 'dark' ? '#94a3b8' : '#64748b',
                 lineHeight: 1.5,
                 fontSize: { xs: '0.8rem', sm: '0.9rem', md: '0.95rem' },
                 mb: { xs: 1.5, md: 3 },
@@ -310,14 +310,14 @@ const ServiceCard3D = ({ service, index, theme }) => {
             mb: 2,
             color: theme.palette.mode === 'dark' ? '#ffffff' : '#1e293b',
             textAlign: 'center',
-            textShadow: theme.palette.mode === 'dark' 
-              ? '0 2px 4px rgba(0,0,0,0.5)' 
+            textShadow: theme.palette.mode === 'dark'
+              ? '0 2px 4px rgba(0,0,0,0.5)'
               : '0 2px 4px rgba(0,0,0,0.1)',
           }}
         >
           {service.title}
         </Typography>
-        
+
         <Typography
           variant="body1"
           sx={{
@@ -325,8 +325,8 @@ const ServiceCard3D = ({ service, index, theme }) => {
             mb: 3,
             textAlign: 'center',
             lineHeight: 1.6,
-            textShadow: theme.palette.mode === 'dark' 
-              ? '0 1px 2px rgba(0,0,0,0.3)' 
+            textShadow: theme.palette.mode === 'dark'
+              ? '0 1px 2px rgba(0,0,0,0.3)'
               : '0 1px 2px rgba(0,0,0,0.05)',
             fontWeight: 500,
           }}
@@ -428,7 +428,7 @@ const FeatureCard = ({ feature, index, theme }) => {
           borderRadius: 4,
           overflow: 'hidden',
           position: 'relative',
-          background: theme.palette.mode === 'dark' 
+          background: theme.palette.mode === 'dark'
             ? 'rgba(30, 41, 59, 0.9)'
             : 'rgba(255, 255, 255, 0.98)',
           contain: 'layout style paint',
@@ -437,12 +437,12 @@ const FeatureCard = ({ feature, index, theme }) => {
             ? `2px solid ${colors.light}`
             : `2px solid ${colors.light}`,
           boxShadow: isHovered
-            ? (theme.palette.mode === 'dark' 
-                ? `0 20px 40px rgba(0,0,0,0.4), 0 0 30px ${colors.light}`
-                : `0 20px 40px ${colors.light}, 0 8px 24px rgba(0,0,0,0.1)`)
-            : (theme.palette.mode === 'dark' 
-                ? `0 10px 30px rgba(0,0,0,0.3), 0 0 20px ${colors.light}`
-                : `0 10px 30px ${colors.light}, 0 4px 16px rgba(0,0,0,0.06)`),
+            ? (theme.palette.mode === 'dark'
+              ? `0 20px 40px rgba(0,0,0,0.4), 0 0 30px ${colors.light}`
+              : `0 20px 40px ${colors.light}, 0 8px 24px rgba(0,0,0,0.1)`)
+            : (theme.palette.mode === 'dark'
+              ? `0 10px 30px rgba(0,0,0,0.3), 0 0 20px ${colors.light}`
+              : `0 10px 30px ${colors.light}, 0 4px 16px rgba(0,0,0,0.06)`),
           transition: 'transform 0.3s ease, box-shadow 0.3s ease',
           transform: isHovered ? 'translateY(-6px)' : 'translateY(0)',
         }}
@@ -459,34 +459,65 @@ const FeatureCard = ({ feature, index, theme }) => {
         />
 
         <CardContent sx={{ p: { xs: 3, md: 4 }, flexGrow: 1, textAlign: 'center' }}>
-          {/* Icon */}
-          <Box
-            sx={{
-              width: 80,
-              height: 80,
-              borderRadius: '24px',
-              background: colors.gradient,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              mx: 'auto',
-              mb: 3,
-              boxShadow: `0 12px 32px ${colors.light}`,
-              transform: isHovered ? 'scale(1.05)' : 'scale(1)',
-              transition: 'transform 0.3s ease',
-            }}
-          >
-            <IconComponent style={{ 
-              color: '#fff', 
-              fontSize: '2.2rem',
-            }} />
-          </Box>
+          {/* Icon or GIF */}
+          {feature.isSpecial && feature.gifUrl ? (
+            <Box
+              sx={{
+                width: '100%',
+                height: 200,
+                borderRadius: '16px',
+                overflow: 'hidden',
+                mx: 'auto',
+                mb: 3,
+                boxShadow: `0 12px 32px ${colors.light}`,
+                transform: isHovered ? 'scale(1.05)' : 'scale(1)',
+                transition: 'transform 0.3s ease',
+                background: colors.gradient,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <Box
+                component="img"
+                src={feature.gifUrl}
+                alt={feature.title}
+                sx={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                }}
+              />
+            </Box>
+          ) : (
+            <Box
+              sx={{
+                width: 80,
+                height: 80,
+                borderRadius: '24px',
+                background: colors.gradient,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                mx: 'auto',
+                mb: 3,
+                boxShadow: `0 12px 32px ${colors.light}`,
+                transform: isHovered ? 'scale(1.05)' : 'scale(1)',
+                transition: 'transform 0.3s ease',
+              }}
+            >
+              <IconComponent style={{
+                color: '#fff',
+                fontSize: '2.2rem',
+              }} />
+            </Box>
+          )}
 
           {/* Title */}
           <Typography
             variant="h5"
-            sx={{ 
-              fontWeight: 900, 
+            sx={{
+              fontWeight: 900,
               mb: 2,
               color: theme.palette.mode === 'dark' ? '#f1f5f9' : '#1e293b',
               fontSize: { xs: '1.5rem', md: '1.6rem' },
@@ -499,7 +530,7 @@ const FeatureCard = ({ feature, index, theme }) => {
           {/* Description */}
           <Typography
             variant="body2"
-            sx={{ 
+            sx={{
               color: theme.palette.mode === 'dark' ? '#cbd5e1' : '#475569',
               lineHeight: 1.8,
               fontSize: '1rem',
@@ -520,9 +551,9 @@ const Services = React.memo(() => {
   const prefersReducedMotion = useReducedMotion();
 
   return (
-    <Box sx={{ 
-      py: { xs: 10, md: 14 }, 
-      background: theme.palette.mode === 'dark' 
+    <Box sx={{
+      py: { xs: 10, md: 14 },
+      background: theme.palette.mode === 'dark'
         ? 'linear-gradient(180deg, #0f172a 0%, #1e293b 50%, #334155 100%)'
         : 'linear-gradient(180deg, #ffffff 0%, #f0f9ff 30%, #e0e7ff 70%, #fae8ff 100%)',
       position: 'relative',
@@ -555,16 +586,16 @@ const Services = React.memo(() => {
         {/* Header Section */}
         <Box>
           <Box textAlign="center" sx={{ mb: { xs: 8, md: 10 } }}>
-            <Typography 
-              variant="overline" 
-              sx={{ 
+            <Typography
+              variant="overline"
+              sx={{
                 background: theme.palette.mode === 'dark'
                   ? 'linear-gradient(135deg, #818cf8, #f472b6, #38bdf8)'
                   : 'linear-gradient(135deg, #6366f1, #ec4899, #0ea5e9)',
                 backgroundClip: 'text',
                 WebkitBackdropFilter: 'text',
                 WebkitTextFillColor: 'transparent',
-                fontWeight: 800, 
+                fontWeight: 800,
                 fontSize: { xs: '0.95rem', md: '1.15rem' },
                 letterSpacing: 3,
                 mb: 2,
@@ -574,12 +605,12 @@ const Services = React.memo(() => {
             >
               ✨ WHAT WE OFFER ✨
             </Typography>
-            
-            <Typography 
-              variant="h1" 
+
+            <Typography
+              variant="h1"
               component="h2"
-              sx={{ 
-                fontWeight: 900, 
+              sx={{
+                fontWeight: 900,
                 color: theme.palette.mode === 'dark' ? '#f1f5f9' : '#1e293b',
                 mb: { xs: 3, md: 4 },
                 fontSize: { xs: '2.5rem', sm: '3rem', md: '4rem' },
@@ -604,12 +635,12 @@ const Services = React.memo(() => {
                 Services
               </Box>
             </Typography>
-            
-            <Typography 
-              variant="h5" 
-              sx={{ 
-                color: theme.palette.mode === 'dark' ? '#cbd5e1' : '#475569', 
-                maxWidth: '700px', 
+
+            <Typography
+              variant="h5"
+              sx={{
+                color: theme.palette.mode === 'dark' ? '#cbd5e1' : '#475569',
+                maxWidth: '700px',
                 mx: 'auto',
                 lineHeight: 1.6,
                 fontSize: { xs: '1.1rem', md: '1.25rem' },
@@ -634,10 +665,10 @@ const Services = React.memo(() => {
         {/* Why Choose Us Section */}
         <Box>
           <Box sx={{ mt: { xs: 12, md: 16 }, textAlign: 'center' }}>
-            <Typography 
-              variant="h3" 
-              sx={{ 
-                fontWeight: 900, 
+            <Typography
+              variant="h3"
+              sx={{
+                fontWeight: 900,
                 background: theme.palette.mode === 'dark'
                   ? 'linear-gradient(135deg, #818cf8 0%, #f472b6 50%, #38bdf8 100%)'
                   : 'linear-gradient(135deg, #6366f1 0%, #ec4899 50%, #0ea5e9 100%)',
@@ -651,10 +682,173 @@ const Services = React.memo(() => {
             >
               Why Choose <span style={{ color: theme.palette.mode === 'dark' ? '#818cf8' : '#6366f1' }}>D</span>ev<span style={{ color: theme.palette.mode === 'dark' ? '#818cf8' : '#6366f1' }}>O</span>ra?
             </Typography>
-            <Typography 
-              variant="h5" 
-              sx={{ 
-                color: theme.palette.mode === 'dark' ? '#cbd5e1' : '#475569', 
+
+            {/* Interactive Dashboards Showcase */}
+            <Box sx={{ mb: 6, mt: 4 }}>
+              <Grid container spacing={4} alignItems="center">
+                {/* Content Section - Shows first on mobile */}
+                <Grid size={{ xs: 12, md: 5 }} sx={{ order: { xs: 1, md: 2 } }}>
+                  <Box sx={{ textAlign: { xs: 'center', md: 'left' } }}>
+                    <Typography
+                      variant="h4"
+                      sx={{
+                        fontWeight: 900,
+                        mb: 2,
+                        color: theme.palette.mode === 'dark' ? '#f1f5f9' : '#1e293b',
+                        fontSize: { xs: '1.8rem', md: '2.2rem' },
+                        letterSpacing: '-0.02em',
+                      }}
+                    >
+                      📊 Interactive Dashboards
+                    </Typography>
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        color: theme.palette.mode === 'dark' ? '#cbd5e1' : '#475569',
+                        mb: 3,
+                        lineHeight: 1.7,
+                        fontSize: { xs: '1rem', md: '1.15rem' },
+                        fontWeight: 500,
+                      }}
+                    >
+                      Modern UI/UX with Real-Time Data Visualization
+                    </Typography>
+                    <Box sx={{ mb: 3 }}>
+                      {[
+                        'Intuitive & responsive design',
+                        'Real-time data updates',
+                        'Interactive charts & graphs',
+                        'Seamless user experience',
+                        'Mobile-optimized interfaces'
+                      ].map((feature, idx) => (
+                        <Box
+                          key={idx}
+                          sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 2,
+                            mb: 1.5,
+                            justifyContent: { xs: 'center', md: 'flex-start' }
+                          }}
+                        >
+                          <Box
+                            sx={{
+                              width: 24,
+                              height: 24,
+                              borderRadius: '50%',
+                              background: theme.palette.mode === 'dark'
+                                ? 'linear-gradient(135deg, #818cf8, #6366f1)'
+                                : 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              flexShrink: 0,
+                            }}
+                          >
+                            <MdCheckCircle style={{ color: '#fff', fontSize: '1rem' }} />
+                          </Box>
+                          <Typography
+                            variant="body1"
+                            sx={{
+                              color: theme.palette.mode === 'dark' ? '#e2e8f0' : '#334155',
+                              fontSize: '1rem',
+                              fontWeight: 500,
+                            }}
+                          >
+                            {feature}
+                          </Typography>
+                        </Box>
+                      ))}
+                    </Box>
+                  </Box>
+                </Grid>
+
+                {/* GIFs Section - Shows second on mobile */}
+                <Grid size={{ xs: 12, md: 7 }} sx={{ order: { xs: 2, md: 1 } }}>
+                  <Grid container spacing={2}>
+                    <Grid size={{ xs: 12, sm: 6 }}>
+                      <Box
+                        sx={{
+                          borderRadius: 4,
+                          overflow: 'hidden',
+                          boxShadow: theme.palette.mode === 'dark'
+                            ? '0 25px 60px rgba(0,0,0,0.5), 0 0 40px rgba(129,140,248,0.2)'
+                            : '0 25px 60px rgba(99,102,241,0.3), 0 8px 24px rgba(0,0,0,0.1)',
+                          border: theme.palette.mode === 'dark'
+                            ? '2px solid rgba(129,140,248,0.3)'
+                            : '2px solid rgba(99,102,241,0.2)',
+                          background: theme.palette.mode === 'dark'
+                            ? 'linear-gradient(135deg, rgba(30,41,59,0.9), rgba(15,23,42,0.95))'
+                            : 'linear-gradient(135deg, rgba(255,255,255,0.98), rgba(248,250,252,0.98))',
+                          transition: 'all 0.3s ease',
+                          '&:hover': {
+                            transform: 'translateY(-8px)',
+                            boxShadow: theme.palette.mode === 'dark'
+                              ? '0 30px 70px rgba(0,0,0,0.6), 0 0 50px rgba(129,140,248,0.3)'
+                              : '0 30px 70px rgba(99,102,241,0.4), 0 12px 32px rgba(0,0,0,0.15)',
+                          }
+                        }}
+                      >
+                        <Box
+                          component="img"
+                          src="/Multiple-Bar-Chart.gif"
+                          alt="Interactive Bar Chart"
+                          sx={{
+                            width: '100%',
+                            height: 'auto',
+                            display: 'block',
+                            transform: 'scale(1.15)',
+                            transformOrigin: 'center center',
+                          }}
+                        />
+                      </Box>
+                    </Grid>
+                    <Grid size={{ xs: 12, sm: 6 }}>
+                      <Box
+                        sx={{
+                          borderRadius: 4,
+                          overflow: 'hidden',
+                          boxShadow: theme.palette.mode === 'dark'
+                            ? '0 25px 60px rgba(0,0,0,0.5), 0 0 40px rgba(244,114,182,0.2)'
+                            : '0 25px 60px rgba(236,72,153,0.3), 0 8px 24px rgba(0,0,0,0.1)',
+                          border: theme.palette.mode === 'dark'
+                            ? '2px solid rgba(244,114,182,0.3)'
+                            : '2px solid rgba(236,72,153,0.2)',
+                          background: theme.palette.mode === 'dark'
+                            ? 'linear-gradient(135deg, rgba(30,41,59,0.9), rgba(15,23,42,0.95))'
+                            : 'linear-gradient(135deg, rgba(255,255,255,0.98), rgba(248,250,252,0.98))',
+                          transition: 'all 0.3s ease',
+                          '&:hover': {
+                            transform: 'translateY(-8px)',
+                            boxShadow: theme.palette.mode === 'dark'
+                              ? '0 30px 70px rgba(0,0,0,0.6), 0 0 50px rgba(244,114,182,0.3)'
+                              : '0 30px 70px rgba(236,72,153,0.4), 0 12px 32px rgba(0,0,0,0.15)',
+                          }
+                        }}
+                      >
+                        <Box
+                          component="img"
+                          src="/Stacked-Donut-Chart.gif"
+                          alt="Interactive Donut Chart"
+                          sx={{
+                            width: '100%',
+                            height: 'auto',
+                            display: 'block',
+                            transform: 'scale(1.25)',
+                            transformOrigin: 'center center',
+                          }}
+                        />
+                      </Box>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Box>
+
+            <Typography
+              variant="h5"
+              sx={{
+                color: theme.palette.mode === 'dark' ? '#cbd5e1' : '#475569',
                 mb: { xs: 4, md: 6 },
                 fontSize: { xs: '1rem', md: '1.2rem' },
                 maxWidth: '700px',
@@ -664,7 +858,7 @@ const Services = React.memo(() => {
             >
               Discover the perfect solution for your digital transformation journey
             </Typography>
-            
+
             <Grid container spacing={{ xs: 3, md: 4 }} justifyContent="center">
               {whyChooseFeatures.map((feature, idx) => (
                 <Grid size={{ xs: 12, sm: 6, md: 4 }} key={idx}>
