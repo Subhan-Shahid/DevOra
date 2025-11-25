@@ -205,7 +205,7 @@ const ResponsiveShowcase = () => {
                   >
                     <Box
                       component="img"
-                      src="/Scene.gif"
+                      src="/Scene (1).gif"
                       alt="Responsive design preview"
                       sx={{
                         width: '100%',
