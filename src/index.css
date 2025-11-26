@@ -236,8 +236,8 @@ body[data-theme="dark"] {
 /* Glassmorphism utilities - Optimized blur for performance */
 .glass {
   background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 20px;
   will-change: transform;
@@ -246,8 +246,8 @@ body[data-theme="dark"] {
 
 .glass-dark {
   background: rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 20px;
   will-change: transform;
@@ -435,9 +435,9 @@ html {
 }
 
 /* Performance: Reduce paint areas during scroll */
+/* Note: translateZ(0) removed from global scope as it can hurt performance */
+/* Apply only to specific animated elements via .scroll-optimized class */
 * {
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
 }
@@ -447,6 +447,7 @@ html {
   .scroll-optimized {
     will-change: transform;
     contain: layout style paint;
+    transform: translateZ(0);
   }
 }
 
@@ -459,10 +460,12 @@ body.is-scrolling .neon-glow {
   animation-play-state: paused !important;
 }
 
-/* Reduce backdrop blur during scroll for performance */
-body.is-scrolling [style*="backdrop-filter"] {
-  backdrop-filter: blur(2px) !important;
-  -webkit-backdrop-filter: blur(2px) !important;
+/* Remove backdrop blur entirely during scroll for maximum performance */
+body.is-scrolling [style*="backdrop-filter"],
+body.is-scrolling .glass,
+body.is-scrolling .glass-dark {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 
 /* Custom scrollbar */

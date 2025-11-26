@@ -11,24 +11,15 @@ import ParticleBackground from './ParticleBackground';
 const FloatingIcon = React.memo(({ icon: Icon, delay, x, y, color = '#1976d2', disabled = false, position = {} }) => (
   disabled ? null : (
     <motion.div
-      initial={{ opacity: 0, scale: 0, rotate: 0 }}
+      initial={{ opacity: 0 }}
       animate={{ 
-        opacity: [0.4, 0.8, 0.4], 
-        scale: [1, 1.3, 1],
-        x: [0, x, 0],
-        y: [0, y, 0],
-        rotate: [0, 360, 0]
+        opacity: [0.4, 0.8, 0.4]
       }}
       transition={{ 
-        duration: 8, 
+        duration: 6, 
         delay, 
         repeat: Infinity,
         ease: "easeInOut"
-      }}
-      whileHover={{
-        scale: 1.5,
-        rotate: 180,
-        transition: { duration: 0.3 }
       }}
       style={{
         position: 'absolute',
@@ -37,9 +28,10 @@ const FloatingIcon = React.memo(({ icon: Icon, delay, x, y, color = '#1976d2', d
         zIndex: 1,
         filter: 'drop-shadow(0 0 10px rgba(255,255,255,0.3))',
         cursor: 'pointer',
-        willChange: 'transform',
+        willChange: 'opacity',
         ...position
       }}
+      data-animate="true"
     >
       <Icon />
     </motion.div>
@@ -48,20 +40,18 @@ const FloatingIcon = React.memo(({ icon: Icon, delay, x, y, color = '#1976d2', d
 
 const GlassmorphismCard = ({ children, delay = 0, theme }) => (
   <motion.div
-    initial={{ opacity: 0, y: 50, scale: 0.9 }}
-    animate={{ opacity: 1, y: 0, scale: 1 }}
+    initial={{ opacity: 0, y: 50 }}
+    animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.8, delay }}
     whileHover={{ 
-      scale: 1.08,
-      y: -12,
-      rotate: [0, -2, 2, 0],
-      transition: { duration: 0.4 }
+      y: -8,
+      transition: { duration: 0.3 }
     }}
     style={{
       background: theme?.palette.mode === 'dark'
         ? 'rgba(30, 41, 59, 0.6)'
         : 'rgba(255, 255, 255, 0.8)',
-      backdropFilter: 'blur(8px)',
+      backdropFilter: 'blur(4px)',
       contain: 'layout style paint',
       willChange: 'transform',
       borderRadius: '24px',
@@ -73,6 +63,7 @@ const GlassmorphismCard = ({ children, delay = 0, theme }) => (
         ? '0 20px 60px rgba(0, 0, 0, 0.4), 0 0 40px rgba(129, 140, 248, 0.1)'
         : '0 20px 60px rgba(99, 102, 241, 0.15), 0 8px 32px rgba(0, 0, 0, 0.08)'
     }}
+    data-animate="true"
   >
     {children}
   </motion.div>
@@ -227,18 +218,6 @@ const Hero = () => {
             <Chip 
               label="🚀 Welcome to the Future of Development" 
               sx={{ 
-                mb: { xs: 2, md: 3 }, 
-                background: theme.palette.mode === 'dark'
-                  ? 'linear-gradient(135deg, rgba(129, 140, 248, 0.2), rgba(244, 114, 182, 0.2))'
-                  : 'linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(236, 72, 153, 0.15))',
-                color: theme.palette.mode === 'dark' ? '#f1f5f9' : '#1e293b',
-                backdropFilter: 'blur(6px)',
-                WebkitBackdropFilter: 'blur(6px)',
-                contain: 'layout style paint',
-                border: theme.palette.mode === 'dark' ? '1px solid rgba(129, 140, 248, 0.3)' : '1px solid rgba(99, 102, 241, 0.2)',
-                fontSize: { xs: '0.8rem', sm: '0.9rem', md: '1rem' },
-                py: { xs: 1, md: 2 },
-                px: { xs: 2, md: 3 },
                 fontWeight: 600,
                 boxShadow: theme.palette.mode === 'dark' 
                   ? '0 8px 32px rgba(129, 140, 248, 0.2)'

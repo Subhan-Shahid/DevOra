@@ -94,17 +94,18 @@ const ServiceCard3D = ({ service, index, theme }) => {
           ? `linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 0.95) 100%)`
           : `linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.98) 100%)`,
         border: `2px solid ${colors.light}`,
-        boxShadow: `0 20px 60px rgba(0,0,0,0.3), 0 0 40px ${colors.light}`,
-        transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+        boxShadow: `0 20px 60px rgba(0,0,0,0.3)`,
+        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
         willChange: 'transform',
         '&:hover': {
-          transform: 'translateY(-8px) scale(1.02)',
-          boxShadow: `0 25px 50px rgba(0,0,0,0.4), 0 0 40px ${colors.light}`,
+          transform: 'translateY(-8px)',
+          boxShadow: `0 25px 50px rgba(0,0,0,0.4)`,
           border: `2px solid ${colors.main}`,
         }
       }}
       onMouseEnter={() => !isMobile && setIsHovered(true)}
       onMouseLeave={() => !isMobile && setIsHovered(false)}
+      data-animate="true"
     >
       {/* Gradient overlay at top */}
       <Box
@@ -797,7 +798,7 @@ const Services = React.memo(() => {
                             width: '100%',
                             height: 'auto',
                             display: 'block',
-                            transform: 'scale(1.15)',
+                            transform: 'scale(2)',
                             transformOrigin: 'center center',
                           }}
                         />
@@ -834,7 +835,7 @@ const Services = React.memo(() => {
                             width: '100%',
                             height: 'auto',
                             display: 'block',
-                            transform: 'scale(1.25)',
+                            transform: 'scale(1.5)',
                             transformOrigin: 'center center',
                           }}
                         />

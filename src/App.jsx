@@ -24,11 +24,11 @@ const NotFound = lazy(() => import('./pages/NotFound'));
 const ThankYou = lazy(() => import('./pages/ThankYou'));
 
 // Import loading skeletons
-import { 
-  HeroSkeleton, 
-  ServicesSkeleton, 
-  ContactFormSkeleton, 
-  ServiceDetailSkeleton 
+import {
+  HeroSkeleton,
+  ServicesSkeleton,
+  ContactFormSkeleton,
+  ServiceDetailSkeleton
 } from './components/LoadingSkeletons';
 
 // Theme factory honoring light/dark mode
@@ -61,7 +61,7 @@ const createAppTheme = (mode) => createTheme({
       secondary: mode === 'dark' ? '#cbd5e1' : '#64748b',
     },
     gradient: {
-      primary: mode === 'dark' 
+      primary: mode === 'dark'
         ? 'linear-gradient(135deg, #818cf8 0%, #6366f1 100%)'
         : 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
       secondary: mode === 'dark'
@@ -148,8 +148,8 @@ const createAppTheme = (mode) => createTheme({
         root: {
           borderRadius: 20,
           background: 'rgba(255, 255, 255, 0.1)',
-          backdropFilter: 'blur(8px)',
-          WebkitBackdropFilter: 'blur(8px)',
+          backdropFilter: 'blur(4px)',
+          WebkitBackdropFilter: 'blur(4px)',
           contain: 'layout style paint',
           border: '1px solid rgba(255, 255, 255, 0.2)',
           boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
@@ -167,8 +167,8 @@ const createAppTheme = (mode) => createTheme({
           '& .MuiOutlinedInput-root': {
             borderRadius: 15,
             background: 'rgba(255, 255, 255, 0.1)',
-            backdropFilter: 'blur(6px)',
-            WebkitBackdropFilter: 'blur(6px)',
+            backdropFilter: 'blur(4px)',
+            WebkitBackdropFilter: 'blur(4px)',
             transition: 'all 0.3s ease',
             '&:hover': {
               background: 'rgba(255, 255, 255, 0.15)',
@@ -275,8 +275,8 @@ function App() {
               display: 'flex',
               flexDirection: 'column',
               minHeight: '100dvh',
-              background: theme.palette.mode === 'dark' 
-                ? 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)' 
+              background: theme.palette.mode === 'dark'
+                ? 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)'
                 : 'linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #e0e7ff 100%)',
               transition: 'background 0.3s ease',
             }}
@@ -285,53 +285,53 @@ function App() {
             <Box component="main" sx={{ flexGrow: 1 }}>
               <Routes>
                 <Route path="/" element={<Home />} />
-                <Route 
-                  path="/services" 
+                <Route
+                  path="/services"
                   element={
                     <Suspense fallback={<ServicesSkeleton />}>
                       <Services />
                     </Suspense>
-                  } 
+                  }
                 />
-                <Route 
-                  path="/services/:slug" 
+                <Route
+                  path="/services/:slug"
                   element={
                     <Suspense fallback={<ServiceDetailSkeleton />}>
                       <ServiceDetail />
                     </Suspense>
-                  } 
+                  }
                 />
-                <Route 
-                  path="/contact" 
+                <Route
+                  path="/contact"
                   element={
                     <Suspense fallback={<ContactFormSkeleton />}>
                       <ContactForm />
                     </Suspense>
-                  } 
+                  }
                 />
-                <Route 
-                  path="/thank-you" 
+                <Route
+                  path="/thank-you"
                   element={
                     <Suspense fallback={<LoadingFallback />}>
                       <ThankYou />
                     </Suspense>
-                  } 
+                  }
                 />
-                <Route 
-                  path="/not-found" 
+                <Route
+                  path="/not-found"
                   element={
                     <Suspense fallback={<LoadingFallback />}>
                       <NotFound />
                     </Suspense>
-                  } 
+                  }
                 />
-                <Route 
-                  path="*" 
+                <Route
+                  path="*"
                   element={
                     <Suspense fallback={<LoadingFallback />}>
                       <NotFound />
                     </Suspense>
-                  } 
+                  }
                 />
               </Routes>
             </Box>

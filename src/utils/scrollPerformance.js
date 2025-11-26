@@ -11,7 +11,7 @@ export const initScrollOptimization = () => {
 
   // Add scroll listener with passive flag for better performance
   window.addEventListener('scroll', handleScroll, { passive: true });
-  
+
   // Cleanup function
   return () => {
     window.removeEventListener('scroll', handleScroll);
@@ -22,7 +22,7 @@ const handleScroll = () => {
   if (!isScrolling) {
     isScrolling = true;
     document.body.classList.add('is-scrolling');
-    
+
     // Pause expensive animations
     pauseExpensiveAnimations();
   }
@@ -34,7 +34,7 @@ const handleScroll = () => {
   scrollTimeout = setTimeout(() => {
     isScrolling = false;
     document.body.classList.remove('is-scrolling');
-    
+
     // Resume animations
     resumeAnimations();
   }, 150); // Resume after 150ms of no scrolling
@@ -46,12 +46,24 @@ const pauseExpensiveAnimations = () => {
   animatedElements.forEach(el => {
     el.style.animationPlayState = 'paused';
   });
+
+  // Pause framer-motion elements
+  const framerElements = document.querySelectorAll('[data-framer-motion]');
+  framerElements.forEach(el => {
+    el.style.animationPlayState = 'paused';
+  });
 };
 
 const resumeAnimations = () => {
   // Resume animations after scroll ends
   const animatedElements = document.querySelectorAll('[data-animate]');
   animatedElements.forEach(el => {
+    el.style.animationPlayState = 'running';
+  });
+
+  // Resume framer-motion elements
+  const framerElements = document.querySelectorAll('[data-framer-motion]');
+  framerElements.forEach(el => {
     el.style.animationPlayState = 'running';
   });
 };
@@ -72,7 +84,7 @@ export const debounce = (func, wait) => {
 // Throttle utility for scroll events
 export const throttle = (func, limit) => {
   let inThrottle;
-  return function(...args) {
+  return function (...args) {
     if (!inThrottle) {
       func.apply(this, args);
       inThrottle = true;
