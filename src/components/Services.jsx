@@ -781,6 +781,8 @@ const Services = React.memo(() => {
                           background: theme.palette.mode === 'dark'
                             ? 'linear-gradient(135deg, rgba(30,41,59,0.9), rgba(15,23,42,0.95))'
                             : 'linear-gradient(135deg, rgba(255,255,255,0.98), rgba(248,250,252,0.98))',
+                          width: { xs: '85%', sm: '100%' },
+                          mx: 'auto',
                           transition: 'all 0.3s ease',
                           '&:hover': {
                             transform: 'translateY(-8px)',
@@ -818,6 +820,8 @@ const Services = React.memo(() => {
                           background: theme.palette.mode === 'dark'
                             ? 'linear-gradient(135deg, rgba(30,41,59,0.9), rgba(15,23,42,0.95))'
                             : 'linear-gradient(135deg, rgba(255,255,255,0.98), rgba(248,250,252,0.98))',
+                          width: { xs: '85%', sm: '100%' },
+                          mx: 'auto',
                           transition: 'all 0.3s ease',
                           '&:hover': {
                             transform: 'translateY(-8px)',
