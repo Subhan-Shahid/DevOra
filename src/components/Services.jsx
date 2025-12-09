@@ -10,7 +10,7 @@ const servicesData = [
   {
     slug: 'software-development',
     title: 'Software Development',
-    description: 'Custom enterprise software solutions built with cutting-edge technologies. Scalable, secure, and maintainable applications.',
+    description: '💎 Transform your vision into reality with enterprise-grade software that scales effortlessly. We craft intelligent, future-proof solutions using cutting-edge tech stacks that drive real business results.',
     icon: FaCode,
     colorKey: 'primary',
     features: ['Custom Solutions', 'Enterprise Grade', 'Cloud Ready'],
@@ -21,7 +21,7 @@ const servicesData = [
   {
     slug: 'website-development',
     title: 'Website Development',
-    description: 'Stunning, responsive websites that convert visitors into customers. Modern designs with exceptional performance.',
+    description: '🚀 Launch stunning websites that captivate visitors and convert them into loyal customers. Lightning-fast performance meets jaw-dropping design—your digital presence, elevated to perfection.',
     icon: FaGlobe,
     colorKey: 'secondary',
     features: ['Responsive Design', 'SEO Optimized', 'Fast Loading'],
@@ -32,7 +32,7 @@ const servicesData = [
   {
     slug: 'app-development',
     title: 'App Development',
-    description: 'Native and cross-platform mobile apps that engage users and drive business growth on iOS and Android.',
+    description: '📱 Build powerful mobile experiences that users love and can\'t put down. From iOS to Android, we deliver native-quality apps that engage, delight, and accelerate your business growth exponentially.',
     icon: FaMobileAlt,
     colorKey: 'tertiary',
     features: ['Cross Platform', 'Native Performance', 'App Store Ready'],
@@ -85,281 +85,387 @@ const ServiceCard3D = ({ service, index, theme }) => {
 
   return (
     <Box
+      component={motion.div}
+      initial={{ opacity: 0, y: 40, scale: 0.96 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true, amount: 0.4 }}
+      whileHover={isMobile ? {} : { y: -18, rotateX: 10, rotateY: -8 }}
+      transition={{ type: 'spring', stiffness: 220, damping: 26, mass: 0.9, delay: index * 0.06 }}
       sx={{
-        height: { xs: 'auto', sm: '420px', md: '500px' },
+        height: isHovered ? { xs: 'auto', sm: 'auto', md: '720px' } : { xs: 'auto', sm: '420px', md: '500px' },
         position: 'relative',
         borderRadius: 5,
-        overflow: 'hidden',
-        background: theme.palette.mode === 'dark'
-          ? `linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 0.95) 100%)`
-          : `linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.98) 100%)`,
-        border: `2px solid ${colors.light}`,
-        boxShadow: `0 20px 60px rgba(0,0,0,0.3)`,
-        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-        willChange: 'transform',
-        '&:hover': {
-          transform: 'translateY(-8px)',
-          boxShadow: `0 25px 50px rgba(0,0,0,0.4)`,
-          border: `2px solid ${colors.main}`,
-        }
+        overflow: 'visible',
+        background: 'transparent',
+        perspective: '1400px',
+        transition: 'height 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
       }}
       onMouseEnter={() => !isMobile && setIsHovered(true)}
       onMouseLeave={() => !isMobile && setIsHovered(false)}
       data-animate="true"
     >
-      {/* Gradient overlay at top */}
+      {/* Back stacked layer */}
       <Box
         sx={{
           position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          height: '60%',
-          background: colors.gradient,
-          opacity: 0.15,
-          pointerEvents: 'none',
+          inset: 0,
+          borderRadius: 5,
+          transform: 'translateY(26px) scale(0.94)',
+          opacity: theme.palette.mode === 'dark' ? 0.7 : 0.8,
+          background: theme.palette.mode === 'dark'
+            ? 'linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 64, 175, 0.9))'
+            : 'linear-gradient(135deg, rgba(219, 234, 254, 0.95), rgba(221, 214, 254, 0.95))',
+          border: `1px solid ${colors.light}`,
+          boxShadow: theme.palette.mode === 'dark'
+            ? '0 30px 80px rgba(15, 23, 42, 0.9)'
+            : '0 30px 80px rgba(15, 23, 42, 0.45)',
+          zIndex: 0,
         }}
       />
 
-      {/* Main Content */}
-      <Box sx={{ p: { xs: 2.5, sm: 3.5, md: 4 }, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', position: 'relative', zIndex: 1 }}>
-        {/* Hexagon Icon Container */}
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', mb: { xs: 1.5, md: 3 }, mt: { xs: 1, sm: 3, md: 4 } }}>
-          <Box
-            sx={{
-              width: { xs: 100, sm: 150, md: 180 },
-              height: { xs: 100, sm: 150, md: 180 },
-              position: 'relative',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            {/* Simple circular background */}
-            <Box
-              sx={{
-                position: 'absolute',
-                width: '100%',
-                height: '100%',
-                background: `linear-gradient(135deg, ${colors.light}, rgba(255,255,255,0.1))`,
-                borderRadius: '50%',
-                boxShadow: `0 8px 24px ${colors.light}`,
-                transition: 'all 0.3s ease',
-                transform: isHovered ? 'scale(1.1)' : 'scale(1)',
-                '&::before': {
-                  content: '""',
-                  position: 'absolute',
-                  top: '-2px',
-                  left: '-2px',
-                  right: '-2px',
-                  bottom: '-2px',
-                  background: colors.gradient,
-                  borderRadius: '50%',
-                  opacity: isHovered ? 0.3 : 0,
-                  transition: 'opacity 0.3s ease',
-                  zIndex: -1,
-                }
-              }}
-            />
-            {/* Icon */}
-            <Icon style={{
-              color: colors.main,
-              fontSize: 'clamp(2rem, 5vw, 4rem)',
-              zIndex: 1,
-              filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.3))',
-              transition: 'all 0.3s ease',
-              transform: isHovered ? 'scale(1.1) rotate(5deg)' : 'scale(1) rotate(0deg)',
-            }} />
-          </Box>
-        </Box>
-
-        {/* Title and Description */}
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            textAlign: { xs: 'left', md: 'center' },
-            alignItems: { xs: 'flex-start', md: 'center' },
-            gap: { xs: 1, md: 1.5 },
-            px: { xs: 0.5, sm: 2 },
-            flexGrow: 1,
-            justifyContent: 'flex-start',
-            pb: { xs: 2, md: 3 }
-          }}
-        >
-          <Box sx={{ flexGrow: 1, width: '100%', minHeight: { xs: 'auto', md: 210 } }}>
-            <Typography
-              variant="h5"
-              sx={{
-                fontWeight: 800,
-                mb: { xs: 1, md: 2 },
-                color: theme.palette.mode === 'dark' ? '#f1f5f9' : '#1e293b',
-                fontSize: { xs: '1.1rem', sm: '1.35rem', md: '1.5rem' },
-                letterSpacing: '-0.02em',
-              }}
-            >
-              {service.title}
-            </Typography>
-
-            <Typography
-              variant="body2"
-              sx={{
-                color: theme.palette.mode === 'dark' ? '#94a3b8' : '#64748b',
-                lineHeight: 1.5,
-                fontSize: { xs: '0.8rem', sm: '0.9rem', md: '0.95rem' },
-                mb: { xs: 1.5, md: 3 },
-                display: '-webkit-box',
-                WebkitLineClamp: { xs: 3, md: 3 },
-                WebkitBoxOrient: 'vertical',
-                overflow: 'hidden',
-              }}
-            >
-              {service.description.substring(0, 100)}...
-            </Typography>
-
-          </Box>
-
-          {/* Mobile-only CTA to ensure visibility on touch devices */}
-          <Box sx={{ mt: 1.5, display: { xs: 'block', md: 'none' }, alignSelf: { xs: 'flex-start', md: 'center' } }}>
-            <Button
-              component={Link}
-              to={`/services/${service.slug}`}
-              variant="contained"
-              size="medium"
-              endIcon={<FaArrowRight />}
-              sx={{
-                borderRadius: '25px',
-                px: 3.5,
-                py: 1.25,
-                mt: 1,
-                textTransform: 'none',
-                fontWeight: 800,
-                background: colors.gradient,
-                boxShadow: `0 10px 20px ${colors.light}`,
-                border: `2px solid ${colors.main}`,
-                '&:hover': {
-                  boxShadow: `0 14px 28px ${colors.light}`,
-                }
-              }}
-            >
-              Get Started Now
-            </Button>
-          </Box>
-
-        </Box>
-
-        <Button
-          component={Link}
-          to={`/services/${service.slug}`}
-          variant="outlined"
-          sx={{
-            display: { xs: 'none', md: 'inline-flex' },
-            borderRadius: '25px',
-            px: { xs: 3, sm: 4 },
-            py: { xs: 1, sm: 1.25 },
-            fontWeight: 600,
-            fontSize: { xs: '0.85rem', sm: '0.9rem' },
-            textTransform: 'none',
-            border: `2px solid ${colors.main}`,
-            color: colors.main,
-            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-            transform: isHovered ? 'translateY(-2px) scale(1.05)' : 'translateY(0) scale(1)',
-            background: isHovered ? `${colors.main}20` : 'transparent',
-            boxShadow: isHovered ? `0 8px 20px ${colors.light}` : 'none',
-            alignSelf: 'center',
-            mt: 'auto',
-            '&:hover': {
-              background: `${colors.main}25`,
-              transform: 'translateY(-3px) scale(1.08)',
-              boxShadow: `0 12px 24px ${colors.light}`,
-            }
-          }}
-        >
-          Learn More
-        </Button>
-      </Box>
-
-      {/* Hover Overlay with Get Started Button */}
+      {/* Middle stacked layer */}
       <Box
         sx={{
           position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: theme.palette.mode === 'dark'
-            ? `linear-gradient(135deg, rgba(0,0,0,0.85) 0%, rgba(15,23,42,0.9) 100%)`
-            : `linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(248,250,252,0.98) 100%)`,
-          border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+          inset: 0,
           borderRadius: 5,
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          opacity: isHovered ? 1 : 0,
-          visibility: isHovered ? 'visible' : 'hidden',
-          transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-          transform: isHovered ? 'scale(1)' : 'scale(0.95)',
-          zIndex: 10,
-          p: 4
+          transform: 'translateY(12px) scale(0.97)',
+          opacity: theme.palette.mode === 'dark' ? 0.9 : 0.95,
+          background: theme.palette.mode === 'dark'
+            ? 'linear-gradient(145deg, rgba(15, 23, 42, 0.98), rgba(30, 64, 175, 0.98))'
+            : 'linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(239, 246, 255, 0.98))',
+          border: `1px solid ${colors.light}`,
+          boxShadow: theme.palette.mode === 'dark'
+            ? '0 22px 60px rgba(15, 23, 42, 0.9)'
+            : '0 22px 60px rgba(15, 23, 42, 0.35)',
+          zIndex: 1,
+        }}
+      />
+
+      {/* Main front card */}
+      <Box
+        sx={{
+          position: 'relative',
+          borderRadius: 5,
+          overflow: 'hidden',
+          height: '100%',
+          background: theme.palette.mode === 'dark'
+            ? `linear-gradient(135deg, rgba(30, 41, 59, 0.98) 0%, rgba(15, 23, 42, 0.98) 100%)`
+            : `linear-gradient(135deg, rgba(255, 255, 255, 0.99) 0%, rgba(248, 250, 252, 0.99) 100%)`,
+          border: `2px solid ${colors.main}40`,
+          boxShadow: theme.palette.mode === 'dark'
+            ? `0 20px 60px rgba(0,0,0,0.4), 0 0 0 1px ${colors.main}30, inset 0 1px 0 rgba(255,255,255,0.1)`
+            : `0 20px 60px rgba(0,0,0,0.15), 0 0 0 1px ${colors.main}20, inset 0 1px 0 rgba(255,255,255,0.8)`,
+          transformStyle: 'preserve-3d',
+          zIndex: 2,
         }}
       >
-        <Typography
-          variant="h4"
+        <Box
           sx={{
-            fontWeight: 800,
-            mb: 2,
-            color: theme.palette.mode === 'dark' ? '#ffffff' : '#1e293b',
-            textAlign: 'center',
-            textShadow: theme.palette.mode === 'dark'
-              ? '0 2px 4px rgba(0,0,0,0.5)'
-              : '0 2px 4px rgba(0,0,0,0.1)',
-          }}
-        >
-          {service.title}
-        </Typography>
-
-        <Typography
-          variant="body1"
-          sx={{
-            color: theme.palette.mode === 'dark' ? '#e2e8f0' : '#334155',
-            mb: 3,
-            textAlign: 'center',
-            lineHeight: 1.6,
-            textShadow: theme.palette.mode === 'dark'
-              ? '0 1px 2px rgba(0,0,0,0.3)'
-              : '0 1px 2px rgba(0,0,0,0.05)',
-            fontWeight: 500,
-          }}
-        >
-          {service.description}
-        </Typography>
-
-        <Button
-          component={Link}
-          to={`/services/${service.slug}`}
-          variant="contained"
-          size="large"
-          endIcon={<FaArrowRight />}
-          sx={{
-            borderRadius: '30px',
-            px: 6,
-            py: 2,
-            textTransform: 'none',
-            fontWeight: 800,
-            fontSize: '1.2rem',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            height: '40%',
             background: colors.gradient,
-            boxShadow: `0 20px 40px ${colors.light}`,
-            border: `2px solid ${colors.main}`,
-            '&:hover': {
-              boxShadow: `0 25px 50px ${colors.light}`,
-              transform: 'translateY(-3px) scale(1.05)',
-              background: `linear-gradient(135deg, ${colors.main} 0%, ${colors.main}dd 100%)`,
-            }
+            opacity: 0.08,
+            pointerEvents: 'none',
+          }}
+        />
+        <Box
+          sx={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: `radial-gradient(circle at 50% 0%, ${colors.main}15 0%, transparent 70%)`,
+            pointerEvents: 'none',
+          }}
+        />
+
+        <Box
+          sx={{
+            p: { xs: 2.5, sm: 3.5, md: 4 },
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            position: 'relative',
+            zIndex: 1,
           }}
         >
-          🚀 Get Started Now
-        </Button>
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', mb: { xs: 1.5, md: 3 }, mt: { xs: 1, sm: 3, md: 4 } }}>
+            <Box
+              sx={{
+                width: { xs: 100, sm: 150, md: 180 },
+                height: { xs: 100, sm: 150, md: 180 },
+                position: 'relative',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <Box
+                sx={{
+                  position: 'absolute',
+                  width: '100%',
+                  height: '100%',
+                  background: `linear-gradient(135deg, ${colors.light}, rgba(255,255,255,0.1))`,
+                  borderRadius: '50%',
+                  boxShadow: `0 8px 24px ${colors.light}`,
+                  transition: 'all 0.3s ease',
+                  transform: isHovered ? 'scale(1.1)' : 'scale(1)',
+                }}
+              />
+              <Icon
+                style={{
+                  color: colors.main,
+                  fontSize: 'clamp(2rem, 5vw, 4rem)',
+                  zIndex: 1,
+                  filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.3))',
+                  transition: 'all 0.3s ease',
+                  transform: isHovered ? 'scale(1.1) rotate(5deg)' : 'scale(1) rotate(0deg)',
+                }}
+              />
+            </Box>
+          </Box>
+
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              textAlign: { xs: 'left', md: 'center' },
+              alignItems: { xs: 'flex-start', md: 'center' },
+              gap: { xs: 1, md: 1.5 },
+              px: { xs: 0.5, sm: 2 },
+              flexGrow: 1,
+              justifyContent: 'flex-start',
+              pb: { xs: 2, md: 3 },
+            }}
+          >
+            <Box sx={{ flexGrow: 1, width: '100%', minHeight: { xs: 'auto', md: 210 } }}>
+              <Typography
+                variant="h5"
+                sx={{
+                  fontWeight: 800,
+                  mb: { xs: 1, md: 2 },
+                  color: theme.palette.mode === 'dark' ? '#f1f5f9' : '#1e293b',
+                  fontSize: { xs: '1.1rem', sm: '1.35rem', md: '1.5rem' },
+                  letterSpacing: '-0.02em',
+                }}
+              >
+                {service.title}
+              </Typography>
+
+              <Typography
+                variant="body2"
+                sx={{
+                  color: theme.palette.mode === 'dark' ? '#94a3b8' : '#64748b',
+                  lineHeight: 1.5,
+                  fontSize: { xs: '0.8rem', sm: '0.9rem', md: '0.95rem' },
+                  mb: { xs: 1.5, md: 3 },
+                  display: '-webkit-box',
+                  WebkitLineClamp: { xs: 3, md: 3 },
+                  WebkitBoxOrient: 'vertical',
+                  overflow: 'hidden',
+                }}
+              >
+                {service.description}
+              </Typography>
+            </Box>
+
+            {/* Expanded content on hover */}
+            <Box
+              component={motion.div}
+              initial={{ opacity: 0, height: 0 }}
+              animate={{
+                opacity: isHovered ? 1 : 0,
+                height: isHovered ? 'auto' : 0,
+              }}
+              transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+              sx={{
+                overflow: 'hidden',
+                width: '100%',
+              }}
+            >
+              {/* Badge */}
+              {service.badge && (
+                <Box
+                  sx={{
+                    display: 'inline-block',
+                    px: 2,
+                    py: 0.5,
+                    mb: 2,
+                    mt: 2,
+                    borderRadius: '20px',
+                    background: colors.gradient,
+                    color: '#fff',
+                    fontSize: '0.75rem',
+                    fontWeight: 700,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.5px',
+                    boxShadow: `0 4px 12px ${colors.light}`,
+                  }}
+                >
+                  ⭐ {service.badge}
+                </Box>
+              )}
+
+              {/* Features List */}
+              <Box sx={{ mb: 2 }}>
+                {service.features.map((feature, idx) => (
+                  <Box
+                    key={idx}
+                    component={motion.div}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{
+                      opacity: isHovered ? 1 : 0,
+                      x: isHovered ? 0 : -20,
+                    }}
+                    transition={{ delay: 0.1 + idx * 0.1, duration: 0.3 }}
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 1.5,
+                      mb: 1,
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        width: 20,
+                        height: 20,
+                        borderRadius: '50%',
+                        background: colors.gradient,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexShrink: 0,
+                      }}
+                    >
+                      <MdCheckCircle style={{ color: '#fff', fontSize: '0.75rem' }} />
+                    </Box>
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        color: theme.palette.mode === 'dark' ? '#e2e8f0' : '#334155',
+                        fontSize: '0.9rem',
+                        fontWeight: 600,
+                      }}
+                    >
+                      {feature}
+                    </Typography>
+                  </Box>
+                ))}
+              </Box>
+
+              {/* Price */}
+              <Box
+                sx={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 1,
+                  px: 2.5,
+                  py: 1,
+                  borderRadius: '25px',
+                  background: theme.palette.mode === 'dark'
+                    ? 'rgba(255, 255, 255, 0.05)'
+                    : 'rgba(0, 0, 0, 0.03)',
+                  border: `1.5px solid ${colors.light}`,
+                  mb: 2,
+                }}
+              >
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: colors.main,
+                    fontSize: '1rem',
+                    fontWeight: 800,
+                  }}
+                >
+                  {service.price}
+                </Typography>
+              </Box>
+            </Box>
+
+            <Box sx={{ mt: 1.5, display: { xs: 'flex', md: 'none' }, gap: 1.5, alignSelf: { xs: 'flex-start', md: 'center' }, flexWrap: 'wrap' }}>
+              <Button
+                component={Link}
+                to={`/services/${service.slug}`}
+                variant="contained"
+                size="medium"
+                endIcon={<FaArrowRight />}
+                sx={{
+                  borderRadius: '25px',
+                  px: 3.5,
+                  py: 1.25,
+                  mt: 1,
+                  textTransform: 'none',
+                  fontWeight: 800,
+                  background: colors.gradient,
+                  boxShadow: `0 10px 20px ${colors.light}`,
+                  border: `2px solid ${colors.main}`,
+                  '&:hover': {
+                    boxShadow: `0 14px 28px ${colors.light}`,
+                  }
+                }}
+              >
+                Get Started
+              </Button>
+              <Button
+                onClick={() => setIsHovered(!isHovered)}
+                variant="outlined"
+                size="medium"
+                sx={{
+                  borderRadius: '25px',
+                  px: 3.5,
+                  py: 1.25,
+                  mt: 1,
+                  textTransform: 'none',
+                  fontWeight: 700,
+                  border: `2px solid ${colors.main}`,
+                  color: colors.main,
+                  background: isHovered ? `${colors.main}15` : 'transparent',
+                  '&:hover': {
+                    background: `${colors.main}20`,
+                    border: `2px solid ${colors.main}`,
+                  }
+                }}
+              >
+                {isHovered ? 'Less Info' : 'More Info'}
+              </Button>
+            </Box>
+          </Box>
+
+          <Button
+            component={Link}
+            to={`/services/${service.slug}`}
+            variant="outlined"
+            sx={{
+              display: { xs: 'none', md: 'inline-flex' },
+              borderRadius: '25px',
+              px: { xs: 3, sm: 4 },
+              py: { xs: 1, sm: 1.25 },
+              fontWeight: 600,
+              fontSize: { xs: '0.85rem', sm: '0.9rem' },
+              textTransform: 'none',
+              border: `2px solid ${colors.main}`,
+              color: colors.main,
+              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+              transform: isHovered ? 'translateY(-2px) scale(1.05)' : 'translateY(0) scale(1)',
+              background: isHovered ? `${colors.main}20` : 'transparent',
+              boxShadow: isHovered ? `0 8px 20px ${colors.light}` : 'none',
+              alignSelf: 'center',
+              mt: 'auto',
+              '&:hover': {
+                background: `${colors.main}25`,
+                transform: 'translateY(-3px) scale(1.08)',
+                boxShadow: `0 12px 24px ${colors.light}`,
+              }
+            }}
+          >
+            Learn More
+          </Button>
+        </Box>
       </Box>
     </Box>
   );

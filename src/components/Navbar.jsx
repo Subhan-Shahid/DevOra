@@ -1,136 +1,192 @@
 import React, { useState, useEffect } from 'react';
-import { AppBar, Toolbar, Typography, Button, Container, IconButton, Drawer, List, ListItem, ListItemButton, ListItemText, Box, useMediaQuery, useTheme, Divider, Tooltip } from '@mui/material';
+import { AppBar, Toolbar, Container, Box, useMediaQuery, useTheme, IconButton, Drawer, List, ListItem, ListItemButton, ListItemText, Button, Divider } from '@mui/material';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaFacebookF, FaTwitter, FaLinkedinIn, FaInstagram, FaGithub } from 'react-icons/fa';
 import { BsSun, BsMoon } from 'react-icons/bs';
 import { CgMenu, CgClose } from 'react-icons/cg';
-import { MdHome, MdBusiness, MdContactMail } from 'react-icons/md';
+import { HiHome, HiCube, HiUser, HiSparkles } from 'react-icons/hi';
 
-const NavButton = ({ to, children, icon: Icon, isActive, mode }) => (
-  <motion.div
-    whileHover={{ scale: 1.05, y: -2 }}
-    whileTap={{ scale: 0.95 }}
-    initial={{ opacity: 0, y: -20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.3 }}
-  >
-    <Button
+// Floating Pill NavItem
+const PillNavItem = ({ to, label, icon: Icon, isActive, mode }) => {
+  return (
+    <Box
       component={Link}
       to={to}
-      startIcon={Icon && <Icon />}
       sx={{
-        color: mode === 'dark' ? '#f1f5f9' : '#1e293b',
-        mx: 1,
-        px: 3,
-        py: 1.2,
-        borderRadius: '30px',
         position: 'relative',
-        fontWeight: 700,
-        fontSize: '1rem',
-        textTransform: 'none',
-        transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-        background: isActive 
-          ? (mode === 'dark' ? 'rgba(129, 140, 248, 0.15)' : 'rgba(99, 102, 241, 0.1)')
-          : 'transparent',
-        backdropFilter: isActive ? 'blur(20px)' : 'none',
-        WebkitBackdropFilter: isActive ? 'blur(20px)' : 'none',
-        border: isActive 
-          ? (mode === 'dark' ? '1px solid rgba(129, 140, 248, 0.3)' : '1px solid rgba(99, 102, 241, 0.2)')
-          : '1px solid transparent',
-        boxShadow: isActive 
-          ? (mode === 'dark' ? '0 8px 32px rgba(129, 140, 248, 0.2)' : '0 8px 32px rgba(99, 102, 241, 0.15)')
-          : 'none',
-        overflow: 'hidden',
-        '&::before': {
-          content: '""',
-          position: 'absolute',
-          top: 0,
-          left: '-100%',
-          width: '100%',
-          height: '100%',
-          background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)',
-          transition: 'left 0.5s ease',
-        },
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        textDecoration: 'none',
+        px: 3,
+        py: 1.5,
+        cursor: 'pointer',
+        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+        outline: 'none',
+        border: 'none',
         '&:hover': {
-          background: mode === 'dark' ? 'rgba(129, 140, 248, 0.2)' : 'rgba(99, 102, 241, 0.15)',
-          backdropFilter: 'blur(8px)',
-          WebkitBackdropFilter: 'blur(8px)',
-          border: mode === 'dark' ? '1px solid rgba(129, 140, 248, 0.4)' : '1px solid rgba(99, 102, 241, 0.3)',
-          boxShadow: mode === 'dark' ? '0 12px 40px rgba(129, 140, 248, 0.25)' : '0 12px 40px rgba(99, 102, 241, 0.2)',
-          '&::before': {
-            left: '100%'
-          }
+          transform: 'translateY(-2px)',
+        },
+        '&:focus': {
+          outline: 'none',
         }
       }}
     >
-      {children}
-    </Button>
-  </motion.div>
-);
-
-const MobileNavItem = ({ to, children, icon: Icon, onClick, isActive = false, mode }) => (
-  <motion.div
-    whileHover={{ x: 10 }}
-    whileTap={{ scale: 0.95 }}
-  >
-    <ListItem disablePadding sx={{ mx: 2, mb: 1 }}>
-      <ListItemButton 
-        component={Link} 
-        to={to} 
-        onClick={onClick}
+      {/* Icon with circular background when active */}
+      <Box
+        component={motion.div}
+        animate={{
+          scale: isActive ? 1 : 1,
+        }}
+        transition={{ type: 'spring', stiffness: 500, damping: 30 }}
         sx={{
-          borderRadius: '14px',
-          transition: 'all 0.25s ease',
-          color: mode === 'dark' ? '#f1f5f9' : '#1e293b',
-          background: isActive 
-            ? (mode === 'dark' 
-                ? 'linear-gradient(135deg, rgba(129, 140, 248, 0.15), rgba(99, 102, 241, 0.15))'
-                : 'linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1))')
+          width: 56,
+          height: 56,
+          borderRadius: '50%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          mb: 0.5,
+          background: isActive
+            ? (mode === 'dark'
+              ? 'linear-gradient(135deg, #8b5cf6, #6366f1)'
+              : 'linear-gradient(135deg, #6366f1, #8b5cf6)')
             : 'transparent',
-          border: isActive 
-            ? (mode === 'dark' ? '1px solid rgba(129, 140, 248, 0.35)' : '1px solid rgba(99, 102, 241, 0.25)')
-            : '1px solid transparent',
-          boxShadow: isActive 
-            ? (mode === 'dark' ? '0 8px 24px rgba(129, 140, 248, 0.25)' : '0 8px 24px rgba(99, 102, 241, 0.2)')
+          boxShadow: isActive
+            ? (mode === 'dark'
+              ? '0 8px 32px rgba(139, 92, 246, 0.5)'
+              : '0 8px 32px rgba(99, 102, 241, 0.4)')
             : 'none',
-          '&:hover': {
-            background: mode === 'dark'
-              ? 'linear-gradient(135deg, rgba(129, 140, 248, 0.2), rgba(99, 102, 241, 0.2))'
-              : 'linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(139, 92, 246, 0.15))',
-            color: mode === 'dark' ? '#f1f5f9' : '#1e293b',
-            transform: 'translateX(8px)'
-          }
+          transition: 'all 0.3s ease',
         }}
       >
-        <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
-          <Icon style={{ marginRight: '16px', fontSize: '1.2rem' }} />
-          <ListItemText 
-            primary={children} 
-            primaryTypographyProps={{ 
-              fontWeight: 600,
-              fontSize: '1.1rem'
-            }} 
-          />
+        <Box
+          sx={{
+            fontSize: '1.5rem',
+            color: isActive
+              ? '#ffffff'
+              : (mode === 'dark' ? '#94a3b8' : '#64748b'),
+            transition: 'color 0.3s ease',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Icon />
         </Box>
-      </ListItemButton>
-    </ListItem>
-  </motion.div>
+      </Box>
+
+      {/* Label */}
+      <Box
+        sx={{
+          fontSize: '0.75rem',
+          fontWeight: 600,
+          color: isActive
+            ? (mode === 'dark' ? '#a78bfa' : '#8b5cf6')
+            : (mode === 'dark' ? '#94a3b8' : '#64748b'),
+          transition: 'color 0.3s ease',
+          textTransform: 'capitalize',
+        }}
+      >
+        {label}
+      </Box>
+    </Box>
+  );
+};
+
+// Mobile NavItem - matches desktop style
+const MobileNavItem = ({ to, label, icon: Icon, onClick, isActive = false, mode }) => (
+  <Box
+    component={Link}
+    to={to}
+    onClick={onClick}
+    sx={{
+      position: 'relative',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      textDecoration: 'none',
+      flex: 1,
+      py: 1.5,
+      cursor: 'pointer',
+      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+      outline: 'none',
+      border: 'none',
+      '&:focus': {
+        outline: 'none',
+      }
+    }}
+  >
+    {/* Icon with circular background when active */}
+    <Box
+      sx={{
+        width: 48,
+        height: 48,
+        borderRadius: '50%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        mb: 0.5,
+        background: isActive
+          ? (mode === 'dark'
+            ? 'linear-gradient(135deg, #8b5cf6, #6366f1)'
+            : 'linear-gradient(135deg, #6366f1, #8b5cf6)')
+          : 'transparent',
+        boxShadow: isActive
+          ? (mode === 'dark'
+            ? '0 8px 32px rgba(139, 92, 246, 0.5)'
+            : '0 8px 32px rgba(99, 102, 241, 0.4)')
+          : 'none',
+        transition: 'all 0.3s ease',
+      }}
+    >
+      <Box
+        sx={{
+          fontSize: '1.3rem',
+          color: isActive
+            ? '#ffffff'
+            : (mode === 'dark' ? '#94a3b8' : '#64748b'),
+          transition: 'color 0.3s ease',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Icon />
+      </Box>
+    </Box>
+
+    {/* Label */}
+    <Box
+      sx={{
+        fontSize: '0.7rem',
+        fontWeight: 600,
+        color: isActive
+          ? (mode === 'dark' ? '#a78bfa' : '#8b5cf6')
+          : (mode === 'dark' ? '#94a3b8' : '#64748b'),
+        transition: 'color 0.3s ease',
+        textTransform: 'capitalize',
+      }}
+    >
+      {label}
+    </Box>
+  </Box>
 );
 
 const Navbar = ({ mode = 'light', onToggleTheme }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const theme = useTheme();
-  // Collapse navbar to mobile a bit earlier for better responsiveness on mid-size screens
   const isMobile = useMediaQuery(theme.breakpoints.down('lg'));
   const location = useLocation();
 
   useEffect(() => {
     let ticking = false;
     const update = () => {
-      const isScrolled = window.scrollY > 50;
-      // Avoid unnecessary re-renders
+      const isScrolled = window.scrollY > 20;
       setScrolled(prev => (prev !== isScrolled ? isScrolled : prev));
       ticking = false;
     };
@@ -142,7 +198,6 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
     };
 
     window.addEventListener('scroll', onScroll, { passive: true });
-    // Initialize once on mount
     update();
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
@@ -152,401 +207,191 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
   };
 
   const navItems = [
-    { to: '/', label: 'Home', icon: MdHome },
-    { to: '/services', label: 'Services', icon: MdBusiness },
-    { to: '/contact', label: 'Contact', icon: MdContactMail }
+    { to: '/', label: 'Home', icon: HiHome },
+    { to: '/services', label: 'Services', icon: HiCube },
+    { to: '/contact', label: 'Contact', icon: HiUser }
   ];
 
   return (
     <>
-      <AppBar 
+      <AppBar
         position="fixed"
-        sx={{ 
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 1300,
-          background: mode === 'dark'
-            ? (scrolled 
-                ? 'linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.9) 100%)'
-                : 'linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(30, 41, 59, 0.75) 100%)')
-            : (scrolled 
-                ? 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.9) 100%)'
-                : 'linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(248, 250, 252, 0.8) 100%)'),
-          backdropFilter: scrolled ? 'saturate(180%) blur(20px)' : 'saturate(150%) blur(15px)',
-          WebkitBackdropFilter: scrolled ? 'saturate(180%) blur(20px)' : 'saturate(150%) blur(15px)',
-          boxShadow: scrolled 
-            ? (mode === 'dark' 
-                ? '0 8px 32px rgba(0, 0, 0, 0.4), 0 4px 16px rgba(129, 140, 248, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
-                : '0 8px 32px rgba(0, 0, 0, 0.12), 0 4px 16px rgba(99, 102, 241, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8)')
-            : (mode === 'dark' 
-                ? '0 4px 20px rgba(0, 0, 0, 0.25), 0 2px 8px rgba(129, 140, 248, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.05)'
-                : '0 4px 20px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(99, 102, 241, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.6)'),
-          border: mode === 'dark' 
-            ? `1px solid ${scrolled ? 'rgba(129, 140, 248, 0.2)' : 'rgba(129, 140, 248, 0.15)'}`
-            : `1px solid ${scrolled ? 'rgba(99, 102, 241, 0.15)' : 'rgba(99, 102, 241, 0.1)'}`,
-          borderBottom: mode === 'dark'
-            ? `1px solid ${scrolled ? 'rgba(129, 140, 248, 0.25)' : 'rgba(129, 140, 248, 0.1)'}`
-            : `1px solid ${scrolled ? 'rgba(99, 102, 241, 0.2)' : 'rgba(99, 102, 241, 0.08)'}`,
-          transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-          py: { xs: 0.25, md: 0.75 },
-          transform: 'translateY(0px)', // Ensure it stays in place
-          '&::before': {
-            content: '""',
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background: mode === 'dark'
-              ? 'linear-gradient(90deg, transparent, rgba(129, 140, 248, 0.08), transparent)'
-              : 'linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.06), transparent)',
-            opacity: scrolled ? 1 : 0.7,
-            transition: 'opacity 0.4s ease',
-            pointerEvents: 'none'
-          },
-          '&::after': {
-            content: '""',
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background: mode === 'dark'
-              ? 'radial-gradient(circle at 50% 0%, rgba(129, 140, 248, 0.1) 0%, transparent 50%)'
-              : 'radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.08) 0%, transparent 50%)',
-            opacity: scrolled ? 0.8 : 0.4,
-            transition: 'opacity 0.4s ease',
-            pointerEvents: 'none'
-          }
-        }}
-        >
-          <Container maxWidth="lg">
-            <Toolbar disableGutters sx={{ py: { xs: 0.5, md: 1 }, px: 2 }}>
-              <motion.div
-                style={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}
-              >
-                <Typography 
-                  variant="h5" 
-                  component={Link}
-                  to="/"
-                  sx={{ 
-                    fontWeight: 800,
-                    color: mode === 'dark' ? '#f1f5f9' : '#1e293b',
-                    textDecoration: 'none',
-                    textShadow: '0 2px 6px rgba(0,0,0,0.3)',
-                    fontSize: { xs: '1.15rem', sm: '1.25rem', md: '1.35rem' },
-                    '&:hover': {
-                      transform: 'scale(1.02)'
-                    }
-                  }}
-                >
-                  <span style={{ color: mode === 'dark' ? '#818cf8' : '#6366f1' }}>D</span>ev<span style={{ color: mode === 'dark' ? '#818cf8' : '#6366f1' }}>O</span>ra
-                </Typography>
-              </motion.div>
-
-              {!isMobile && (
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  {navItems.map((item) => (
-                    <NavButton
-                      key={item.to}
-                      to={item.to}
-                      icon={item.icon}
-                      isActive={location.pathname === item.to}
-                      mode={mode}
-                    >
-                      {item.label}
-                    </NavButton>
-                  ))}
-                  {/* Theme toggle */}
-                  <motion.div
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <IconButton
-                      onClick={onToggleTheme}
-                      sx={{
-                        ml: 0.5,
-                        color: mode === 'dark' ? '#f1f5f9' : '#1e293b',
-                        background: mode === 'dark' ? 'rgba(129, 140, 248, 0.15)' : 'rgba(99, 102, 241, 0.1)',
-                        border: mode === 'dark' ? '1px solid rgba(129, 140, 248, 0.3)' : '1px solid rgba(99, 102, 241, 0.2)',
-                        transition: 'all 0.3s ease',
-                        '&:hover': { 
-                          background: mode === 'dark' ? 'rgba(129, 140, 248, 0.25)' : 'rgba(99, 102, 241, 0.2)',
-                          transform: 'rotate(180deg)'
-                        }
-                      }}
-                      aria-label="Toggle light/dark mode"
-                      title={mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-                    >
-                      <AnimatePresence mode="wait">
-                        <motion.div
-                          key={mode}
-                          initial={{ rotate: -180, opacity: 0 }}
-                          animate={{ rotate: 0, opacity: 1 }}
-                          exit={{ rotate: 180, opacity: 0 }}
-                          transition={{ duration: 0.3 }}
-                        >
-                          {mode === 'dark' ? <BsSun size={22} /> : <BsMoon size={22} />}
-                        </motion.div>
-                      </AnimatePresence>
-                    </IconButton>
-                  </motion.div>
-                </Box>
-              )}
-
-              {isMobile && (
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2.5 }}>
-                  <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                    <Tooltip title={mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'} placement="bottom" enterDelay={300} arrow>
-                      <IconButton
-                        onClick={onToggleTheme}
-                        sx={{
-                          color: mode === 'dark' ? '#f1f5f9' : '#1e293b',
-                          background: mode === 'dark' ? 'rgba(129, 140, 248, 0.15)' : 'rgba(99, 102, 241, 0.1)',
-                          border: mode === 'dark' ? '1px solid rgba(129, 140, 248, 0.3)' : '1px solid rgba(99, 102, 241, 0.2)',
-                          backdropFilter: 'blur(6px)',
-                          WebkitBackdropFilter: 'blur(6px)',
-                          transition: 'all 0.3s ease',
-                          '&:hover': { 
-                            background: mode === 'dark' ? 'rgba(129, 140, 248, 0.25)' : 'rgba(99, 102, 241, 0.2)',
-                            transform: 'rotate(180deg)'
-                          }
-                        }}
-                        aria-label="Toggle light/dark mode"
-                      >
-                        <AnimatePresence mode="wait">
-                          <motion.div
-                            key={mode}
-                            initial={{ rotate: -180, opacity: 0 }}
-                            animate={{ rotate: 0, opacity: 1 }}
-                            exit={{ rotate: 180, opacity: 0 }}
-                            transition={{ duration: 0.3 }}
-                          >
-                            {mode === 'dark' ? <BsSun size={22} /> : <BsMoon size={22} />}
-                          </motion.div>
-                        </AnimatePresence>
-                      </IconButton>
-                    </Tooltip>
-                  </motion.div>
-                  <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                    <IconButton
-                      aria-label="open drawer"
-                      edge="start"
-                      onClick={handleDrawerToggle}
-                      sx={{
-                        color: mode === 'dark' ? '#f1f5f9' : '#1e293b',
-                        background: mode === 'dark' ? 'rgba(129, 140, 248, 0.15)' : 'rgba(99, 102, 241, 0.1)',
-                        backdropFilter: 'blur(6px)',
-                        WebkitBackdropFilter: 'blur(6px)',
-                        border: mode === 'dark' ? '1px solid rgba(129, 140, 248, 0.3)' : '1px solid rgba(99, 102, 241, 0.2)',
-                        '&:hover': {
-                          background: mode === 'dark' ? 'rgba(129, 140, 248, 0.25)' : 'rgba(99, 102, 241, 0.2)',
-                          transform: 'rotate(90deg)'
-                        }
-                      }}
-                    >
-                      <AnimatePresence mode="wait">
-                        <motion.div
-                          key={mobileOpen ? 'close' : 'open'}
-                          initial={{ rotate: -90, opacity: 0 }}
-                          animate={{ rotate: 0, opacity: 1 }}
-                          exit={{ rotate: 90, opacity: 0 }}
-                          transition={{ duration: 0.2 }}
-                        >
-                          {mobileOpen ? <CgClose size={22} /> : <CgMenu size={22} />}
-                        </motion.div>
-                      </AnimatePresence>
-                    </IconButton>
-                  </motion.div>
-                </Box>
-              )}
-            </Toolbar>
-          </Container>
-        </AppBar>
-
-      {/* Mobile Drawer */}
-      <Drawer
-        variant="temporary"
-        anchor="right"
-        open={mobileOpen}
-        onClose={handleDrawerToggle}
-        ModalProps={{
-          keepMounted: true,
-          BackdropProps: {
-            sx: {
-              background: 'rgba(2, 6, 23, 0.6)',
-              backdropFilter: 'blur(3px)',
-              WebkitBackdropFilter: 'blur(3px)'
-            }
-          }
-        }}
+        elevation={0}
         sx={{
-          display: { xs: 'block', lg: 'none' },
-          '& .MuiDrawer-paper': {
-            boxSizing: 'border-box',
-            width: 320,
-            background: mode === 'dark'
-              ? 'linear-gradient(180deg, #0f172a 0%, #1e293b 100%)'
-              : 'linear-gradient(180deg, #ffffff 0%, #f8fafc 100%)',
-            color: mode === 'dark' ? '#f1f5f9' : '#1e293b',
-            borderLeft: mode === 'dark' ? '1px solid rgba(129, 140, 248, 0.25)' : '1px solid rgba(99, 102, 241, 0.15)',
-            boxShadow: mode === 'dark' ? '0 10px 40px rgba(0,0,0,0.5)' : '0 10px 40px rgba(0,0,0,0.1)',
-            backdropFilter: 'blur(6px)',
-            WebkitBackdropFilter: 'blur(6px)',
-            contain: 'layout style paint'
-          },
+          top: { xs: 0, md: 16 },
+          left: { xs: 0, md: '50%' },
+          right: { xs: 0, md: 'auto' },
+          transform: { xs: 'none', md: 'translateX(-50%)' },
+          width: { xs: '100%', md: 'auto' },
+          zIndex: 1300,
+          background: 'transparent',
+          boxShadow: 'none',
+          px: { xs: 2, md: 0 },
+          py: { xs: 1.5, md: 0 },
         }}
       >
-        <motion.div
-          initial={{ x: 300 }}
-          animate={{ x: 0 }}
-          exit={{ x: 300 }}
-          transition={{ duration: 0.3, ease: "easeOut" }}
-        >
-          <Box sx={{ p: 2.5, px: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: mode === 'dark' ? '1px solid rgba(129, 140, 248, 0.1)' : '1px solid rgba(99, 102, 241, 0.1)', position: 'relative' }}>
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <img
-                src={`/DevOra.png`}
-                alt="DevOra logo"
-                style={{ height: '28px', width: '28px', marginRight: '10px', borderRadius: '6px' }}
-              />
-              <Typography variant="h6" sx={{ fontWeight: 800, color: mode === 'dark' ? '#f1f5f9' : '#1e293b' }}>
-                <span style={{ color: mode === 'dark' ? '#818cf8' : '#6366f1' }}>D</span>ev<span style={{ color: mode === 'dark' ? '#818cf8' : '#6366f1' }}>O</span>ra
-              </Typography>
-            </Box>
-            <Box sx={{ display: 'flex', gap: 1 }}>
-              <IconButton
-                onClick={handleDrawerToggle}
-                sx={{ 
-                  color: mode === 'dark' ? '#f1f5f9' : '#1e293b', 
-                  background: mode === 'dark' ? 'rgba(129, 140, 248, 0.1)' : 'rgba(99, 102, 241, 0.08)', 
-                  '&:hover': { 
-                    background: mode === 'dark' ? 'rgba(129, 140, 248, 0.2)' : 'rgba(99, 102, 241, 0.15)', 
-                    transform: 'rotate(90deg)' 
-                  } 
-                }}
-                aria-label="Close menu"
-              >
-                <CgClose size={22} />
-              </IconButton>
-            </Box>
-          </Box>
-          <Box sx={{ px: 3, py: 2, color: mode === 'dark' ? '#cbd5e1' : '#64748b' }}>
-            <Typography variant="body2">Digital Innovation Hub</Typography>
-          </Box>
-          <Divider sx={{ opacity: 0.12, borderColor: mode === 'dark' ? 'rgba(129, 140, 248, 0.15)' : 'rgba(99, 102, 241, 0.1)' }} />
-          
-          <List sx={{ pt: 1 }}>
-            {navItems.map((item) => (
-              <MobileNavItem
-                key={item.to}
-                to={item.to}
-                icon={item.icon}
-                onClick={handleDrawerToggle}
-                isActive={location.pathname === item.to}
-                mode={mode}
-              >
-                {item.label}
-              </MobileNavItem>
-            ))}
-          </List>
-
-          <Box sx={{ p: 3, mt: 'auto', textAlign: 'center' }}>
-            
-            <Typography variant="body2" sx={{ color: mode === 'dark' ? '#cbd5e1' : '#64748b', mb: 2 }}>
-              Ready to start your project?
-            </Typography>
-            <Button
-              component={Link}
-              to="/contact"
-              variant="contained"
-              onClick={handleDrawerToggle}
+        <Container maxWidth="lg" sx={{ display: 'flex', justifyContent: { xs: 'flex-start', md: 'center' }, px: { xs: 0, md: 3 } }}>
+          {!isMobile ? (
+            <Box
               sx={{
-                borderRadius: '25px',
-                px: 4,
-                py: 1.5,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 0,
                 background: mode === 'dark'
-                  ? 'linear-gradient(135deg, #818cf8 0%, #6366f1 100%)'
-                  : 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
-                boxShadow: '0 8px 24px rgba(37, 99, 235, 0.35)',
-                '&:hover': {
-                  transform: 'translateY(-2px)',
-                  boxShadow: '0 10px 28px rgba(37, 99, 235, 0.45)'
-                }
+                  ? 'rgba(30, 41, 59, 0.95)'
+                  : 'rgba(255, 255, 255, 0.95)',
+                backdropFilter: 'blur(20px) saturate(180%)',
+                WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+                borderRadius: '50px',
+                padding: '8px 16px',
+                boxShadow: mode === 'dark'
+                  ? '0 8px 32px rgba(0, 0, 0, 0.4)'
+                  : '0 8px 32px rgba(0, 0, 0, 0.12)',
+                transition: 'all 0.3s ease',
+                overflow: 'visible',
+                position: 'relative',
               }}
             >
-              Get Started
-            </Button>
-            <Divider sx={{ my: 3, opacity: 0.12, borderColor: mode === 'dark' ? 'rgba(129, 140, 248, 0.15)' : 'rgba(99, 102, 241, 0.1)' }} />
-            <Box sx={{ display: 'flex', justifyContent: 'center', gap: 1.5 }}>
-              <IconButton 
-                href={import.meta.env.VITE_FACEBOOK_URL || '#'} 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                sx={{ 
-                  color: mode === 'dark' ? '#f1f5f9' : '#1e293b', 
-                  bgcolor: mode === 'dark' ? 'rgba(129, 140, 248, 0.1)' : 'rgba(99, 102, 241, 0.08)', 
-                  '&:hover': { bgcolor: mode === 'dark' ? 'rgba(129, 140, 248, 0.2)' : 'rgba(99, 102, 241, 0.15)' } 
-                }} 
-                aria-label="Facebook">
-                <FaFacebookF />
-              </IconButton>
-              <IconButton 
-                href={import.meta.env.VITE_TWITTER_URL || '#'} 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                sx={{ 
-                  color: mode === 'dark' ? '#f1f5f9' : '#1e293b', 
-                  bgcolor: mode === 'dark' ? 'rgba(129, 140, 248, 0.1)' : 'rgba(99, 102, 241, 0.08)', 
-                  '&:hover': { bgcolor: mode === 'dark' ? 'rgba(129, 140, 248, 0.2)' : 'rgba(99, 102, 241, 0.15)' } 
-                }} 
-                aria-label="Twitter">
-                <FaTwitter />
-              </IconButton>
-              <IconButton 
-                href={import.meta.env.VITE_LINKEDIN_URL || '#'} 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                sx={{ 
-                  color: mode === 'dark' ? '#f1f5f9' : '#1e293b', 
-                  bgcolor: mode === 'dark' ? 'rgba(129, 140, 248, 0.1)' : 'rgba(99, 102, 241, 0.08)', 
-                  '&:hover': { bgcolor: mode === 'dark' ? 'rgba(129, 140, 248, 0.2)' : 'rgba(99, 102, 241, 0.15)' } 
-                }} 
-                aria-label="LinkedIn">
-                <FaLinkedinIn />
-              </IconButton>
-              <IconButton 
-                href={import.meta.env.VITE_INSTAGRAM_URL || '#'} 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                sx={{ 
-                  color: mode === 'dark' ? '#f1f5f9' : '#1e293b', 
-                  bgcolor: mode === 'dark' ? 'rgba(129, 140, 248, 0.1)' : 'rgba(99, 102, 241, 0.08)', 
-                  '&:hover': { bgcolor: mode === 'dark' ? 'rgba(129, 140, 248, 0.2)' : 'rgba(99, 102, 241, 0.15)' } 
-                }} 
-                aria-label="Instagram">
-                <FaInstagram />
-              </IconButton>
-              <IconButton 
-                href={import.meta.env.VITE_GITHUB_URL || '#'} 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                sx={{ 
-                  color: mode === 'dark' ? '#f1f5f9' : '#1e293b', 
-                  bgcolor: mode === 'dark' ? 'rgba(129, 140, 248, 0.1)' : 'rgba(99, 102, 241, 0.08)', 
-                  '&:hover': { bgcolor: mode === 'dark' ? 'rgba(129, 140, 248, 0.2)' : 'rgba(99, 102, 241, 0.15)' } 
-                }} 
-                aria-label="GitHub">
-                <FaGithub />
-              </IconButton>
-            </Box>
-          </Box>
-        </motion.div>
-      </Drawer>
+              {navItems.map((item) => (
+                <PillNavItem
+                  key={item.to}
+                  to={item.to}
+                  label={item.label}
+                  icon={item.icon}
+                  isActive={location.pathname === item.to}
+                  mode={mode}
+                />
+              ))}
 
-      {/* Spacer for fixed navbar */}
-      <Toolbar />
+              {/* Theme Toggle */}
+              <Box sx={{ ml: 1, pl: 1, borderLeft: mode === 'dark' ? '1px solid rgba(148, 163, 184, 0.2)' : '1px solid rgba(148, 163, 184, 0.15)' }}>
+                <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                  <IconButton
+                    onClick={onToggleTheme}
+                    sx={{
+                      color: mode === 'dark' ? '#94a3b8' : '#64748b',
+                      transition: 'all 0.3s ease',
+                      '&:hover': {
+                        color: mode === 'dark' ? '#f8fafc' : '#0f172a',
+                        background: mode === 'dark' ? 'rgba(139, 92, 246, 0.1)' : 'rgba(99, 102, 241, 0.1)',
+                      }
+                    }}
+                  >
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={mode}
+                        initial={{ rotate: -180, opacity: 0 }}
+                        animate={{ rotate: 0, opacity: 1 }}
+                        exit={{ rotate: 180, opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        {mode === 'dark' ? <BsSun size={20} /> : <BsMoon size={20} />}
+                      </motion.div>
+                    </AnimatePresence>
+                  </IconButton>
+                </motion.div>
+              </Box>
+            </Box>
+          ) : (
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                width: '100%',
+                background: mode === 'dark'
+                  ? 'rgba(30, 41, 59, 0.95)'
+                  : 'rgba(255, 255, 255, 0.95)',
+                backdropFilter: 'blur(20px) saturate(180%)',
+                WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+                borderRadius: '50px',
+                padding: '12px 20px',
+                boxShadow: mode === 'dark'
+                  ? '0 8px 32px rgba(0, 0, 0, 0.4)'
+                  : '0 8px 32px rgba(0, 0, 0, 0.12)',
+              }}
+            >
+              <Box sx={{ fontWeight: 900, fontSize: '1.2rem', color: mode === 'dark' ? '#f8fafc' : '#0f172a' }}>
+                DevOra
+              </Box>
+              <Box sx={{ display: 'flex', gap: 1 }}>
+                <IconButton onClick={onToggleTheme} sx={{ color: mode === 'dark' ? '#94a3b8' : '#64748b' }}>
+                  {mode === 'dark' ? <BsSun size={20} /> : <BsMoon size={20} />}
+                </IconButton>
+                <IconButton onClick={handleDrawerToggle} sx={{ color: mode === 'dark' ? '#94a3b8' : '#64748b' }}>
+                  {mobileOpen ? <CgClose size={22} /> : <CgMenu size={22} />}
+                </IconButton>
+              </Box>
+            </Box>
+          )}
+        </Container>
+      </AppBar>
+
+      {/* Mobile Dropdown Menu */}
+      <AnimatePresence>
+        {isMobile && mobileOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -20, scale: 0.95 }}
+            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+            style={{
+              position: 'fixed',
+              top: 80,
+              left: 16,
+              right: 16,
+              zIndex: 1200,
+            }}
+          >
+            <Box
+              sx={{
+                background: mode === 'dark'
+                  ? 'rgba(30, 41, 59, 0.98)'
+                  : 'rgba(255, 255, 255, 0.98)',
+                backdropFilter: 'blur(30px) saturate(180%)',
+                WebkitBackdropFilter: 'blur(30px) saturate(180%)',
+                borderRadius: '24px',
+                padding: '16px',
+                boxShadow: mode === 'dark'
+                  ? '0 20px 60px rgba(0, 0, 0, 0.6)'
+                  : '0 20px 60px rgba(0, 0, 0, 0.15)',
+                border: mode === 'dark'
+                  ? '1px solid rgba(148, 163, 184, 0.1)'
+                  : '1px solid rgba(148, 163, 184, 0.1)',
+              }}
+            >
+              <Box
+                sx={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(3, 1fr)',
+                  gap: 2,
+                }}
+              >
+                {navItems.map((item, index) => (
+                  <motion.div
+                    key={item.to}
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1, duration: 0.3 }}
+                  >
+                    <MobileNavItem
+                      to={item.to}
+                      label={item.label}
+                      icon={item.icon}
+                      onClick={handleDrawerToggle}
+                      isActive={location.pathname === item.to}
+                      mode={mode}
+                    />
+                  </motion.div>
+                ))}
+              </Box>
+            </Box>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Spacer */}
+      <Box sx={{ height: { xs: 80, md: 100 } }} />
     </>
   );
 };
