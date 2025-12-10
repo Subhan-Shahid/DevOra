@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { AppBar, Toolbar, Container, Box, useMediaQuery, useTheme, IconButton, Drawer, List, ListItem, ListItemButton, ListItemText, Button, Divider } from '@mui/material';
+import { AppBar, Toolbar, Container, Box, useMediaQuery, useTheme, IconButton, Drawer, List, ListItem, ListItemButton, ListItemText, Button, Divider, Typography } from '@mui/material';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaFacebookF, FaTwitter, FaLinkedinIn, FaInstagram, FaGithub } from 'react-icons/fa';
@@ -51,13 +51,13 @@ const PillNavItem = ({ to, label, icon: Icon, isActive, mode }) => {
           mb: 0.5,
           background: isActive
             ? (mode === 'dark'
-              ? 'linear-gradient(135deg, #8b5cf6, #6366f1)'
-              : 'linear-gradient(135deg, #6366f1, #8b5cf6)')
+              ? 'linear-gradient(135deg, #3b82f6, #2563eb)'
+              : 'linear-gradient(135deg, #2563eb, #1e40af)')
             : 'transparent',
           boxShadow: isActive
             ? (mode === 'dark'
-              ? '0 8px 32px rgba(139, 92, 246, 0.5)'
-              : '0 8px 32px rgba(99, 102, 241, 0.4)')
+              ? '0 8px 32px rgba(59, 130, 246, 0.5)'
+              : '0 8px 32px rgba(30, 64, 175, 0.4)')
             : 'none',
           transition: 'all 0.3s ease',
         }}
@@ -84,7 +84,7 @@ const PillNavItem = ({ to, label, icon: Icon, isActive, mode }) => {
           fontSize: '0.75rem',
           fontWeight: 600,
           color: isActive
-            ? (mode === 'dark' ? '#a78bfa' : '#8b5cf6')
+            ? (mode === 'dark' ? '#60a5fa' : '#2563eb')
             : (mode === 'dark' ? '#94a3b8' : '#64748b'),
           transition: 'color 0.3s ease',
           textTransform: 'capitalize',
@@ -218,11 +218,12 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
         position="fixed"
         elevation={0}
         sx={{
-          top: { xs: 0, md: 16 },
+          top: { xs: 0, md: 24 },
           left: { xs: 0, md: '50%' },
           right: { xs: 0, md: 'auto' },
           transform: { xs: 'none', md: 'translateX(-50%)' },
-          width: { xs: '100%', md: 'auto' },
+          width: { xs: '100%', md: '90%', lg: '1200px' },
+          maxWidth: '100%',
           zIndex: 1300,
           background: 'transparent',
           boxShadow: 'none',
@@ -230,38 +231,63 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
           py: { xs: 1.5, md: 0 },
         }}
       >
-        <Container maxWidth="lg" sx={{ display: 'flex', justifyContent: { xs: 'flex-start', md: 'center' }, px: { xs: 0, md: 3 } }}>
+        <Container maxWidth={false} sx={{ display: 'flex', justifyContent: 'center', px: 0 }}>
           {!isMobile ? (
             <Box
               sx={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: 0,
+                justifyContent: 'space-between',
+                width: '100%',
                 background: mode === 'dark'
-                  ? 'rgba(30, 41, 59, 0.95)'
-                  : 'rgba(255, 255, 255, 0.95)',
+                  ? 'rgba(30, 41, 59, 0.9)'
+                  : 'rgba(255, 255, 255, 0.9)',
                 backdropFilter: 'blur(20px) saturate(180%)',
                 WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-                borderRadius: '50px',
-                padding: '8px 16px',
+                borderRadius: '24px',
+                padding: '12px 32px',
                 boxShadow: mode === 'dark'
-                  ? '0 8px 32px rgba(0, 0, 0, 0.4)'
-                  : '0 8px 32px rgba(0, 0, 0, 0.12)',
+                  ? '0 10px 40px rgba(0, 0, 0, 0.4)'
+                  : '0 10px 40px rgba(0, 0, 0, 0.1)',
                 transition: 'all 0.3s ease',
-                overflow: 'visible',
-                position: 'relative',
+                border: mode === 'dark'
+                  ? '1px solid rgba(148, 163, 184, 0.1)'
+                  : '1px solid rgba(226, 232, 240, 0.8)',
               }}
             >
-              {navItems.map((item) => (
-                <PillNavItem
-                  key={item.to}
-                  to={item.to}
-                  label={item.label}
-                  icon={item.icon}
-                  isActive={location.pathname === item.to}
-                  mode={mode}
-                />
-              ))}
+              {/* Logo */}
+              {/* Logo */}
+              <Box
+                component={Link}
+                to="/"
+                sx={{
+                  textDecoration: 'none',
+                  fontWeight: 800,
+                  fontSize: '1.5rem',
+                  mr: 4,
+                  display: 'flex',
+                  alignItems: 'center',
+                  color: mode === 'dark' ? '#f8fafc' : '#0f172a',
+                }}
+              >
+                <span style={{ color: mode === 'dark' ? '#3b82f6' : '#2563eb' }}>D</span>
+                ev
+                <span style={{ color: mode === 'dark' ? '#3b82f6' : '#2563eb' }}>O</span>
+                ra
+              </Box>
+
+              <Box sx={{ display: 'flex', gap: 1 }}>
+                {navItems.map((item) => (
+                  <PillNavItem
+                    key={item.to}
+                    to={item.to}
+                    label={item.label}
+                    icon={item.icon}
+                    isActive={location.pathname === item.to}
+                    mode={mode}
+                  />
+                ))}
+              </Box>
 
               {/* Theme Toggle */}
               <Box sx={{ ml: 1, pl: 1, borderLeft: mode === 'dark' ? '1px solid rgba(148, 163, 184, 0.2)' : '1px solid rgba(148, 163, 184, 0.15)' }}>
@@ -312,7 +338,10 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
               }}
             >
               <Box sx={{ fontWeight: 900, fontSize: '1.2rem', color: mode === 'dark' ? '#f8fafc' : '#0f172a' }}>
-                DevOra
+                <span style={{ color: mode === 'dark' ? '#3b82f6' : '#2563eb' }}>D</span>
+                ev
+                <span style={{ color: mode === 'dark' ? '#3b82f6' : '#2563eb' }}>O</span>
+                ra
               </Box>
               <Box sx={{ display: 'flex', gap: 1 }}>
                 <IconButton onClick={onToggleTheme} sx={{ color: mode === 'dark' ? '#94a3b8' : '#64748b' }}>

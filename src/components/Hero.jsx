@@ -12,12 +12,12 @@ const FloatingIcon = React.memo(({ icon: Icon, delay, x, y, color = '#1976d2', d
   disabled ? null : (
     <motion.div
       initial={{ opacity: 0 }}
-      animate={{ 
-        opacity: [0.4, 0.8, 0.4]
+      animate={{
+        opacity: [0.3, 0.6, 0.3]
       }}
-      transition={{ 
-        duration: 6, 
-        delay, 
+      transition={{
+        duration: 8,
+        delay,
         repeat: Infinity,
         ease: "easeInOut"
       }}
@@ -26,7 +26,7 @@ const FloatingIcon = React.memo(({ icon: Icon, delay, x, y, color = '#1976d2', d
         color,
         fontSize: '2.5rem',
         zIndex: 1,
-        filter: 'drop-shadow(0 0 10px rgba(255,255,255,0.3))',
+        filter: 'drop-shadow(0 0 5px rgba(255,255,255,0.2))',
         cursor: 'pointer',
         willChange: 'opacity',
         ...position
@@ -40,28 +40,28 @@ const FloatingIcon = React.memo(({ icon: Icon, delay, x, y, color = '#1976d2', d
 
 const GlassmorphismCard = ({ children, delay = 0, theme }) => (
   <motion.div
-    initial={{ opacity: 0, y: 50 }}
+    initial={{ opacity: 0, y: 30 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.8, delay }}
-    whileHover={{ 
-      y: -8,
+    whileHover={{
+      y: -5,
       transition: { duration: 0.3 }
     }}
     style={{
       background: theme?.palette.mode === 'dark'
-        ? 'rgba(30, 41, 59, 0.6)'
-        : 'rgba(255, 255, 255, 0.8)',
-      backdropFilter: 'blur(4px)',
+        ? 'rgba(30, 41, 59, 0.7)'
+        : 'rgba(255, 255, 255, 0.9)',
+      backdropFilter: 'blur(8px)',
       contain: 'layout style paint',
       willChange: 'transform',
-      borderRadius: '24px',
+      borderRadius: '16px',
       border: theme?.palette.mode === 'dark'
-        ? '2px solid rgba(129, 140, 248, 0.3)'
-        : '2px solid rgba(99, 102, 241, 0.2)',
+        ? '1px solid rgba(148, 163, 184, 0.2)'
+        : '1px solid rgba(226, 232, 240, 0.8)',
       padding: '24px',
       boxShadow: theme?.palette.mode === 'dark'
-        ? '0 20px 60px rgba(0, 0, 0, 0.4), 0 0 40px rgba(129, 140, 248, 0.1)'
-        : '0 20px 60px rgba(99, 102, 241, 0.15), 0 8px 32px rgba(0, 0, 0, 0.08)'
+        ? '0 10px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(15, 23, 42, 0.2)'
+        : '0 10px 40px rgba(0, 0, 0, 0.05), 0 4px 12px rgba(0, 0, 0, 0.03)'
     }}
     data-animate="true"
   >
@@ -109,20 +109,20 @@ const Hero = () => {
         once: true
       });
     }
-    return () => {};
+    return () => { };
   }, [disableDecor]);
 
   return (
-    <Box 
+    <Box
       sx={{
         position: 'relative',
         minHeight: '100dvh',
         display: 'flex',
         alignItems: 'center',
         pt: { xs: 8, md: 10 },
-        background: theme.palette.mode === 'dark' 
-          ? 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)'
-          : 'linear-gradient(135deg, #ffffff 0%, #f0f9ff 30%, #e0e7ff 70%, #fae8ff 100%)',
+        background: theme.palette.mode === 'dark'
+          ? 'linear-gradient(135deg, #020617 0%, #0f172a 50%, #1e293b 100%)'
+          : 'linear-gradient(135deg, #f8fafc 0%, #f1f5f9 60%, #e2e8f0 100%)',
         transition: 'background 0.5s ease',
         overflow: 'hidden',
         '&::before': {
@@ -132,82 +132,82 @@ const Hero = () => {
           left: 0,
           right: 0,
           bottom: 0,
-          background: theme.palette.mode === 'dark' 
+          background: theme.palette.mode === 'dark'
             ? `
-              radial-gradient(circle at 20% 80%, rgba(129, 140, 248, 0.15) 0%, transparent 50%),
-              radial-gradient(circle at 80% 20%, rgba(244, 114, 182, 0.12) 0%, transparent 50%),
-              radial-gradient(circle at 50% 50%, rgba(56, 189, 248, 0.1) 0%, transparent 60%)
+              radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
+              radial-gradient(circle at 80% 20%, rgba(13, 148, 136, 0.08) 0%, transparent 50%),
+              radial-gradient(circle at 50% 50%, rgba(30, 64, 175, 0.05) 0%, transparent 60%)
             `
             : `
-              radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.12) 0%, transparent 50%),
-              radial-gradient(circle at 80% 20%, rgba(236, 72, 153, 0.1) 0%, transparent 50%),
-              radial-gradient(circle at 50% 50%, rgba(14, 165, 233, 0.08) 0%, transparent 60%)
+              radial-gradient(circle at 20% 80%, rgba(37, 99, 235, 0.05) 0%, transparent 50%),
+              radial-gradient(circle at 80% 20%, rgba(13, 148, 136, 0.05) 0%, transparent 50%),
+              radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.03) 0%, transparent 60%)
             `,
           zIndex: 1,
-          animation: 'gradientShift 15s ease infinite'
+          animation: 'gradientShift 20s ease infinite'
         },
       }}
     >
       {/* Particle Background */}
       {!disableDecor && <ParticleBackground />}
-      
-      {/* Decorative floating icons with proper positioning */}
-      <FloatingIcon 
-        icon={FaCode} 
-        delay={0} 
-        x={20} 
-        y={-15} 
-        color="#64b5f6" 
+
+      {/* Decorative floating icons with professional colors */}
+      <FloatingIcon
+        icon={FaCode}
+        delay={0}
+        x={20}
+        y={-15}
+        color="#3b82f6"
         disabled={disableDecor}
         position={{ top: '15%', left: '8%' }}
       />
-      <FloatingIcon 
-        icon={FaRocket} 
-        delay={1} 
-        x={-18} 
-        y={12} 
-        color="#22d3ee" 
+      <FloatingIcon
+        icon={FaRocket}
+        delay={1}
+        x={-18}
+        y={12}
+        color="#0d9488"
         disabled={disableDecor}
         position={{ top: '25%', right: '10%' }}
       />
-      <FloatingIcon 
-        icon={FaMobile} 
-        delay={2} 
-        x={15} 
-        y={-18} 
-        color="#4fc3f7" 
+      <FloatingIcon
+        icon={FaMobile}
+        delay={2}
+        x={15}
+        y={-18}
+        color="#64748b"
         disabled={disableDecor}
         position={{ bottom: '20%', left: '12%' }}
       />
       {/* Additional icons - hidden on mobile via disabled prop */}
-      <FloatingIcon 
-        icon={FaLightbulb} 
-        delay={1.5} 
-        x={-20} 
-        y={15} 
-        color="#fbbf24" 
+      <FloatingIcon
+        icon={FaLightbulb}
+        delay={1.5}
+        x={-20}
+        y={15}
+        color="#ca8a04"
         disabled={disableDecor || window.innerWidth < 900}
         position={{ bottom: '25%', right: '8%' }}
       />
-      <FloatingIcon 
-        icon={FaStar} 
-        delay={0.5} 
-        x={12} 
-        y={-20} 
-        color="#f472b6" 
+      <FloatingIcon
+        icon={FaStar}
+        delay={0.5}
+        x={12}
+        y={-20}
+        color="#94a3b8"
         disabled={disableDecor || window.innerWidth < 900}
         position={{ top: '40%', right: '15%' }}
       />
-      <FloatingIcon 
-        icon={FaGem} 
-        delay={2.5} 
-        x={-15} 
-        y={18} 
-        color="#a78bfa" 
+      <FloatingIcon
+        icon={FaGem}
+        delay={2.5}
+        x={-15}
+        y={18}
+        color="#4f46e5"
         disabled={disableDecor || window.innerWidth < 900}
         position={{ top: '50%', left: '5%' }}
       />
-      
+
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, px: { xs: 2, sm: 3 } }}>
         <Box textAlign="center">
           <motion.div
@@ -215,14 +215,18 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <Chip 
-              label="🚀 Welcome to the Future of Development" 
-              sx={{ 
+            <Chip
+              label="🚀  Welcome to the Future of Development"
+              sx={{
                 fontWeight: 600,
-                boxShadow: theme.palette.mode === 'dark' 
-                  ? '0 8px 32px rgba(129, 140, 248, 0.2)'
-                  : '0 8px 32px rgba(99, 102, 241, 0.15)'
-              }} 
+                bgcolor: theme.palette.mode === 'dark' ? 'rgba(30, 41, 59, 0.5)' : 'rgba(241, 245, 249, 0.8)',
+                color: theme.palette.text.primary,
+                border: '1px solid',
+                borderColor: theme.palette.mode === 'dark' ? 'rgba(148, 163, 184, 0.2)' : 'rgba(203, 213, 225, 0.5)',
+                boxShadow: theme.palette.mode === 'dark'
+                  ? '0 4px 12px rgba(0, 0, 0, 0.1)'
+                  : '0 4px 12px rgba(0, 0, 0, 0.05)'
+              }}
             />
           </motion.div>
 
@@ -240,18 +244,19 @@ const Hero = () => {
                 textAlign: 'center',
                 width: '100%',
                 background: theme.palette.mode === 'dark'
-                  ? 'linear-gradient(135deg, #a5b4fc, #f9a8d4, #7dd3fc)'
-                  : 'linear-gradient(135deg, #6366f1, #ec4899, #0ea5e9)',
+                  ? 'linear-gradient(135deg, #e2e8f0, #94a3b8)'
+                  : 'linear-gradient(135deg, #1e293b, #334155, #475569)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 textShadow: theme.palette.mode === 'dark'
-                  ? '0 0 40px rgba(129, 140, 248, 0.3)'
-                  : '0 0 40px rgba(99, 102, 241, 0.2)',
-                transition: 'all 0.3s ease'
+                  ? '0 0 30px rgba(255, 255, 255, 0.1)'
+                  : '0 0 30px rgba(0, 0, 0, 0.05)',
+                transition: 'all 0.3s ease',
+                mt: 2
               }}
             >
-              Transform Your Digital Dreams
+              Transform Your Digital Vision
             </Typography>
           </motion.div>
 
@@ -260,24 +265,21 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            <Typography 
-              variant="h5" 
-              sx={{ 
-                color: theme.palette.mode === 'dark' ? '#e2e8f0' : '#334155', 
+            <Typography
+              variant="h5"
+              sx={{
+                color: theme.palette.mode === 'dark' ? '#94a3b8' : '#64748b',
                 mb: { xs: 3, md: 5 },
                 maxWidth: { xs: '90%', sm: '80%', md: '600px' },
                 mx: 'auto',
                 lineHeight: 1.7,
-                fontSize: { xs: '1rem', sm: '1.1rem', md: '1.3rem' },
+                fontSize: { xs: '1rem', sm: '1.1rem', md: '1.2rem' },
                 px: { xs: 1, sm: 0 },
                 fontWeight: 500,
-                textShadow: theme.palette.mode === 'dark' 
-                  ? '0 2px 8px rgba(0, 0, 0, 0.3)'
-                  : '0 2px 8px rgba(255, 255, 255, 0.5)'
               }}
             >
-              We craft exceptional digital experiences through cutting-edge software, 
-              stunning websites, and innovative mobile applications.
+              We craft exceptional digital experiences through enterprise-grade software,
+              modern websites, and innovative mobile applications tailored for your success.
             </Typography>
           </motion.div>
 
@@ -286,60 +288,46 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
           >
-            <Box sx={{ 
-              display: 'flex', 
-              gap: { xs: 2, md: 3 }, 
-              justifyContent: 'center', 
+            <Box sx={{
+              display: 'flex',
+              gap: { xs: 2, md: 3 },
+              justifyContent: 'center',
               flexWrap: 'wrap',
               px: { xs: 2, sm: 0 },
               mb: { xs: 4, md: 6 }
             }}>
               <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
               >
-                <Button 
-                  variant="contained" 
+                <Button
+                  variant="contained"
                   size="large"
                   component={Link}
                   to="/contact"
                   startIcon={<MdRocketLaunch />}
-                  sx={{ 
-                    px: { xs: 3, md: 4 }, 
+                  sx={{
+                    px: { xs: 3, md: 4 },
                     py: { xs: 1.5, md: 2 },
                     fontSize: { xs: '1rem', md: '1.1rem' },
-                    borderRadius: '50px',
+                    borderRadius: '8px',
                     background: theme.palette.mode === 'dark'
-                      ? 'linear-gradient(135deg, #818cf8, #6366f1, #8b5cf6)'
-                      : 'linear-gradient(135deg, #6366f1, #8b5cf6, #a855f7)',
-                    backgroundSize: '200% 200%',
-                    animation: 'gradientShift 4s ease infinite',
+                      ? 'linear-gradient(135deg, #2563eb, #1d4ed8)'
+                      : 'linear-gradient(135deg, #1e40af, #1e3a8a)',
                     boxShadow: theme.palette.mode === 'dark'
-                      ? '0 10px 40px rgba(129, 140, 248, 0.4)'
-                      : '0 10px 40px rgba(99, 102, 241, 0.3)',
+                      ? '0 4px 14px rgba(37, 99, 235, 0.4)'
+                      : '0 4px 14px rgba(30, 58, 138, 0.3)',
                     transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                     minWidth: { xs: '140px', sm: 'auto' },
                     position: 'relative',
                     overflow: 'hidden',
                     fontWeight: 600,
+                    textTransform: 'none',
                     '&:hover': {
-                      transform: 'translateY(-4px) scale(1.02)',
+                      transform: 'translateY(-2px)',
                       boxShadow: theme.palette.mode === 'dark'
-                        ? '0 15px 50px rgba(129, 140, 248, 0.5)'
-                        : '0 15px 50px rgba(99, 102, 241, 0.4)'
-                    },
-                    '&::before': {
-                      content: '""',
-                      position: 'absolute',
-                      top: 0,
-                      left: '-100%',
-                      width: '100%',
-                      height: '100%',
-                      background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)',
-                      transition: 'left 0.5s',
-                    },
-                    '&:hover::before': {
-                      left: '100%'
+                        ? '0 6px 20px rgba(37, 99, 235, 0.5)'
+                        : '0 6px 20px rgba(30, 58, 138, 0.4)'
                     }
                   }}
                 >
@@ -347,27 +335,26 @@ const Hero = () => {
                 </Button>
               </motion.div>
               <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
               >
-                <Button 
-                  variant="outlined" 
+                <Button
+                  variant="outlined"
                   size="large"
                   component={Link}
                   to="/services"
                   startIcon={<MdAutoAwesome />}
-                  sx={{ 
-                    px: { xs: 3, md: 4 }, 
+                  sx={{
+                    px: { xs: 3, md: 4 },
                     py: { xs: 1.5, md: 2 },
                     fontSize: { xs: '1rem', md: '1.1rem' },
-                    borderRadius: '50px',
+                    borderRadius: '8px',
                     borderWidth: '2px',
-                    borderColor: theme.palette.mode === 'dark' ? '#818cf8' : '#6366f1',
-                    color: theme.palette.mode === 'dark' ? '#e0e7ff' : '#4f46e5',
-                    backdropFilter: 'blur(8px)',
-                    bgcolor: theme.palette.mode === 'dark' 
-                      ? 'rgba(129, 140, 248, 0.1)'
-                      : 'rgba(255, 255, 255, 0.8)',
+                    borderColor: theme.palette.mode === 'dark' ? '#475569' : '#cbd5e1',
+                    color: theme.palette.mode === 'dark' ? '#e2e8f0' : '#334155',
+                    backdropFilter: 'blur(4px)',
+                    bgcolor: 'transparent',
+                    textTransform: 'none',
                     transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                     minWidth: { xs: '140px', sm: 'auto' },
                     position: 'relative',
@@ -375,13 +362,10 @@ const Hero = () => {
                     fontWeight: 600,
                     '&:hover': {
                       bgcolor: theme.palette.mode === 'dark'
-                        ? 'rgba(129, 140, 248, 0.2)'
-                        : 'rgba(99, 102, 241, 0.15)',
-                      transform: 'translateY(-4px) scale(1.02)',
-                      boxShadow: theme.palette.mode === 'dark'
-                        ? '0 12px 40px rgba(129, 140, 248, 0.3)'
-                        : '0 12px 40px rgba(99, 102, 241, 0.25)',
-                      borderColor: theme.palette.mode === 'dark' ? '#a5b4fc' : '#8b5cf6'
+                        ? 'rgba(71, 85, 105, 0.3)'
+                        : 'rgba(241, 245, 249, 0.8)',
+                      transform: 'translateY(-2px)',
+                      borderColor: theme.palette.mode === 'dark' ? '#94a3b8' : '#94a3b8'
                     }
                   }}
                 >
@@ -400,19 +384,14 @@ const Hero = () => {
             <Grid container spacing={{ xs: 3, md: 5 }} sx={{ mt: { xs: 2, md: 4 }, mb: { xs: 6, md: 10 }, maxWidth: '800px', mx: 'auto' }} justifyContent="center">
               <Grid size={{ xs: 12, sm: 4 }}>
                 <GlassmorphismCard delay={0.9} theme={theme}>
-                  <Typography variant="h4" sx={{ 
-                    background: theme.palette.mode === 'dark'
-                      ? 'linear-gradient(135deg, #a5b4fc, #818cf8)'
-                      : 'linear-gradient(135deg, #6366f1, #8b5cf6)',
-                    backgroundClip: 'text',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    fontWeight: 'bold', 
-                    mb: 1 
+                  <Typography variant="h4" sx={{
+                    color: theme.palette.mode === 'dark' ? '#60a5fa' : '#2563eb',
+                    fontWeight: 'bold',
+                    mb: 1
                   }}>
                     <AnimatedCounter end={100} suffix="+" />
                   </Typography>
-                  <Typography variant="body2" sx={{ 
+                  <Typography variant="body2" sx={{
                     color: theme.palette.mode === 'dark' ? '#cbd5e1' : '#475569',
                     fontWeight: 600
                   }}>
@@ -422,19 +401,14 @@ const Hero = () => {
               </Grid>
               <Grid size={{ xs: 12, sm: 4 }}>
                 <GlassmorphismCard delay={1.0} theme={theme}>
-                  <Typography variant="h4" sx={{ 
-                    background: theme.palette.mode === 'dark'
-                      ? 'linear-gradient(135deg, #f9a8d4, #f472b6)'
-                      : 'linear-gradient(135deg, #ec4899, #f43f5e)',
-                    backgroundClip: 'text',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    fontWeight: 'bold', 
-                    mb: 1 
+                  <Typography variant="h4" sx={{
+                    color: theme.palette.mode === 'dark' ? '#2dd4bf' : '#0d9488',
+                    fontWeight: 'bold',
+                    mb: 1
                   }}>
                     <AnimatedCounter end={50} suffix="+" />
                   </Typography>
-                  <Typography variant="body2" sx={{ 
+                  <Typography variant="body2" sx={{
                     color: theme.palette.mode === 'dark' ? '#cbd5e1' : '#475569',
                     fontWeight: 600
                   }}>
@@ -444,19 +418,14 @@ const Hero = () => {
               </Grid>
               <Grid size={{ xs: 12, sm: 4 }}>
                 <GlassmorphismCard delay={1.1} theme={theme}>
-                  <Typography variant="h4" sx={{ 
-                    background: theme.palette.mode === 'dark'
-                      ? 'linear-gradient(135deg, #7dd3fc, #38bdf8)'
-                      : 'linear-gradient(135deg, #0ea5e9, #06b6d4)',
-                    backgroundClip: 'text',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    fontWeight: 'bold', 
-                    mb: 1 
+                  <Typography variant="h4" sx={{
+                    color: theme.palette.mode === 'dark' ? '#818cf8' : '#4f46e5',
+                    fontWeight: 'bold',
+                    mb: 1
                   }}>
                     <AnimatedCounter end={100} suffix="%" />
                   </Typography>
-                  <Typography variant="body2" sx={{ 
+                  <Typography variant="body2" sx={{
                     color: theme.palette.mode === 'dark' ? '#cbd5e1' : '#475569',
                     fontWeight: 600
                   }}>
@@ -469,18 +438,18 @@ const Hero = () => {
         </Box>
       </Container>
 
-      {/* Animated Background Elements */}
+      {/* Animated Background Elements - Professional & Subtle */}
       {!disableDecor && (
         <>
           <motion.div
-            animate={{ 
+            animate={{
               rotate: 360,
-              scale: [1, 1.05, 1]
+              y: [0, -10, 0]
             }}
-            transition={{ 
-              duration: 20, 
-              repeat: Infinity, 
-              ease: "linear" 
+            transition={{
+              duration: 30,
+              repeat: Infinity,
+              ease: "linear"
             }}
             style={{
               position: 'absolute',
@@ -490,25 +459,22 @@ const Hero = () => {
               height: '120px',
               borderRadius: '50%',
               background: theme.palette.mode === 'dark'
-                ? 'linear-gradient(45deg, rgba(129, 140, 248, 0.15), rgba(244, 114, 182, 0.1))'
-                : 'linear-gradient(45deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.08))',
+                ? 'linear-gradient(45deg, rgba(30, 58, 138, 0.1), rgba(30, 64, 175, 0.1))'
+                : 'linear-gradient(45deg, rgba(219, 234, 254, 0.4), rgba(191, 219, 254, 0.3))',
               zIndex: 1,
               willChange: 'transform',
-              boxShadow: theme.palette.mode === 'dark'
-                ? '0 0 60px rgba(129, 140, 248, 0.2)'
-                : '0 0 60px rgba(99, 102, 241, 0.15)'
             }}
           />
-          
+
           <motion.div
-            animate={{ 
+            animate={{
               rotate: -360,
-              scale: [1, 1.08, 1]
+              y: [0, 15, 0]
             }}
-            transition={{ 
-              duration: 25, 
-              repeat: Infinity, 
-              ease: "linear" 
+            transition={{
+              duration: 35,
+              repeat: Infinity,
+              ease: "linear"
             }}
             style={{
               position: 'absolute',
@@ -518,13 +484,10 @@ const Hero = () => {
               height: '180px',
               borderRadius: '50%',
               background: theme.palette.mode === 'dark'
-                ? 'linear-gradient(45deg, rgba(56, 189, 248, 0.1), rgba(129, 140, 248, 0.15))'
-                : 'linear-gradient(45deg, rgba(14, 165, 233, 0.08), rgba(99, 102, 241, 0.1))',
+                ? 'linear-gradient(45deg, rgba(15, 23, 42, 0.1), rgba(30, 41, 59, 0.1))'
+                : 'linear-gradient(45deg, rgba(241, 245, 249, 0.4), rgba(226, 232, 240, 0.3))',
               zIndex: 1,
               willChange: 'transform',
-              boxShadow: theme.palette.mode === 'dark'
-                ? '0 0 80px rgba(56, 189, 248, 0.2)'
-                : '0 0 80px rgba(14, 165, 233, 0.15)'
             }}
           />
         </>

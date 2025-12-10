@@ -1,23 +1,28 @@
-import React, { useState, useEffect } from "react";
-import { useTheme } from '@mui/material/styles';
+import React, { useState } from 'react';
+import {
+  Box,
+  Container,
+  Typography,
+  TextField,
+  Button,
+  useTheme,
+  Paper,
+  CircularProgress,
+  Alert,
+  Slide
+} from '@mui/material';
+import { motion } from 'framer-motion';
+import { MdSend, MdEmail, MdPerson, MdMessage } from 'react-icons/md';
 
-/**
- * ContactForm (Formspree)
- * - Modern, animated, responsive contact form
- * - Posts to Formspree endpoint using JSON (free plan)
- * - No EmailJS, Apps Script, Nodemailer, or custom APIs
- */
 const ContactForm = () => {
   const theme = useTheme();
-  const FORMSPREE_ENDPOINT = "https://formspree.io/f/xovklovq";
+  const FORMSPREE_ENDPOINT = "https://formspree.io/f/xovklovq"; // Replace with your endpoint if different
 
   const [name, setName] = useState("");
-  const [email, setEmail] = useState(""); // sent as _replyto
+  const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [sending, setSending] = useState(false);
-  const [status, setStatus] = useState({ type: null, text: "" }); // success | error | null
-  const [focusedField, setFocusedField] = useState(null);
-  const [isHovered, setIsHovered] = useState(false);
+  const [status, setStatus] = useState({ type: null, text: "" });
 
   const isValid = () =>
     name.trim().length > 0 && /\S+@\S+\.\S+/.test(email) && message.trim().length > 0;
@@ -27,7 +32,7 @@ const ContactForm = () => {
     setStatus({ type: null, text: "" });
 
     if (!isValid()) {
-      setStatus({ type: "error", text: "❌ Please fill out all fields correctly." });
+      setStatus({ type: "error", text: "Please fill out all fields correctly." });
       return;
     }
 
@@ -47,403 +52,251 @@ const ContactForm = () => {
       });
 
       if (res.ok) {
-        setStatus({ type: "success", text: "✅ Thank you for contacting the DevOra team! We'll reach out soon." });
+        setStatus({ type: "success", text: "Thank you! We'll reach out soon." });
         setName("");
         setEmail("");
         setMessage("");
       } else {
-        let errText = "❌ Something went wrong. Please try again.";
-        try {
-          const data = await res.json();
-          if (data && data.errors && data.errors.length) {
-            errText = "❌ " + data.errors.map((e) => e.message).join(", ");
-          }
-        } catch (_) {}
-        setStatus({ type: "error", text: errText });
+        setStatus({ type: "error", text: "Something went wrong. Please try again." });
       }
     } catch (err) {
-      setStatus({ type: "error", text: "❌ Something went wrong. Please try again." });
+      setStatus({ type: "error", text: "Something went wrong. Please try again." });
     } finally {
       setSending(false);
     }
   };
 
-  // Add CSS animations via style tag
-  useEffect(() => {
-    const style = document.createElement('style');
-    style.textContent = `
-      @keyframes float {
-        0%, 100% { transform: translateY(0px) rotate(0deg); }
-        50% { transform: translateY(-20px) rotate(5deg); }
-      }
-      @keyframes messageSlideIn {
-        0% { 
-          opacity: 0; 
-          transform: translateY(-30px) scale(0.9); 
-          filter: blur(4px);
-        }
-        50% { 
-          opacity: 0.8; 
-          transform: translateY(-10px) scale(1.05); 
-          filter: blur(1px);
-        }
-        100% { 
-          opacity: 1; 
-          transform: translateY(0) scale(1); 
-          filter: blur(0px);
-        }
-      }
-      @keyframes messageGlow {
-        0%, 100% { 
-          box-shadow: 0 0 20px rgba(34, 197, 94, 0.3), 0 8px 32px rgba(0,0,0,0.1); 
-        }
-        50% { 
-          box-shadow: 0 0 40px rgba(34, 197, 94, 0.6), 0 12px 40px rgba(0,0,0,0.15); 
-        }
-      }
-      @keyframes messageErrorGlow {
-        0%, 100% { 
-          box-shadow: 0 0 20px rgba(239, 68, 68, 0.3), 0 8px 32px rgba(0,0,0,0.1); 
-        }
-        50% { 
-          box-shadow: 0 0 40px rgba(239, 68, 68, 0.6), 0 12px 40px rgba(0,0,0,0.15); 
-        }
-      }
-      @keyframes pulse {
-        0%, 100% { transform: scale(1); }
-        50% { transform: scale(1.02); }
-      }
-      @keyframes ripple {
-        to { transform: scale(4); opacity: 0; }
-      }
-    `;
-    document.head.appendChild(style);
-    return () => document.head.removeChild(style);
-  }, []);
-
-  // Modern, animated, responsive styles
-  const styles = {
-    wrap: { 
-      display: "grid", 
-      placeItems: "center", 
-      minHeight: "100dvh", 
-      padding: 16,
-      background: theme.palette.mode === 'dark' 
-        ? "linear-gradient(135deg, #0b0d12 0%, #1a1d29 50%, #0f1320 100%)"
-        : "linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)",
-      transition: "background 0.3s ease",
-      position: "relative",
-      overflow: "hidden"
-    },
-    backgroundDecor: {
-      position: "absolute",
-      width: "400px",
-      height: "400px",
-      borderRadius: "50%",
-      background: "rgba(255,255,255,0.1)",
-      filter: "blur(60px)",
-      animation: "float 6s ease-in-out infinite",
-    },
-    backgroundDecor1: {
-      top: "10%",
-      left: "-10%",
-      animationDelay: "0s",
-    },
-    backgroundDecor2: {
-      bottom: "10%",
-      right: "-10%",
-      animationDelay: "3s",
-    },
-    card: {
-      width: "100%", 
-      maxWidth: 720,
-      background: theme.palette.mode === 'dark' 
-        ? "rgba(26, 29, 41, 0.95)"
-        : "rgba(255,255,255,0.95)",
-      backdropFilter: "blur(20px)",
-      WebkitBackdropFilter: "blur(20px)",
-      color: theme.palette.mode === 'dark' ? "#e8eefc" : "#2c3e50",
-      border: "1px solid rgba(255,255,255,0.2)",
-      borderRadius: 24,
-      padding: 32,
-      boxShadow: "0 20px 60px rgba(0,0,0,0.15)",
-      fontFamily: `system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, Arial, sans-serif`,
-      position: "relative",
-      zIndex: 2,
-      transform: "translateY(0)",
-      transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-    },
-    cardHover: {
-      transform: "translateY(-5px)",
-      boxShadow: "0 25px 80px rgba(0,0,0,0.2)",
-    },
-    header: {
-      textAlign: "center",
-      marginBottom: 32,
-    },
-    overline: {
-      color: "rgba(102, 126, 234, 0.8)",
-      fontWeight: 600,
-      fontSize: 12,
-      letterSpacing: 2,
-      textTransform: "uppercase",
-      margin: 0,
-      marginBottom: 8,
-    },
-    title: { 
-      margin: 0, 
-      fontWeight: 800, 
-      fontSize: 36,
-      background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-      backgroundClip: "text",
-      WebkitBackgroundClip: "text",
-      WebkitTextFillColor: "transparent",
-      marginBottom: 8,
-    },
-    subtitle: { 
-      margin: 0, 
-      color: "#64748b", 
-      fontSize: 16,
-      lineHeight: 1.6,
-    },
-    form: { display: "grid", gap: 20 },
-    fieldGroup: {
-      position: "relative",
-    },
-    label: { 
-      display: "block", 
-      fontSize: 14, 
-      color: theme.palette.mode === 'dark' ? "#b6c2e2" : "#374151", 
-      marginBottom: 8,
-      fontWeight: 600,
-      transition: "color 0.2s ease",
-    },
-    input: {
-      width: "100%",
-      padding: "16px 20px",
-      background: theme.palette.mode === 'dark' 
-        ? "rgba(15, 19, 32, 0.8)"
-        : "rgba(255,255,255,0.8)",
-      color: theme.palette.mode === 'dark' ? "#e8eefc" : "#1f2937",
-      border: "2px solid rgba(102, 126, 234, 0.2)",
-      borderRadius: 16,
-      outline: "none",
-      fontSize: 16,
-      transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-      boxShadow: "0 4px 20px rgba(0,0,0,0.05)",
-    },
-    inputFocus: {
-      borderColor: "#667eea",
-      boxShadow: "0 0 0 4px rgba(102, 126, 234, 0.1), 0 8px 30px rgba(0,0,0,0.1)",
-      transform: "translateY(-2px)",
-    },
-    textarea: {
-      width: "100%",
-      minHeight: 160,
-      resize: "vertical",
-      background: theme.palette.mode === 'dark' 
-        ? "rgba(15, 19, 32, 0.8)"
-        : "rgba(255,255,255,0.8)",
-      color: theme.palette.mode === 'dark' ? "#e8eefc" : "#1f2937",
-      border: "2px solid rgba(102, 126, 234, 0.2)",
-      borderRadius: 16,
-      padding: "16px 20px",
-      outline: "none",
-      fontSize: 16,
-      transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-      boxShadow: "0 4px 20px rgba(0,0,0,0.05)",
-    },
-    textareaFocus: {
-      borderColor: "#667eea",
-      boxShadow: "0 0 0 4px rgba(102, 126, 234, 0.1), 0 8px 30px rgba(0,0,0,0.1)",
-      transform: "translateY(-2px)",
-    },
-    actions: { 
-      display: "flex", 
-      gap: 16, 
-      alignItems: "center", 
-      flexWrap: "wrap",
-      marginTop: 8,
-    },
-    button: {
-      background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-      color: "#fff",
-      border: "none",
-      borderRadius: 16,
-      padding: "16px 32px",
-      fontWeight: 700,
-      fontSize: 16,
-      cursor: "pointer",
-      position: "relative",
-      overflow: "hidden",
-      transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-      boxShadow: "0 8px 25px rgba(102, 126, 234, 0.3)",
-      transform: "translateY(0)",
-    },
-    buttonHover: {
-      transform: "translateY(-3px)",
-      boxShadow: "0 12px 35px rgba(102, 126, 234, 0.4)",
-    },
-    buttonDisabled: {
-      opacity: 0.7,
-      cursor: "not-allowed",
-      transform: "translateY(0)",
-    },
-    note: { 
-      fontSize: 14, 
-      color: "#64748b",
-      fontStyle: "italic",
-    },
-    msg: { 
-      fontSize: 18, 
-      padding: "20px 24px", 
-      borderRadius: 20, 
-      marginBottom: 24,
-      fontWeight: 700,
-      textAlign: "center",
-      position: "relative",
-      overflow: "hidden",
-      animation: "messageSlideIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)",
-      backdropFilter: "blur(10px)",
-      WebkitBackdropFilter: "blur(10px)",
-      border: "2px solid transparent",
-      boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
-    },
-    success: { 
-      background: "linear-gradient(135deg, rgba(34, 197, 94, 0.15) 0%, rgba(16, 185, 129, 0.1) 100%)", 
-      borderImage: "linear-gradient(135deg, rgba(34, 197, 94, 0.5), rgba(16, 185, 129, 0.3)) 1",
-      color: "#047857",
-      animation: "messageSlideIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), messageGlow 2s ease-in-out infinite, pulse 3s ease-in-out infinite",
-      textShadow: "0 1px 2px rgba(34, 197, 94, 0.3)",
-    },
-    error: { 
-      background: "linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(220, 38, 38, 0.1) 100%)", 
-      borderImage: "linear-gradient(135deg, rgba(239, 68, 68, 0.5), rgba(220, 38, 38, 0.3)) 1",
-      color: "#b91c1c",
-      animation: "messageSlideIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), messageErrorGlow 2s ease-in-out infinite, pulse 3s ease-in-out infinite",
-      textShadow: "0 1px 2px rgba(239, 68, 68, 0.3)",
-    },
-    messageIcon: {
-      display: "inline-block",
-      marginRight: "8px",
-      fontSize: "20px",
-      animation: "pulse 2s ease-in-out infinite",
-    },
-  };
+  const isDark = theme.palette.mode === 'dark';
 
   return (
-    <section style={styles.wrap}>
-      {/* Animated background decorations */}
-      <div style={{...styles.backgroundDecor, ...styles.backgroundDecor1}}></div>
-      <div style={{...styles.backgroundDecor, ...styles.backgroundDecor2}}></div>
-      
-      <div 
-        style={{
-          ...styles.card,
-          ...(isHovered ? styles.cardHover : {})
+    <Box
+      sx={{
+        minHeight: '100dvh',
+        pt: { xs: 12, md: 16 },
+        pb: { xs: 8, md: 10 },
+        background: isDark
+          ? 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)'
+          : 'linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)',
+        position: 'relative',
+        overflow: 'hidden',
+      }}
+    >
+      {/* Background Decor */}
+      <Box
+        sx={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          overflow: 'hidden',
+          zIndex: 0,
+          pointerEvents: 'none',
         }}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
       >
-        {status.type === "success" ? (
-          <div role="status" aria-live="polite">
-            <div style={{ ...styles.msg, ...styles.success }}>{status.text}</div>
-          </div>
-        ) : (
-          <div style={{ display: status.type === "success" ? "none" : "block" }}>
-            <div style={styles.header}>
-              <p style={styles.overline}>Let's Connect</p>
-              <h2 style={styles.title}>Contact Us</h2>
-              <p style={styles.subtitle}>
-                Ready to transform your ideas into reality? Let's discuss your project and create something amazing together.
-              </p>
-            </div>
+        <Box
+          sx={{
+            position: 'absolute',
+            top: '10%',
+            right: '5%',
+            width: '400px',
+            height: '400px',
+            background: isDark
+              ? 'radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 70%)'
+              : 'radial-gradient(circle, rgba(37, 99, 235, 0.05) 0%, transparent 70%)',
+            borderRadius: '50%',
+            filter: 'blur(40px)',
+          }}
+        />
+        <Box
+          sx={{
+            position: 'absolute',
+            bottom: '10%',
+            left: '5%',
+            width: '500px',
+            height: '500px',
+            background: isDark
+              ? 'radial-gradient(circle, rgba(13, 148, 136, 0.05) 0%, transparent 70%)'
+              : 'radial-gradient(circle, rgba(13, 148, 136, 0.03) 0%, transparent 70%)',
+            borderRadius: '50%',
+            filter: 'blur(40px)',
+          }}
+        />
+      </Box>
 
-            <div role="status" aria-live="polite">
-              {status.type === "error" && (
-                <div style={{ ...styles.msg, ...styles.error }}>{status.text}</div>
-              )}
-            </div>
+      <Container maxWidth="md" sx={{ position: 'relative', zIndex: 1 }}>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <Box textAlign="center" sx={{ mb: 6 }}>
+            <Typography
+              variant="overline"
+              sx={{
+                color: isDark ? '#60a5fa' : '#2563eb',
+                fontWeight: 700,
+                letterSpacing: 2,
+                mb: 1,
+                display: 'block'
+              }}
+            >
+              LET'S CONNECT
+            </Typography>
+            <Typography
+              variant="h2"
+              sx={{
+                fontWeight: 800,
+                mb: 2,
+                background: isDark
+                  ? 'linear-gradient(135deg, #f8fafc 0%, #94a3b8 100%)'
+                  : 'linear-gradient(135deg, #1e293b 0%, #475569 100%)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                fontSize: { xs: '2.5rem', md: '3.5rem' }
+              }}
+            >
+              Get in Touch
+            </Typography>
+            <Typography
+              variant="h6"
+              sx={{
+                color: isDark ? '#94a3b8' : '#64748b',
+                maxWidth: '600px',
+                mx: 'auto',
+                fontWeight: 400,
+                lineHeight: 1.6
+              }}
+            >
+              Have a project in mind? We'd love to verify your ideas and help you build something amazing.
+            </Typography>
+          </Box>
+        </motion.div>
 
-            <form onSubmit={handleSubmit} style={styles.form} noValidate>
-              <div style={styles.fieldGroup}>
-                <label htmlFor="name" style={styles.label}>Name</label>
-                <input
-                  id="name"
-                  name="name"
-                  type="text"
-                  placeholder="Jane Doe"
-                  autoComplete="name"
-                  required
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          <Paper
+            elevation={0}
+            sx={{
+              p: { xs: 3, md: 6 },
+              borderRadius: 4,
+              background: isDark
+                ? 'rgba(30, 41, 59, 0.6)'
+                : 'rgba(255, 255, 255, 0.8)',
+              backdropFilter: 'blur(20px)',
+              border: isDark
+                ? '1px solid rgba(148, 163, 184, 0.1)'
+                : '1px solid rgba(226, 232, 240, 0.8)',
+              boxShadow: isDark
+                ? '0 20px 40px rgba(0, 0, 0, 0.2)'
+                : '0 20px 40px rgba(0, 0, 0, 0.05)',
+            }}
+          >
+            {status.text && (
+              <Slide direction="down" in={!!status.text} mountOnEnter unmountOnExit>
+                <Alert
+                  severity={status.type || 'info'}
+                  sx={{ mb: 4, borderRadius: 2 }}
+                >
+                  {status.text}
+                </Alert>
+              </Slide>
+            )}
+
+            <form onSubmit={handleSubmit}>
+              <Box sx={{ display: 'grid', gap: 3 }}>
+                <TextField
+                  label="Name"
+                  variant="outlined"
+                  fullWidth
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  onFocus={() => setFocusedField('name')}
-                  onBlur={() => setFocusedField(null)}
-                  style={{
-                    ...styles.input,
-                    ...(focusedField === 'name' ? styles.inputFocus : {})
+                  InputProps={{
+                    startAdornment: <MdPerson style={{ marginRight: 8, color: isDark ? '#94a3b8' : '#64748b' }} />,
+                    sx: { borderRadius: 2 }
+                  }}
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      backgroundColor: isDark ? 'rgba(15, 23, 42, 0.5)' : '#f8fafc',
+                    }
                   }}
                 />
-              </div>
 
-          <div style={styles.fieldGroup}>
-            <label htmlFor="email" style={styles.label}>Email</label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              placeholder="you@example.com"
-              autoComplete="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              onFocus={() => setFocusedField('email')}
-              onBlur={() => setFocusedField(null)}
-              style={{
-                ...styles.input,
-                ...(focusedField === 'email' ? styles.inputFocus : {})
-              }}
-            />
-          </div>
-
-          <div style={styles.fieldGroup}>
-            <label htmlFor="message" style={styles.label}>Message</label>
-            <textarea
-              id="message"
-              name="message"
-              placeholder="How can we help?"
-              required
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              onFocus={() => setFocusedField('message')}
-              onBlur={() => setFocusedField(null)}
-              style={{
-                ...styles.textarea,
-                ...(focusedField === 'message' ? styles.textareaFocus : {})
-              }}
-            />
-          </div>
-
-              <div style={styles.actions}>
-                <button 
-                  type="submit" 
-                  style={{
-                    ...styles.button,
-                    ...(sending ? styles.buttonDisabled : {})
+                <TextField
+                  label="Email"
+                  type="email"
+                  variant="outlined"
+                  fullWidth
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  InputProps={{
+                    startAdornment: <MdEmail style={{ marginRight: 8, color: isDark ? '#94a3b8' : '#64748b' }} />,
+                    sx: { borderRadius: 2 }
                   }}
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      backgroundColor: isDark ? 'rgba(15, 23, 42, 0.5)' : '#f8fafc',
+                    }
+                  }}
+                />
+
+                <TextField
+                  label="Message"
+                  multiline
+                  rows={4}
+                  variant="outlined"
+                  fullWidth
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  InputProps={{
+                    startAdornment: <MdMessage style={{ marginRight: 8, marginTop: 4, alignSelf: 'flex-start', color: isDark ? '#94a3b8' : '#64748b' }} />,
+                    sx: { borderRadius: 2 }
+                  }}
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      backgroundColor: isDark ? 'rgba(15, 23, 42, 0.5)' : '#f8fafc',
+                    }
+                  }}
+                />
+
+                <Button
+                  type="submit"
+                  variant="contained"
+                  size="large"
                   disabled={sending}
-                  onMouseEnter={(e) => !sending && Object.assign(e.target.style, styles.buttonHover)}
-                  onMouseLeave={(e) => !sending && Object.assign(e.target.style, { transform: 'translateY(0)', boxShadow: styles.button.boxShadow })}
+                  endIcon={sending ? <CircularProgress size={20} color="inherit" /> : <MdSend />}
+                  sx={{
+                    py: 1.5,
+                    mt: 1,
+                    borderRadius: 2,
+                    fontSize: '1.1rem',
+                    textTransform: 'none',
+                    fontWeight: 600,
+                    background: isDark
+                      ? 'linear-gradient(135deg, #2563eb 0%, #1e40af 100%)'
+                      : 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
+                    boxShadow: isDark
+                      ? '0 4px 12px rgba(37, 99, 235, 0.4)'
+                      : '0 4px 12px rgba(59, 130, 246, 0.3)',
+                    '&:hover': {
+                      background: isDark
+                        ? 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)'
+                        : 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)',
+                    }
+                  }}
                 >
-                  {sending ? "Sending..." : "Send Message"}
-                </button>
-                <span style={styles.note}>We respect your privacy and will respond within 24 hours.</span>
-              </div>
+                  {sending ? 'Sending...' : 'Send Message'}
+                </Button>
+              </Box>
             </form>
-          </div>
-        )}
-      </div>
-    </section>
+          </Paper>
+        </motion.div>
+      </Container>
+    </Box>
   );
 };
 

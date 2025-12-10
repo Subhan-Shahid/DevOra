@@ -64,19 +64,19 @@ const ServiceCard3D = ({ service, index, theme }) => {
     const isDark = theme.palette.mode === 'dark';
     const colorMap = {
       primary: {
-        gradient: isDark ? 'linear-gradient(135deg, #818cf8 0%, #6366f1 100%)' : 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
-        main: isDark ? '#818cf8' : '#6366f1',
-        light: isDark ? 'rgba(129, 140, 248, 0.2)' : 'rgba(99, 102, 241, 0.15)',
+        gradient: isDark ? 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)' : 'linear-gradient(135deg, #2563eb 0%, #1e40af 100%)',
+        main: isDark ? '#3b82f6' : '#1e40af',
+        light: isDark ? 'rgba(59, 130, 246, 0.15)' : 'rgba(30, 64, 175, 0.1)',
       },
       secondary: {
-        gradient: isDark ? 'linear-gradient(135deg, #f472b6 0%, #ec4899 100%)' : 'linear-gradient(135deg, #ec4899 0%, #f43f5e 100%)',
-        main: isDark ? '#f472b6' : '#ec4899',
-        light: isDark ? 'rgba(244, 114, 182, 0.2)' : 'rgba(236, 72, 153, 0.15)',
+        gradient: isDark ? 'linear-gradient(135deg, #94a3b8 0%, #64748b 100%)' : 'linear-gradient(135deg, #64748b 0%, #475569 100%)',
+        main: isDark ? '#94a3b8' : '#475569',
+        light: isDark ? 'rgba(148, 163, 184, 0.15)' : 'rgba(71, 85, 105, 0.1)',
       },
       tertiary: {
-        gradient: isDark ? 'linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%)' : 'linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%)',
-        main: isDark ? '#38bdf8' : '#0ea5e9',
-        light: isDark ? 'rgba(56, 189, 248, 0.2)' : 'rgba(14, 165, 233, 0.15)',
+        gradient: isDark ? 'linear-gradient(135deg, #2dd4bf 0%, #0d9488 100%)' : 'linear-gradient(135deg, #0d9488 0%, #0f766e 100%)',
+        main: isDark ? '#2dd4bf' : '#0f766e',
+        light: isDark ? 'rgba(45, 212, 191, 0.15)' : 'rgba(13, 148, 136, 0.1)',
       }
     };
     return colorMap[service.colorKey] || colorMap.primary;
@@ -142,20 +142,19 @@ const ServiceCard3D = ({ service, index, theme }) => {
         }}
       />
 
-      {/* Main front card */}
       <Box
         sx={{
           position: 'relative',
-          borderRadius: 5,
+          borderRadius: 4,
           overflow: 'hidden',
           height: '100%',
           background: theme.palette.mode === 'dark'
             ? `linear-gradient(135deg, rgba(30, 41, 59, 0.98) 0%, rgba(15, 23, 42, 0.98) 100%)`
             : `linear-gradient(135deg, rgba(255, 255, 255, 0.99) 0%, rgba(248, 250, 252, 0.99) 100%)`,
-          border: `2px solid ${colors.main}40`,
+          border: `1px solid ${colors.main}30`,
           boxShadow: theme.palette.mode === 'dark'
-            ? `0 20px 60px rgba(0,0,0,0.4), 0 0 0 1px ${colors.main}30, inset 0 1px 0 rgba(255,255,255,0.1)`
-            : `0 20px 60px rgba(0,0,0,0.15), 0 0 0 1px ${colors.main}20, inset 0 1px 0 rgba(255,255,255,0.8)`,
+            ? `0 20px 60px rgba(0,0,0,0.3), 0 0 0 1px ${colors.main}20, inset 0 1px 0 rgba(255,255,255,0.05)`
+            : `0 20px 40px rgba(15, 23, 42, 0.08), 0 0 0 1px ${colors.main}15, inset 0 1px 0 rgba(255,255,255,0.8)`,
           transformStyle: 'preserve-3d',
           zIndex: 2,
         }}
@@ -502,21 +501,21 @@ const FeatureCard = ({ feature, index, theme }) => {
     const colorMap = {
       primary: {
         gradient: theme.palette.mode === 'dark'
-          ? 'linear-gradient(135deg, #818cf8 0%, #6366f1 100%)'
-          : 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
-        light: theme.palette.mode === 'dark' ? 'rgba(129, 140, 248, 0.2)' : 'rgba(99, 102, 241, 0.15)',
+          ? 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)'
+          : 'linear-gradient(135deg, #2563eb 0%, #1e40af 100%)',
+        light: theme.palette.mode === 'dark' ? 'rgba(59, 130, 246, 0.15)' : 'rgba(30, 64, 175, 0.1)',
       },
       secondary: {
         gradient: theme.palette.mode === 'dark'
-          ? 'linear-gradient(135deg, #f472b6 0%, #ec4899 100%)'
-          : 'linear-gradient(135deg, #ec4899 0%, #f43f5e 100%)',
-        light: theme.palette.mode === 'dark' ? 'rgba(244, 114, 182, 0.2)' : 'rgba(236, 72, 153, 0.15)',
+          ? 'linear-gradient(135deg, #94a3b8 0%, #64748b 100%)'
+          : 'linear-gradient(135deg, #64748b 0%, #475569 100%)',
+        light: theme.palette.mode === 'dark' ? 'rgba(148, 163, 184, 0.15)' : 'rgba(71, 85, 105, 0.1)',
       },
       tertiary: {
         gradient: theme.palette.mode === 'dark'
-          ? 'linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%)'
-          : 'linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%)',
-        light: theme.palette.mode === 'dark' ? 'rgba(56, 189, 248, 0.2)' : 'rgba(14, 165, 233, 0.15)',
+          ? 'linear-gradient(135deg, #2dd4bf 0%, #0d9488 100%)'
+          : 'linear-gradient(135deg, #0d9488 0%, #0f766e 100%)',
+        light: theme.palette.mode === 'dark' ? 'rgba(45, 212, 191, 0.15)' : 'rgba(13, 148, 136, 0.1)',
       }
     };
     return colorMap[feature.colorKey] || colorMap.primary;
@@ -662,7 +661,7 @@ const Services = React.memo(() => {
       py: { xs: 10, md: 14 },
       background: theme.palette.mode === 'dark'
         ? 'linear-gradient(180deg, #0f172a 0%, #1e293b 50%, #334155 100%)'
-        : 'linear-gradient(180deg, #ffffff 0%, #f0f9ff 30%, #e0e7ff 70%, #fae8ff 100%)',
+        : 'linear-gradient(180deg, #ffffff 0%, #f8fafc 30%, #f1f5f9 70%, #e2e8f0 100%)',
       position: 'relative',
       overflow: 'hidden',
     }}>
@@ -676,14 +675,14 @@ const Services = React.memo(() => {
           bottom: 0,
           background: theme.palette.mode === 'dark'
             ? `
-              radial-gradient(circle at 20% 50%, rgba(129, 140, 248, 0.08) 0%, transparent 50%),
-              radial-gradient(circle at 80% 20%, rgba(244, 114, 182, 0.08) 0%, transparent 50%),
-              radial-gradient(circle at 50% 80%, rgba(56, 189, 248, 0.06) 0%, transparent 50%)
+              radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.05) 0%, transparent 50%),
+              radial-gradient(circle at 80% 20%, rgba(13, 148, 136, 0.05) 0%, transparent 50%),
+              radial-gradient(circle at 50% 80%, rgba(30, 64, 175, 0.03) 0%, transparent 50%)
             `
             : `
-              radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.06) 0%, transparent 50%),
-              radial-gradient(circle at 80% 20%, rgba(236, 72, 153, 0.06) 0%, transparent 50%),
-              radial-gradient(circle at 50% 80%, rgba(14, 165, 233, 0.05) 0%, transparent 50%)
+              radial-gradient(circle at 20% 50%, rgba(37, 99, 235, 0.03) 0%, transparent 50%),
+              radial-gradient(circle at 80% 20%, rgba(13, 148, 136, 0.03) 0%, transparent 50%),
+              radial-gradient(circle at 50% 80%, rgba(59, 130, 246, 0.02) 0%, transparent 50%)
             `,
           pointerEvents: 'none',
         }}
@@ -697,8 +696,8 @@ const Services = React.memo(() => {
               variant="overline"
               sx={{
                 background: theme.palette.mode === 'dark'
-                  ? 'linear-gradient(135deg, #818cf8, #f472b6, #38bdf8)'
-                  : 'linear-gradient(135deg, #6366f1, #ec4899, #0ea5e9)',
+                  ? 'linear-gradient(135deg, #60a5fa, #2dd4bf)'
+                  : 'linear-gradient(135deg, #2563eb, #0d9488)',
                 backgroundClip: 'text',
                 WebkitBackdropFilter: 'text',
                 WebkitTextFillColor: 'transparent',
@@ -730,8 +729,8 @@ const Services = React.memo(() => {
                 component="span"
                 sx={{
                   background: theme.palette.mode === 'dark'
-                    ? 'linear-gradient(135deg, #818cf8 0%, #f472b6 50%, #38bdf8 100%)'
-                    : 'linear-gradient(135deg, #6366f1 0%, #ec4899 50%, #0ea5e9 100%)',
+                    ? 'linear-gradient(135deg, #60a5fa 0%, #2dd4bf 100%)'
+                    : 'linear-gradient(135deg, #2563eb 0%, #0d9488 100%)',
                   backgroundClip: 'text',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
@@ -755,7 +754,7 @@ const Services = React.memo(() => {
                 transition: 'color 0.3s ease'
               }}
             >
-              🚀 Transforming ideas into powerful digital solutions with cutting-edge technology and innovative design
+              🚀 Transforming ideas into powerful digital solutions with enterprise-grade technology and trusted expertise
             </Typography>
           </Box>
         </Box>
@@ -777,8 +776,8 @@ const Services = React.memo(() => {
               sx={{
                 fontWeight: 900,
                 background: theme.palette.mode === 'dark'
-                  ? 'linear-gradient(135deg, #818cf8 0%, #f472b6 50%, #38bdf8 100%)'
-                  : 'linear-gradient(135deg, #6366f1 0%, #ec4899 50%, #0ea5e9 100%)',
+                  ? 'linear-gradient(135deg, #60a5fa 0%, #2dd4bf 100%)'
+                  : 'linear-gradient(135deg, #2563eb 0%, #0d9488 100%)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
@@ -787,7 +786,7 @@ const Services = React.memo(() => {
                 letterSpacing: '-0.02em',
               }}
             >
-              Why Choose <span style={{ color: theme.palette.mode === 'dark' ? '#818cf8' : '#6366f1' }}>D</span>ev<span style={{ color: theme.palette.mode === 'dark' ? '#818cf8' : '#6366f1' }}>O</span>ra?
+              Why Choose <span style={{ color: theme.palette.mode === 'dark' ? '#60a5fa' : '#2563eb' }}>D</span>ev<span style={{ color: theme.palette.mode === 'dark' ? '#60a5fa' : '#2563eb' }}>O</span>ra?
             </Typography>
 
             {/* Interactive Dashboards Showcase */}
