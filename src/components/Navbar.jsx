@@ -208,9 +208,29 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
 
   const navItems = [
     { to: '/', label: 'Home', icon: HiHome },
+    { to: '/#showcase', label: 'Showcase', icon: HiSparkles },
+    { to: '/#tech', label: 'Tech', icon: HiSparkles },
+    { to: '/#services', label: 'Overview', icon: HiCube },
     { to: '/services', label: 'Services', icon: HiCube },
     { to: '/contact', label: 'Contact', icon: HiUser }
   ];
+
+  const isNavActive = (to) => {
+    if (to === '/') {
+      return location.pathname === '/' && !location.hash;
+    }
+
+    if (to.startsWith('/#')) {
+      const expectedHash = to.slice(1);
+      return location.pathname === '/' && location.hash === expectedHash;
+    }
+
+    if (to === '/services') {
+      return location.pathname.startsWith('/services');
+    }
+
+    return location.pathname === to;
+  };
 
   return (
     <>
@@ -283,7 +303,7 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
                     to={item.to}
                     label={item.label}
                     icon={item.icon}
-                    isActive={location.pathname === item.to}
+                    isActive={isNavActive(item.to)}
                     mode={mode}
                   />
                 ))}
@@ -408,7 +428,7 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
                       label={item.label}
                       icon={item.icon}
                       onClick={handleDrawerToggle}
-                      isActive={location.pathname === item.to}
+                      isActive={isNavActive(item.to)}
                       mode={mode}
                     />
                   </motion.div>

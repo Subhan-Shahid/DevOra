@@ -3,7 +3,7 @@ import { Box, Container, Typography, Grid, Chip, useTheme } from '@mui/material'
 import { motion } from 'framer-motion';
 import { FaMobileAlt, FaTabletAlt, FaDesktop } from 'react-icons/fa';
 
-const MotionBox = motion(Box);
+const MotionBox = motion.create(Box);
 
 const ResponsiveShowcase = () => {
   const theme = useTheme();
@@ -11,6 +11,7 @@ const ResponsiveShowcase = () => {
   return (
     <Box
       component="section"
+      id="showcase"
       sx={{
         position: 'relative',
         py: { xs: 8, md: 10 },
@@ -26,7 +27,7 @@ const ResponsiveShowcase = () => {
           spacing={{ xs: 4, md: 6 }}
           alignItems="center"
         >
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <MotionBox
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -86,7 +87,7 @@ const ResponsiveShowcase = () => {
               </Typography>
 
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={4}>
+                <Grid size={{ xs: 12, sm: 4 }}>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
                     <Box
                       sx={{
@@ -111,7 +112,7 @@ const ResponsiveShowcase = () => {
                     </Box>
                   </Box>
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid size={{ xs: 12, sm: 4 }}>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
                     <Box
                       sx={{
@@ -136,7 +137,7 @@ const ResponsiveShowcase = () => {
                     </Box>
                   </Box>
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid size={{ xs: 12, sm: 4 }}>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
                     <Box
                       sx={{
@@ -165,7 +166,7 @@ const ResponsiveShowcase = () => {
             </MotionBox>
           </Grid>
 
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <MotionBox
               initial={{ opacity: 0, y: 60, scale: 0.96 }}
               whileInView={{ opacity: 1, y: 0, scale: 1 }}

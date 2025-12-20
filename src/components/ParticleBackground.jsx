@@ -1,14 +1,46 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import Particles from "react-particles";
 import { loadSlim } from "tsparticles-slim";
 
 const ParticleBackground = () => {
+  const containerRef = useRef(null);
+
   const particlesInit = useCallback(async engine => {
     await loadSlim(engine);
   }, []);
 
   const particlesLoaded = useCallback(async container => {
     // console.log(container);
+    containerRef.current = container || null;
+  }, []);
+
+  useEffect(() => {
+    const pause = () => {
+      const c = containerRef.current;
+      if (!c) return;
+      if (typeof c.pause === 'function') return c.pause();
+      if (typeof c.stop === 'function') return c.stop();
+    };
+
+    const resume = () => {
+      const c = containerRef.current;
+      if (!c) return;
+      if (typeof c.play === 'function') return c.play();
+      if (typeof c.start === 'function') return c.start();
+    };
+
+    window.addEventListener('scrollopt:start', pause);
+    window.addEventListener('scrollopt:end', resume);
+
+    if (typeof document !== 'undefined' && document.body.classList.contains('is-scrolling')) {
+      pause();
+    }
+
+    return () => {
+      window.removeEventListener('scrollopt:start', pause);
+      window.removeEventListener('scrollopt:end', resume);
+      resume();
+    };
   }, []);
 
   // Memoize options to avoid recalculations and reinitializations
@@ -77,6 +109,7 @@ const ParticleBackground = () => {
         width: '100%',
         height: '100%',
         zIndex: -1,
+        pointerEvents: 'none',
       }}
     />
   );

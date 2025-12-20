@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, Suspense, lazy } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
@@ -201,6 +201,34 @@ const LoadingFallback = () => (
   </Box>
 );
 
+function ScrollToHash() {
+  const location = useLocation();
+
+  useEffect(() => {
+    const hash = location.hash || '';
+
+    if (!hash) {
+      return;
+    }
+
+    const id = hash.replace('#', '');
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    // Allow DOM to paint after route change/lazy loads
+    const raf = window.requestAnimationFrame(() => {
+      const headerOffset = 110;
+      const rect = el.getBoundingClientRect();
+      const top = window.pageYOffset + rect.top - headerOffset;
+      window.scrollTo({ top, behavior: 'smooth' });
+    });
+
+    return () => window.cancelAnimationFrame(raf);
+  }, [location.pathname, location.hash]);
+
+  return null;
+}
+
 function Home() {
   return (
     <>
@@ -270,6 +298,7 @@ function App() {
       {isLoading && <VideoLoader />}
       <div className={`${isLoading ? 'overflow-hidden h-screen' : ''}`}>
         <Router>
+          <ScrollToHash />
           <Box
             sx={{
               display: 'flex',

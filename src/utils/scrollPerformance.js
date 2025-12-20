@@ -4,7 +4,9 @@
  */
 
 let scrollTimeout;
+let rafId;
 let isScrolling = false;
+const SCROLL_END_DELAY_MS = 120;
 
 export const initScrollOptimization = () => {
   if (typeof window === 'undefined') return;
@@ -15,16 +17,30 @@ export const initScrollOptimization = () => {
   // Cleanup function
   return () => {
     window.removeEventListener('scroll', handleScroll);
+    clearTimeout(scrollTimeout);
+    if (rafId) {
+      window.cancelAnimationFrame(rafId);
+      rafId = undefined;
+    }
+
+    if (isScrolling && typeof document !== 'undefined') {
+      isScrolling = false;
+      document.body.classList.remove('is-scrolling');
+      window.dispatchEvent(new CustomEvent('scrollopt:end'));
+    }
   };
 };
 
 const handleScroll = () => {
-  if (!isScrolling) {
-    isScrolling = true;
-    document.body.classList.add('is-scrolling');
-
-    // Pause expensive animations
-    pauseExpensiveAnimations();
+  if (!rafId) {
+    rafId = window.requestAnimationFrame(() => {
+      rafId = undefined;
+      if (!isScrolling) {
+        isScrolling = true;
+        document.body.classList.add('is-scrolling');
+        window.dispatchEvent(new CustomEvent('scrollopt:start'));
+      }
+    });
   }
 
   // Clear existing timeout
@@ -34,38 +50,8 @@ const handleScroll = () => {
   scrollTimeout = setTimeout(() => {
     isScrolling = false;
     document.body.classList.remove('is-scrolling');
-
-    // Resume animations
-    resumeAnimations();
-  }, 150); // Resume after 150ms of no scrolling
-};
-
-const pauseExpensiveAnimations = () => {
-  // Reduce animation complexity during scroll
-  const animatedElements = document.querySelectorAll('[data-animate]');
-  animatedElements.forEach(el => {
-    el.style.animationPlayState = 'paused';
-  });
-
-  // Pause framer-motion elements
-  const framerElements = document.querySelectorAll('[data-framer-motion]');
-  framerElements.forEach(el => {
-    el.style.animationPlayState = 'paused';
-  });
-};
-
-const resumeAnimations = () => {
-  // Resume animations after scroll ends
-  const animatedElements = document.querySelectorAll('[data-animate]');
-  animatedElements.forEach(el => {
-    el.style.animationPlayState = 'running';
-  });
-
-  // Resume framer-motion elements
-  const framerElements = document.querySelectorAll('[data-framer-motion]');
-  framerElements.forEach(el => {
-    el.style.animationPlayState = 'running';
-  });
+    window.dispatchEvent(new CustomEvent('scrollopt:end'));
+  }, SCROLL_END_DELAY_MS); // Resume shortly after scroll ends
 };
 
 // Debounce utility for resize events

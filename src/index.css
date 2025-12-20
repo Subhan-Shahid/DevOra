@@ -526,6 +526,11 @@ body.is-scrolling .neon-glow {
   animation-play-state: paused !important;
 }
 
+body.is-scrolling [data-animate],
+body.is-scrolling [data-framer-motion] {
+  animation-play-state: paused !important;
+}
+
 /* Remove backdrop blur entirely during scroll for maximum performance */
 body.is-scrolling [style*="backdrop-filter"],
 body.is-scrolling .glass,

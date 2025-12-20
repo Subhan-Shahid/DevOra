@@ -89,8 +89,8 @@ const ServiceCard3D = ({ service, index, theme }) => {
       initial={{ opacity: 0, y: 40, scale: 0.96 }}
       whileInView={{ opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true, amount: 0.4 }}
-      whileHover={isMobile ? {} : { y: -18, rotateX: 10, rotateY: -8 }}
-      transition={{ type: 'spring', stiffness: 220, damping: 26, mass: 0.9, delay: index * 0.06 }}
+      whileHover={isMobile ? {} : { y: -12, scale: 1.02 }}
+      transition={{ type: 'spring', stiffness: 400, damping: 30, delay: index * 0.05 }}
       sx={{
         height: isHovered ? { xs: 'auto', sm: 'auto', md: '720px' } : { xs: 'auto', sm: '420px', md: '500px' },
         position: 'relative',
@@ -98,7 +98,7 @@ const ServiceCard3D = ({ service, index, theme }) => {
         overflow: 'visible',
         background: 'transparent',
         perspective: '1400px',
-        transition: 'height 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+        transition: 'height 0.3s ease-out',
       }}
       onMouseEnter={() => !isMobile && setIsHovered(true)}
       onMouseLeave={() => !isMobile && setIsHovered(false)}
@@ -212,8 +212,8 @@ const ServiceCard3D = ({ service, index, theme }) => {
                   background: `linear-gradient(135deg, ${colors.light}, rgba(255,255,255,0.1))`,
                   borderRadius: '50%',
                   boxShadow: `0 8px 24px ${colors.light}`,
-                  transition: 'all 0.3s ease',
-                  transform: isHovered ? 'scale(1.1)' : 'scale(1)',
+                  transition: 'transform 0.2s ease-out',
+                  transform: isHovered ? 'scale(1.05)' : 'scale(1)',
                 }}
               />
               <Icon
@@ -222,8 +222,8 @@ const ServiceCard3D = ({ service, index, theme }) => {
                   fontSize: 'clamp(2rem, 5vw, 4rem)',
                   zIndex: 1,
                   filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.3))',
-                  transition: 'all 0.3s ease',
-                  transform: isHovered ? 'scale(1.1) rotate(5deg)' : 'scale(1) rotate(0deg)',
+                  transition: 'transform 0.2s ease-out',
+                  transform: isHovered ? 'scale(1.05)' : 'scale(1)',
                 }}
               />
             </Box>
@@ -281,7 +281,7 @@ const ServiceCard3D = ({ service, index, theme }) => {
                 opacity: isHovered ? 1 : 0,
                 height: isHovered ? 'auto' : 0,
               }}
-              transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+              transition={{ duration: 0.3, ease: 'easeOut' }}
               sx={{
                 overflow: 'hidden',
                 width: '100%',
@@ -321,7 +321,7 @@ const ServiceCard3D = ({ service, index, theme }) => {
                       opacity: isHovered ? 1 : 0,
                       x: isHovered ? 0 : -20,
                     }}
-                    transition={{ delay: 0.1 + idx * 0.1, duration: 0.3 }}
+                    transition={{ delay: idx * 0.05, duration: 0.2 }}
                     sx={{
                       display: 'flex',
                       alignItems: 'center',
@@ -404,8 +404,10 @@ const ServiceCard3D = ({ service, index, theme }) => {
                   boxShadow: `0 10px 20px ${colors.light}`,
                   border: `2px solid ${colors.main}`,
                   '&:hover': {
-                    boxShadow: `0 14px 28px ${colors.light}`,
-                  }
+                    transform: 'translateY(-2px)',
+                    boxShadow: `0 12px 24px ${colors.light}`,
+                  },
+                  transition: 'transform 0.2s ease-out, box-shadow 0.2s ease-out',
                 }}
               >
                 Get Started
@@ -427,7 +429,8 @@ const ServiceCard3D = ({ service, index, theme }) => {
                   '&:hover': {
                     background: `${colors.main}20`,
                     border: `2px solid ${colors.main}`,
-                  }
+                  },
+                  transition: 'background 0.2s ease-out',
                 }}
               >
                 {isHovered ? 'Less Info' : 'More Info'}
@@ -449,15 +452,15 @@ const ServiceCard3D = ({ service, index, theme }) => {
               textTransform: 'none',
               border: `2px solid ${colors.main}`,
               color: colors.main,
-              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-              transform: isHovered ? 'translateY(-2px) scale(1.05)' : 'translateY(0) scale(1)',
+              transition: 'transform 0.2s ease-out, background 0.2s ease-out, box-shadow 0.2s ease-out',
+              transform: isHovered ? 'translateY(-2px) scale(1.02)' : 'translateY(0) scale(1)',
               background: isHovered ? `${colors.main}20` : 'transparent',
               boxShadow: isHovered ? `0 8px 20px ${colors.light}` : 'none',
               alignSelf: 'center',
               mt: 'auto',
               '&:hover': {
                 background: `${colors.main}25`,
-                transform: 'translateY(-3px) scale(1.08)',
+                transform: 'translateY(-3px) scale(1.02)',
                 boxShadow: `0 12px 24px ${colors.light}`,
               }
             }}
@@ -657,7 +660,7 @@ const Services = React.memo(() => {
   const prefersReducedMotion = useReducedMotion();
 
   return (
-    <Box sx={{
+    <Box component="section" id="services" sx={{
       py: { xs: 10, md: 14 },
       background: theme.palette.mode === 'dark'
         ? 'linear-gradient(180deg, #0f172a 0%, #1e293b 50%, #334155 100%)'
