@@ -119,6 +119,21 @@ const ContinuousSlider = React.memo(() => {
           </Typography>
         </Box>
 
+        {/* Lottie Animation */}
+        <Box sx={{ display: 'flex', justifyContent: 'center', my: { xs: 3, md: 4 }, animation: 'fadeInUp 1s ease-out 0.3s both' }}>
+          <dotlottie-wc 
+            src="https://lottie.host/e3ec2ccc-5912-4c3e-ab4e-a5dc2507a290/6dm35ekWLd.lottie" 
+            style={{ 
+              width: '300px', 
+              height: '300px', 
+              maxWidth: '100%',
+              filter: theme.palette.mode === 'dark' ? 'drop-shadow(0 8px 32px rgba(0, 0, 0, 0.4))' : 'drop-shadow(0 8px 32px rgba(0, 0, 0, 0.15))'
+            }}
+            autoplay 
+            loop
+          />
+        </Box>
+
         {/* Continuous Scrolling Container */}
         <Box
           sx={{

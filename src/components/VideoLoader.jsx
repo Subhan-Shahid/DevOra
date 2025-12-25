@@ -1,103 +1,48 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
-const VideoLoader = () => {
-  const videoRef = useRef(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [videoLoaded, setVideoLoaded] = useState(false);
+const VideoLoader = ({ durationMs = 5000, onComplete }) => {
+  const [phase, setPhase] = useState('enter');
+
+  const exitDelayMs = useMemo(() => Math.max(0, durationMs - 600), [durationMs]);
 
   useEffect(() => {
-    const video = videoRef.current;
-    
-    // Lock body scroll and prevent zoom on mobile
-    document.body.style.overflow = 'hidden';
-    document.body.style.position = 'fixed';
-    document.body.style.width = '100%';
-    document.body.style.height = '100%';
-    
-    const handleEnded = () => {
-      setIsLoading(false);
-      // Restore body scroll
-      document.body.style.overflow = '';
-      document.body.style.position = '';
-      document.body.style.width = '';
-      document.body.style.height = '';
-    };
+    let exitTimer;
+    let doneTimer;
 
-    const handleLoadedData = () => {
-      setVideoLoaded(true);
-    };
+    exitTimer = setTimeout(() => {
+      setPhase('exit');
+    }, exitDelayMs);
 
-    const handleCanPlay = () => {
-      setVideoLoaded(true);
-    };
-
-    video.addEventListener('ended', handleEnded);
-    video.addEventListener('loadeddata', handleLoadedData);
-    video.addEventListener('canplay', handleCanPlay);
-    
-    // Auto-start video with better error handling
-    const playVideo = async () => {
-      try {
-        await video.play();
-      } catch (error) {
-        console.error('Video play error:', error);
-        // Fallback: hide loader after 3 seconds if video fails
-        setTimeout(() => {
-          setIsLoading(false);
-          document.body.style.overflow = '';
-          document.body.style.position = '';
-          document.body.style.width = '';
-          document.body.style.height = '';
-        }, 3000);
-      }
-    };
-
-    playVideo();
+    doneTimer = setTimeout(() => {
+      onComplete?.();
+    }, durationMs);
 
     return () => {
-      document.body.style.overflow = '';
-      document.body.style.position = '';
-      document.body.style.width = '';
-      document.body.style.height = '';
-      video.removeEventListener('ended', handleEnded);
-      video.removeEventListener('loadeddata', handleLoadedData);
-      video.removeEventListener('canplay', handleCanPlay);
+      clearTimeout(exitTimer);
+      clearTimeout(doneTimer);
     };
-  }, []);
-
-  if (!isLoading) return null;
+  }, [durationMs, exitDelayMs, onComplete]);
 
   return (
-    <div className="fixed inset-0 z-[9999] bg-white overflow-hidden">
-      {/* Loading spinner while video loads */}
-      {!videoLoaded && (
-        <div className="absolute inset-0 flex items-center justify-center bg-white">
-          <div className="animate-spin rounded-full h-16 w-16 border-4 border-gray-300 border-t-blue-600"></div>
+    <div className={`splash-overlay ${phase === 'exit' ? 'splash-overlay--exit' : ''}`}>
+      <div className="splash-stage">
+        <div className="splash-lottie-container">
+          <dotlottie-wc 
+            src="https://lottie.host/e63e940e-68d4-4acf-a6e1-7fc9bb55fdb8/aAvRePQDDg.lottie" 
+            style={{ width: '800px', height: '800px' }}
+            autoplay 
+            loop
+          />
         </div>
-      )}
+      </div>
       
-      {/* Video container with responsive sizing */}
-      <div className="video-loader-container">
-        <video
-          ref={videoRef}
-          className={`
-            max-w-full max-h-full w-auto h-auto object-contain
-            transition-opacity duration-500
-            ${videoLoaded ? 'opacity-100' : 'opacity-0'}
-          `}
-          muted
-          playsInline
-          preload="auto"
-          style={{
-            maxWidth: '100vw',
-            maxHeight: '100vh',
-            width: 'auto',
-            height: 'auto'
-          }}
-        >
-          <source src="/DevOra.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
+      <div className="splash-logo-container">
+        <h1 className="splash-logo-text">
+          <span className="logo-letter-blue">D</span>
+          <span className="logo-letter-white">ev</span>
+          <span className="logo-letter-blue">O</span>
+          <span className="logo-letter-white">ra</span>
+        </h1>
       </div>
     </div>
   );

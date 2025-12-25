@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FaFacebookF, FaTwitter, FaLinkedinIn, FaInstagram, FaGithub } from 'react-icons/fa';
 import { BsSun, BsMoon } from 'react-icons/bs';
 import { CgMenu, CgClose } from 'react-icons/cg';
-import { HiHome, HiCube, HiUser, HiSparkles } from 'react-icons/hi';
+import { HiHome, HiCube, HiUser, HiSparkles, HiCode, HiDesktopComputer, HiBriefcase } from 'react-icons/hi';
 
 // Floating Pill NavItem
 const PillNavItem = ({ to, label, icon: Icon, isActive, mode }) => {
@@ -208,10 +208,11 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
 
   const navItems = [
     { to: '/', label: 'Home', icon: HiHome },
-    { to: '/#showcase', label: 'Showcase', icon: HiSparkles },
-    { to: '/#tech', label: 'Tech', icon: HiSparkles },
+    { to: '/#showcase', label: 'Showcase', icon: HiDesktopComputer },
+    { to: '/#tech', label: 'Tech', icon: HiCode },
     { to: '/#services', label: 'Overview', icon: HiCube },
-    { to: '/services', label: 'Services', icon: HiCube },
+    { to: '/services', label: 'Services', icon: HiBriefcase },
+    { to: '/projects', label: 'Projects', icon: HiSparkles },
     { to: '/contact', label: 'Contact', icon: HiUser }
   ];
 
@@ -227,6 +228,10 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
 
     if (to === '/services') {
       return location.pathname.startsWith('/services');
+    }
+
+    if (to === '/projects') {
+      return location.pathname === '/projects';
     }
 
     return location.pathname === to;

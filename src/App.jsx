@@ -20,6 +20,7 @@ const ContactForm = lazy(() => import('./components/ContactForm'));
 const Footer = lazy(() => import('./components/Footer'));
 const ScrollToTop = lazy(() => import('./components/ScrollToTop'));
 const ServiceDetail = lazy(() => import('./pages/ServiceDetail'));
+const Projects = lazy(() => import('./pages/Projects'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 const ThankYou = lazy(() => import('./pages/ThankYou'));
 
@@ -273,7 +274,7 @@ function App() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 5000); // Hide loader after 5s or when video ends
+    }, 3000); // Reduced to 3s for better UX
     return () => clearTimeout(timer);
   }, []);
 
@@ -327,6 +328,14 @@ function App() {
                   element={
                     <Suspense fallback={<ServiceDetailSkeleton />}>
                       <ServiceDetail />
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="/projects"
+                  element={
+                    <Suspense fallback={<LoadingFallback />}>
+                      <Projects />
                     </Suspense>
                   }
                 />
