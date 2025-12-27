@@ -4,6 +4,7 @@ import { Container, Card, CardContent, Typography, Box, Button, useTheme, Grid }
 import { motion, useReducedMotion } from 'framer-motion';
 import { FaCode, FaGlobe, FaMobileAlt, FaArrowRight } from 'react-icons/fa';
 import { MdSpeed, MdSecurity, MdCloud, MdStar, MdCheckCircle } from 'react-icons/md';
+import { AnimatedDashboardShowcase } from './AnimatedDashboardShowcase';
 
 // Optimized services data
 const servicesData = [
@@ -679,12 +680,12 @@ const Services = React.memo(() => {
           background: theme.palette.mode === 'dark'
             ? `
               radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.05) 0%, transparent 50%),
-              radial-gradient(circle at 80% 20%, rgba(13, 148, 136, 0.05) 0%, transparent 50%),
+              radial-gradient(circle at 80% 20%, rgba(14, 165, 233, 0.05) 0%, transparent 50%),
               radial-gradient(circle at 50% 80%, rgba(30, 64, 175, 0.03) 0%, transparent 50%)
             `
             : `
               radial-gradient(circle at 20% 50%, rgba(37, 99, 235, 0.03) 0%, transparent 50%),
-              radial-gradient(circle at 80% 20%, rgba(13, 148, 136, 0.03) 0%, transparent 50%),
+              radial-gradient(circle at 80% 20%, rgba(14, 165, 233, 0.03) 0%, transparent 50%),
               radial-gradient(circle at 50% 80%, rgba(59, 130, 246, 0.02) 0%, transparent 50%)
             `,
           pointerEvents: 'none',
@@ -699,8 +700,8 @@ const Services = React.memo(() => {
               variant="overline"
               sx={{
                 background: theme.palette.mode === 'dark'
-                  ? 'linear-gradient(135deg, #60a5fa, #2dd4bf)'
-                  : 'linear-gradient(135deg, #2563eb, #0d9488)',
+                  ? 'linear-gradient(135deg, #38bdf8, #bae6fd)'
+                  : 'linear-gradient(135deg, #0284c7, #0ea5e9)',
                 backgroundClip: 'text',
                 WebkitBackdropFilter: 'text',
                 WebkitTextFillColor: 'transparent',
@@ -732,8 +733,8 @@ const Services = React.memo(() => {
                 component="span"
                 sx={{
                   background: theme.palette.mode === 'dark'
-                    ? 'linear-gradient(135deg, #60a5fa 0%, #2dd4bf 100%)'
-                    : 'linear-gradient(135deg, #2563eb 0%, #0d9488 100%)',
+                    ? 'linear-gradient(135deg, #38bdf8 0%, #bae6fd 100%)'
+                    : 'linear-gradient(135deg, #0284c7 0%, #0ea5e9 100%)',
                   backgroundClip: 'text',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
@@ -779,8 +780,8 @@ const Services = React.memo(() => {
               sx={{
                 fontWeight: 900,
                 background: theme.palette.mode === 'dark'
-                  ? 'linear-gradient(135deg, #60a5fa 0%, #2dd4bf 100%)'
-                  : 'linear-gradient(135deg, #2563eb 0%, #0d9488 100%)',
+                  ? 'linear-gradient(135deg, #38bdf8 0%, #bae6fd 100%)'
+                  : 'linear-gradient(135deg, #0284c7 0%, #0ea5e9 100%)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
@@ -789,7 +790,7 @@ const Services = React.memo(() => {
                 letterSpacing: '-0.02em',
               }}
             >
-              Why Choose <span style={{ color: theme.palette.mode === 'dark' ? '#60a5fa' : '#2563eb' }}>D</span>ev<span style={{ color: theme.palette.mode === 'dark' ? '#60a5fa' : '#2563eb' }}>O</span>ra?
+              Why Choose <span style={{ color: theme.palette.mode === 'dark' ? '#38bdf8' : '#0284c7' }}>D</span>ev<span style={{ color: theme.palette.mode === 'dark' ? '#38bdf8' : '#0284c7' }}>O</span>ra?
             </Typography>
 
             {/* Interactive Dashboards Showcase */}
@@ -872,90 +873,13 @@ const Services = React.memo(() => {
                   </Box>
                 </Grid>
 
-                {/* GIFs Section - Shows second on mobile */}
+                {/* Animated Dashboard Showcases - Shows second on mobile */}
                 <Grid size={{ xs: 12, md: 7 }} sx={{ order: { xs: 2, md: 1 } }}>
-                  <Grid container spacing={2}>
-                    <Grid size={{ xs: 12, sm: 6 }}>
-                      <Box
-                        sx={{
-                          borderRadius: 4,
-                          overflow: 'hidden',
-                          boxShadow: theme.palette.mode === 'dark'
-                            ? '0 25px 60px rgba(0,0,0,0.5), 0 0 40px rgba(129,140,248,0.2)'
-                            : '0 25px 60px rgba(99,102,241,0.3), 0 8px 24px rgba(0,0,0,0.1)',
-                          border: theme.palette.mode === 'dark'
-                            ? '2px solid rgba(129,140,248,0.3)'
-                            : '2px solid rgba(99,102,241,0.2)',
-                          background: theme.palette.mode === 'dark'
-                            ? 'linear-gradient(135deg, rgba(30,41,59,0.9), rgba(15,23,42,0.95))'
-                            : 'linear-gradient(135deg, rgba(255,255,255,0.98), rgba(248,250,252,0.98))',
-                          width: { xs: '85%', sm: '100%' },
-                          mx: 'auto',
-                          transition: 'all 0.3s ease',
-                          '&:hover': {
-                            transform: 'translateY(-8px)',
-                            boxShadow: theme.palette.mode === 'dark'
-                              ? '0 30px 70px rgba(0,0,0,0.6), 0 0 50px rgba(129,140,248,0.3)'
-                              : '0 30px 70px rgba(99,102,241,0.4), 0 12px 32px rgba(0,0,0,0.15)',
-                          }
-                        }}
-                      >
-                        <Box
-                          component="img"
-                          src="/Multiple-Bar-Chart.gif"
-                          alt="Interactive Bar Chart"
-                          sx={{
-                            width: '100%',
-                            height: 'auto',
-                            display: 'block',
-                            transform: 'scale(2)',
-                            transformOrigin: 'center center',
-                          }}
-                        />
-                      </Box>
-                    </Grid>
-                    <Grid size={{ xs: 12, sm: 6 }}>
-                      <Box
-                        sx={{
-                          borderRadius: 4,
-                          overflow: 'hidden',
-                          boxShadow: theme.palette.mode === 'dark'
-                            ? '0 25px 60px rgba(0,0,0,0.5), 0 0 40px rgba(244,114,182,0.2)'
-                            : '0 25px 60px rgba(236,72,153,0.3), 0 8px 24px rgba(0,0,0,0.1)',
-                          border: theme.palette.mode === 'dark'
-                            ? '2px solid rgba(244,114,182,0.3)'
-                            : '2px solid rgba(236,72,153,0.2)',
-                          background: theme.palette.mode === 'dark'
-                            ? 'linear-gradient(135deg, rgba(30,41,59,0.9), rgba(15,23,42,0.95))'
-                            : 'linear-gradient(135deg, rgba(255,255,255,0.98), rgba(248,250,252,0.98))',
-                          width: { xs: '85%', sm: '100%' },
-                          mx: 'auto',
-                          transition: 'all 0.3s ease',
-                          '&:hover': {
-                            transform: 'translateY(-8px)',
-                            boxShadow: theme.palette.mode === 'dark'
-                              ? '0 30px 70px rgba(0,0,0,0.6), 0 0 50px rgba(244,114,182,0.3)'
-                              : '0 30px 70px rgba(236,72,153,0.4), 0 12px 32px rgba(0,0,0,0.15)',
-                          }
-                        }}
-                      >
-                        <Box
-                          component="img"
-                          src="/Stacked-Donut-Chart.gif"
-                          alt="Interactive Donut Chart"
-                          sx={{
-                            width: '100%',
-                            height: 'auto',
-                            display: 'block',
-                            transform: 'scale(1.5)',
-                            transformOrigin: 'center center',
-                          }}
-                        />
-                      </Box>
-                    </Grid>
-                  </Grid>
+                  <AnimatedDashboardShowcase theme={theme} />
                 </Grid>
+
               </Grid>
+
             </Box>
 
             <Typography
@@ -981,8 +905,8 @@ const Services = React.memo(() => {
             </Grid>
           </Box>
         </Box>
-      </Container>
-    </Box>
+      </Container >
+    </Box >
   );
 });
 

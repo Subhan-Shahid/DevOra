@@ -38,34 +38,101 @@ const FloatingIcon = React.memo(({ icon: Icon, delay, x, y, color = '#1976d2', d
   )
 ));
 
-const GlassmorphismCard = ({ children, delay = 0, theme }) => (
+const ProfessionalStatsCard = ({ icon: Icon, value, label, delay = 0, theme, accentColor }) => (
   <motion.div
-    initial={{ opacity: 0, y: 30 }}
+    initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.8, delay }}
+    transition={{
+      duration: 0.6,
+      delay,
+      ease: "easeOut"
+    }}
     whileHover={{
-      y: -5,
-      transition: { duration: 0.3 }
+      y: -4,
+      transition: { duration: 0.2 }
     }}
     style={{
+      position: 'relative',
       background: theme?.palette.mode === 'dark'
-        ? 'rgba(30, 41, 59, 0.7)'
-        : 'rgba(255, 255, 255, 0.9)',
-      backdropFilter: 'blur(8px)',
+        ? 'rgba(30, 41, 59, 0.6)'
+        : 'rgba(255, 255, 255, 0.95)',
+      backdropFilter: 'blur(10px)',
       contain: 'layout style paint',
       willChange: 'transform',
       borderRadius: '16px',
+      padding: '28px 24px',
       border: theme?.palette.mode === 'dark'
-        ? '1px solid rgba(148, 163, 184, 0.2)'
+        ? '1px solid rgba(71, 85, 105, 0.3)'
         : '1px solid rgba(226, 232, 240, 0.8)',
-      padding: '24px',
       boxShadow: theme?.palette.mode === 'dark'
-        ? '0 10px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(15, 23, 42, 0.2)'
-        : '0 10px 40px rgba(0, 0, 0, 0.05), 0 4px 12px rgba(0, 0, 0, 0.03)'
+        ? '0 4px 24px rgba(0, 0, 0, 0.3)'
+        : '0 4px 24px rgba(0, 0, 0, 0.06)',
+      overflow: 'hidden',
+      transition: 'box-shadow 0.3s ease'
+    }}
+    onHoverStart={(e) => {
+      e.currentTarget.style.boxShadow = theme?.palette.mode === 'dark'
+        ? `0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px ${accentColor}40`
+        : `0 8px 32px rgba(0, 0, 0, 0.1), 0 0 0 1px ${accentColor}30`;
+    }}
+    onHoverEnd={(e) => {
+      e.currentTarget.style.boxShadow = theme?.palette.mode === 'dark'
+        ? '0 4px 24px rgba(0, 0, 0, 0.3)'
+        : '0 4px 24px rgba(0, 0, 0, 0.06)';
     }}
     data-animate="true"
   >
-    {children}
+    {/* Subtle top accent line */}
+    <Box sx={{
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      height: '3px',
+      background: `linear-gradient(90deg, ${accentColor}, transparent)`,
+      borderRadius: '16px 16px 0 0'
+    }} />
+
+    {/* Icon */}
+    <Box sx={{
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: '48px',
+      height: '48px',
+      borderRadius: '12px',
+      background: theme?.palette.mode === 'dark'
+        ? `${accentColor}15`
+        : `${accentColor}10`,
+      mb: 2
+    }}>
+      <Icon style={{
+        fontSize: '24px',
+        color: accentColor
+      }} />
+    </Box>
+
+    {/* Value */}
+    <Typography variant="h3" sx={{
+      fontWeight: 700,
+      color: theme?.palette.mode === 'dark' ? '#f1f5f9' : '#1e293b',
+      mb: 0.5,
+      fontSize: { xs: '2.25rem', md: '2.5rem' },
+      letterSpacing: '-0.01em',
+      lineHeight: 1.2
+    }}>
+      {value}
+    </Typography>
+
+    {/* Label */}
+    <Typography variant="body2" sx={{
+      color: theme?.palette.mode === 'dark' ? '#94a3b8' : '#64748b',
+      fontWeight: 500,
+      fontSize: '0.95rem',
+      letterSpacing: '0.01em'
+    }}>
+      {label}
+    </Typography>
   </motion.div>
 );
 
@@ -135,12 +202,12 @@ const Hero = () => {
           background: theme.palette.mode === 'dark'
             ? `
               radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
-              radial-gradient(circle at 80% 20%, rgba(13, 148, 136, 0.08) 0%, transparent 50%),
+              radial-gradient(circle at 80% 20%, rgba(14, 165, 233, 0.08) 0%, transparent 50%),
               radial-gradient(circle at 50% 50%, rgba(30, 64, 175, 0.05) 0%, transparent 60%)
             `
             : `
               radial-gradient(circle at 20% 80%, rgba(37, 99, 235, 0.05) 0%, transparent 50%),
-              radial-gradient(circle at 80% 20%, rgba(13, 148, 136, 0.05) 0%, transparent 50%),
+              radial-gradient(circle at 80% 20%, rgba(14, 165, 233, 0.05) 0%, transparent 50%),
               radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.03) 0%, transparent 60%)
             `,
           zIndex: 1,
@@ -244,8 +311,8 @@ const Hero = () => {
                 textAlign: 'center',
                 width: '100%',
                 background: theme.palette.mode === 'dark'
-                  ? 'linear-gradient(135deg, #e2e8f0, #94a3b8)'
-                  : 'linear-gradient(135deg, #1e293b, #334155, #475569)',
+                  ? 'linear-gradient(135deg, #38bdf8, #bae6fd)'
+                  : 'linear-gradient(135deg, #0284c7, #0ea5e9)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
@@ -374,67 +441,247 @@ const Hero = () => {
               </motion.div>
             </Box>
           </motion.div>
-
-          {/* Stats Section */}
+          {/* Stats Counter Bar */}
           <motion.div
-            initial={{ opacity: 0, y: 50 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
+            transition={{ duration: 0.6, delay: 0.8 }}
           >
-            <Grid container spacing={{ xs: 3, md: 5 }} sx={{ mt: { xs: 2, md: 4 }, mb: { xs: 6, md: 10 }, maxWidth: '800px', mx: 'auto' }} justifyContent="center">
-              <Grid size={{ xs: 12, sm: 4 }}>
-                <GlassmorphismCard delay={0.9} theme={theme}>
-                  <Typography variant="h4" sx={{
-                    color: theme.palette.mode === 'dark' ? '#60a5fa' : '#2563eb',
-                    fontWeight: 'bold',
-                    mb: 1
-                  }}>
-                    <AnimatedCounter end={100} suffix="+" />
-                  </Typography>
-                  <Typography variant="body2" sx={{
-                    color: theme.palette.mode === 'dark' ? '#cbd5e1' : '#475569',
-                    fontWeight: 600
-                  }}>
-                    Projects
-                  </Typography>
-                </GlassmorphismCard>
-              </Grid>
-              <Grid size={{ xs: 12, sm: 4 }}>
-                <GlassmorphismCard delay={1.0} theme={theme}>
-                  <Typography variant="h4" sx={{
-                    color: theme.palette.mode === 'dark' ? '#2dd4bf' : '#0d9488',
-                    fontWeight: 'bold',
-                    mb: 1
-                  }}>
-                    <AnimatedCounter end={50} suffix="+" />
-                  </Typography>
-                  <Typography variant="body2" sx={{
-                    color: theme.palette.mode === 'dark' ? '#cbd5e1' : '#475569',
-                    fontWeight: 600
-                  }}>
-                    Clients
-                  </Typography>
-                </GlassmorphismCard>
-              </Grid>
-              <Grid size={{ xs: 12, sm: 4 }}>
-                <GlassmorphismCard delay={1.1} theme={theme}>
-                  <Typography variant="h4" sx={{
-                    color: theme.palette.mode === 'dark' ? '#818cf8' : '#4f46e5',
-                    fontWeight: 'bold',
-                    mb: 1
-                  }}>
-                    <AnimatedCounter end={100} suffix="%" />
-                  </Typography>
-                  <Typography variant="body2" sx={{
-                    color: theme.palette.mode === 'dark' ? '#cbd5e1' : '#475569',
-                    fontWeight: 600
-                  }}>
-                    Satisfaction
-                  </Typography>
-                </GlassmorphismCard>
-              </Grid>
-            </Grid>
+            <Box sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: { xs: 3, sm: 5, md: 6 },
+              flexWrap: { xs: 'wrap', sm: 'nowrap' },
+
+              maxWidth: '700px',
+              mx: 'auto',
+              mt: { xs: 4, md: 6 },
+              mb: { xs: 6, md: 10 }
+            }}>
+              {/* Stat 1 */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{
+                  opacity: 1,
+                  y: [0, -10, 0],
+                  rotateX: [0, 5, 0],
+                  rotateY: [0, -5, 0]
+                }}
+                transition={{
+                  opacity: { duration: 0.5, delay: 0.9 },
+                  y: { duration: 3, repeat: Infinity, ease: "easeInOut" },
+                  rotateX: { duration: 4, repeat: Infinity, ease: "easeInOut" },
+                  rotateY: { duration: 5, repeat: Infinity, ease: "easeInOut" }
+                }}
+                whileHover={{
+                  scale: 1.1,
+                  rotateX: 10,
+                  rotateY: 10,
+                  transition: { duration: 0.3 }
+                }}
+                style={{
+                  flex: '1 1 100%',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  perspective: '1000px',
+                  transformStyle: 'preserve-3d'
+                }}
+              >
+                <Box sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 1.5,
+                  justifyContent: 'center',
+                  filter: 'drop-shadow(0 10px 20px rgba(59, 130, 246, 0.3))'
+                }}>
+                  <MdTrendingUp style={{
+                    fontSize: '28px',
+                    color: '#3b82f6',
+                    flexShrink: 0
+                  }} />
+                  <Box>
+                    <Typography variant="h4" sx={{
+                      fontWeight: 700,
+                      color: theme.palette.mode === 'dark' ? '#f1f5f9' : '#1e293b',
+                      fontSize: { xs: '1.75rem', sm: '2rem' },
+                      lineHeight: 1,
+                      mb: 0.5,
+                      textShadow: theme.palette.mode === 'dark'
+                        ? '0 2px 10px rgba(59, 130, 246, 0.5)'
+                        : '0 2px 10px rgba(59, 130, 246, 0.2)'
+                    }}>
+                      <AnimatedCounter end={100} suffix="+" />
+                    </Typography>
+                    <Typography variant="caption" sx={{
+                      color: theme.palette.mode === 'dark' ? '#94a3b8' : '#64748b',
+                      fontSize: '0.75rem',
+                      fontWeight: 500,
+                      letterSpacing: '0.5px',
+                      textTransform: 'uppercase'
+                    }}>
+                      Projects
+                    </Typography>
+                  </Box>
+                </Box>
+              </motion.div>
+
+              {/* Divider 1 */}
+              <Box sx={{
+                width: '1px',
+                height: '50px',
+                background: theme.palette.mode === 'dark'
+                  ? 'rgba(148, 163, 184, 0.2)'
+                  : 'rgba(203, 213, 225, 0.5)',
+                display: { xs: 'none', sm: 'block' }
+              }} />
+
+              {/* Stat 2 */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{
+                  opacity: 1,
+                  y: [0, -12, 0],
+                  rotateX: [0, -5, 0],
+                  rotateY: [0, 5, 0]
+                }}
+                transition={{
+                  opacity: { duration: 0.5, delay: 1.0 },
+                  y: { duration: 3.5, repeat: Infinity, ease: "easeInOut" },
+                  rotateX: { duration: 4.5, repeat: Infinity, ease: "easeInOut" },
+                  rotateY: { duration: 5.5, repeat: Infinity, ease: "easeInOut" }
+                }}
+                whileHover={{
+                  scale: 1.1,
+                  rotateX: -10,
+                  rotateY: 10,
+                  transition: { duration: 0.3 }
+                }}
+                style={{
+                  flex: '1 1 45%',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  perspective: '1000px',
+                  transformStyle: 'preserve-3d'
+                }}
+              >
+                <Box sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 1.5,
+                  justifyContent: 'center',
+                  filter: 'drop-shadow(0 10px 20px rgba(13, 148, 136, 0.3))'
+                }}>
+                  <FaHeart style={{
+                    fontSize: '24px',
+                    color: '#0d9488',
+                    flexShrink: 0
+                  }} />
+                  <Box>
+                    <Typography variant="h4" sx={{
+                      fontWeight: 700,
+                      color: theme.palette.mode === 'dark' ? '#f1f5f9' : '#1e293b',
+                      fontSize: { xs: '1.75rem', sm: '2rem' },
+                      lineHeight: 1,
+                      mb: 0.5,
+                      textShadow: theme.palette.mode === 'dark'
+                        ? '0 2px 10px rgba(13, 148, 136, 0.5)'
+                        : '0 2px 10px rgba(13, 148, 136, 0.2)'
+                    }}>
+                      <AnimatedCounter end={50} suffix="+" />
+                    </Typography>
+                    <Typography variant="caption" sx={{
+                      color: theme.palette.mode === 'dark' ? '#94a3b8' : '#64748b',
+                      fontSize: '0.75rem',
+                      fontWeight: 500,
+                      letterSpacing: '0.5px',
+                      textTransform: 'uppercase'
+                    }}>
+                      Clients
+                    </Typography>
+                  </Box>
+                </Box>
+              </motion.div>
+
+              {/* Divider 2 */}
+              <Box sx={{
+                width: '1px',
+                height: '50px',
+                background: theme.palette.mode === 'dark'
+                  ? 'rgba(148, 163, 184, 0.2)'
+                  : 'rgba(203, 213, 225, 0.5)',
+                display: { xs: 'none', sm: 'block' }
+              }} />
+
+              {/* Stat 3 */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{
+                  opacity: 1,
+                  y: [0, -8, 0],
+                  rotateX: [0, 5, 0],
+                  rotateY: [0, 5, 0]
+                }}
+                transition={{
+                  opacity: { duration: 0.5, delay: 1.1 },
+                  y: { duration: 4, repeat: Infinity, ease: "easeInOut" },
+                  rotateX: { duration: 5, repeat: Infinity, ease: "easeInOut" },
+                  rotateY: { duration: 6, repeat: Infinity, ease: "easeInOut" }
+                }}
+                whileHover={{
+                  scale: 1.1,
+                  rotateX: 10,
+                  rotateY: -10,
+                  transition: { duration: 0.3 }
+                }}
+                style={{
+                  flex: '1 1 45%',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  perspective: '1000px',
+                  transformStyle: 'preserve-3d'
+                }}
+              >
+                <Box sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 1.5,
+                  justifyContent: 'center',
+                  filter: 'drop-shadow(0 10px 20px rgba(139, 92, 246, 0.3))'
+                }}>
+                  <FaStar style={{
+                    fontSize: '24px',
+                    color: '#8b5cf6',
+                    flexShrink: 0
+                  }} />
+                  <Box>
+                    <Typography variant="h4" sx={{
+                      fontWeight: 700,
+                      color: theme.palette.mode === 'dark' ? '#f1f5f9' : '#1e293b',
+                      fontSize: { xs: '1.75rem', sm: '2rem' },
+                      lineHeight: 1,
+                      mb: 0.5,
+                      textShadow: theme.palette.mode === 'dark'
+                        ? '0 2px 10px rgba(139, 92, 246, 0.5)'
+                        : '0 2px 10px rgba(139, 92, 246, 0.2)'
+                    }}>
+                      <AnimatedCounter end={100} suffix="%" />
+                    </Typography>
+                    <Typography variant="caption" sx={{
+                      color: theme.palette.mode === 'dark' ? '#94a3b8' : '#64748b',
+                      fontSize: '0.75rem',
+                      fontWeight: 500,
+                      letterSpacing: '0.5px',
+                      textTransform: 'uppercase'
+                    }}>
+                      Satisfaction
+                    </Typography>
+                  </Box>
+                </Box>
+              </motion.div>
+            </Box>
           </motion.div>
+
         </Box>
       </Container>
 
@@ -497,3 +744,4 @@ const Hero = () => {
 };
 
 export default Hero;
+

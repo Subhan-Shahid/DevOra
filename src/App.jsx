@@ -17,6 +17,7 @@ const ResponsiveShowcase = lazy(() => import('./components/ResponsiveShowcase'))
 const ContinuousSlider = lazy(() => import('./components/ContinuousSlider'));
 const Services = lazy(() => import('./components/Services'));
 const ContactForm = lazy(() => import('./components/ContactForm'));
+const BusinessGrowthSection = lazy(() => import('./components/BusinessGrowthSection'));
 const Footer = lazy(() => import('./components/Footer'));
 const ScrollToTop = lazy(() => import('./components/ScrollToTop'));
 const ServiceDetail = lazy(() => import('./pages/ServiceDetail'));
@@ -37,9 +38,9 @@ const createAppTheme = (mode) => createTheme({
   palette: {
     mode,
     primary: {
-      main: mode === 'dark' ? '#818cf8' : '#6366f1',
-      light: '#a5b4fc',
-      dark: '#4f46e5',
+      main: mode === 'dark' ? '#38bdf8' : '#0ea5e9',
+      light: '#7dd3fc',
+      dark: '#0284c7',
       contrastText: '#ffffff',
     },
     secondary: {
@@ -49,9 +50,9 @@ const createAppTheme = (mode) => createTheme({
       contrastText: '#ffffff',
     },
     tertiary: {
-      main: mode === 'dark' ? '#38bdf8' : '#0ea5e9',
-      light: '#7dd3fc',
-      dark: '#0284c7',
+      main: mode === 'dark' ? '#818cf8' : '#6366f1',
+      light: '#a5b4fc',
+      dark: '#4f46e5',
       contrastText: '#ffffff',
     },
     background: mode === 'dark'
@@ -63,14 +64,14 @@ const createAppTheme = (mode) => createTheme({
     },
     gradient: {
       primary: mode === 'dark'
-        ? 'linear-gradient(135deg, #818cf8 0%, #6366f1 100%)'
-        : 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
+        ? 'linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%)'
+        : 'linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%)',
       secondary: mode === 'dark'
         ? 'linear-gradient(135deg, #f472b6 0%, #ec4899 100%)'
         : 'linear-gradient(135deg, #ec4899 0%, #f43f5e 100%)',
       tertiary: mode === 'dark'
-        ? 'linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%)'
-        : 'linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%)',
+        ? 'linear-gradient(135deg, #818cf8 0%, #6366f1 100%)'
+        : 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)',
     },
   },
   typography: {
@@ -245,6 +246,9 @@ function Home() {
       <Suspense fallback={<ServicesSkeleton />}>
         <Services />
       </Suspense>
+      <Suspense fallback={<div style={{ height: '400px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><CircularProgress /></div>}>
+        <BusinessGrowthSection />
+      </Suspense>
     </>
   );
 }
@@ -261,6 +265,10 @@ function App() {
     localStorage.setItem('theme-mode', newMode);
   };
 
+  const handleLoaderComplete = () => {
+    setIsLoading(false);
+  };
+
   useEffect(() => {
     // Load saved theme from localStorage
     const savedMode = localStorage.getItem('theme-mode');
@@ -269,13 +277,6 @@ function App() {
     }
     // mark mounted to prevent hydration mismatch
     setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 3000); // Reduced to 3s for better UX
-    return () => clearTimeout(timer);
   }, []);
 
   // Update body data-theme attribute when mode changes
@@ -296,7 +297,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      {isLoading && <VideoLoader />}
+      {isLoading && <VideoLoader onComplete={handleLoaderComplete} />}
       <div className={`${isLoading ? 'overflow-hidden h-screen' : ''}`}>
         <Router>
           <ScrollToHash />
@@ -307,7 +308,7 @@ function App() {
               minHeight: '100dvh',
               background: theme.palette.mode === 'dark'
                 ? 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)'
-                : 'linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #e0e7ff 100%)',
+                : 'linear-gradient(135deg, #ffffff 0%, #f0f9ff 50%, #e0f2fe 100%)',
               transition: 'background 0.3s ease',
             }}
           >

@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FaFacebookF, FaTwitter, FaLinkedinIn, FaInstagram, FaGithub } from 'react-icons/fa';
 import { BsSun, BsMoon } from 'react-icons/bs';
 import { CgMenu, CgClose } from 'react-icons/cg';
-import { HiHome, HiCube, HiUser, HiSparkles, HiCode, HiDesktopComputer, HiBriefcase } from 'react-icons/hi';
+import { Home, Sparkles, Code2, Layers, Briefcase, FolderKanban, Mail } from 'lucide-react';
 
 // Floating Pill NavItem
 const PillNavItem = ({ to, label, icon: Icon, isActive, mode }) => {
@@ -37,6 +37,11 @@ const PillNavItem = ({ to, label, icon: Icon, isActive, mode }) => {
       {/* Icon with circular background when active */}
       <Box
         component={motion.div}
+        whileHover={{
+          scale: 1.1,
+          rotate: isActive ? 0 : 5,
+          transition: { duration: 0.3 }
+        }}
         animate={{
           scale: isActive ? 1 : 1,
         }}
@@ -60,6 +65,18 @@ const PillNavItem = ({ to, label, icon: Icon, isActive, mode }) => {
               : '0 8px 32px rgba(30, 64, 175, 0.4)')
             : 'none',
           transition: 'all 0.3s ease',
+          '&:hover': {
+            background: isActive
+              ? (mode === 'dark'
+                ? 'linear-gradient(135deg, #3b82f6, #2563eb)'
+                : 'linear-gradient(135deg, #2563eb, #1e40af)')
+              : (mode === 'dark'
+                ? 'rgba(59, 130, 246, 0.1)'
+                : 'rgba(37, 99, 235, 0.08)'),
+            boxShadow: mode === 'dark'
+              ? '0 8px 24px rgba(59, 130, 246, 0.3)'
+              : '0 8px 24px rgba(37, 99, 235, 0.2)'
+          }
         }}
       >
         <Box
@@ -72,6 +89,11 @@ const PillNavItem = ({ to, label, icon: Icon, isActive, mode }) => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
+            '&:hover': {
+              color: isActive
+                ? '#ffffff'
+                : (mode === 'dark' ? '#60a5fa' : '#2563eb')
+            }
           }}
         >
           <Icon />
@@ -88,6 +110,9 @@ const PillNavItem = ({ to, label, icon: Icon, isActive, mode }) => {
             : (mode === 'dark' ? '#94a3b8' : '#64748b'),
           transition: 'color 0.3s ease',
           textTransform: 'capitalize',
+          '&:hover': {
+            color: mode === 'dark' ? '#60a5fa' : '#2563eb'
+          }
         }}
       >
         {label}
@@ -122,6 +147,12 @@ const MobileNavItem = ({ to, label, icon: Icon, onClick, isActive = false, mode 
   >
     {/* Icon with circular background when active */}
     <Box
+      component={motion.div}
+      whileHover={{
+        scale: 1.15,
+        rotate: isActive ? 0 : 8,
+        transition: { duration: 0.3 }
+      }}
       sx={{
         width: 48,
         height: 48,
@@ -141,6 +172,18 @@ const MobileNavItem = ({ to, label, icon: Icon, onClick, isActive = false, mode 
             : '0 8px 32px rgba(99, 102, 241, 0.4)')
           : 'none',
         transition: 'all 0.3s ease',
+        '&:hover': {
+          background: isActive
+            ? (mode === 'dark'
+              ? 'linear-gradient(135deg, #8b5cf6, #6366f1)'
+              : 'linear-gradient(135deg, #6366f1, #8b5cf6)')
+            : (mode === 'dark'
+              ? 'rgba(139, 92, 246, 0.15)'
+              : 'rgba(99, 102, 241, 0.1)'),
+          boxShadow: mode === 'dark'
+            ? '0 8px 24px rgba(139, 92, 246, 0.4)'
+            : '0 8px 24px rgba(99, 102, 241, 0.3)'
+        }
       }}
     >
       <Box
@@ -153,6 +196,11 @@ const MobileNavItem = ({ to, label, icon: Icon, onClick, isActive = false, mode 
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
+          '&:hover': {
+            color: isActive
+              ? '#ffffff'
+              : (mode === 'dark' ? '#a78bfa' : '#8b5cf6')
+          }
         }}
       >
         <Icon />
@@ -169,6 +217,9 @@ const MobileNavItem = ({ to, label, icon: Icon, onClick, isActive = false, mode 
           : (mode === 'dark' ? '#94a3b8' : '#64748b'),
         transition: 'color 0.3s ease',
         textTransform: 'capitalize',
+        '&:hover': {
+          color: mode === 'dark' ? '#a78bfa' : '#8b5cf6'
+        }
       }}
     >
       {label}
@@ -207,13 +258,13 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
   };
 
   const navItems = [
-    { to: '/', label: 'Home', icon: HiHome },
-    { to: '/#showcase', label: 'Showcase', icon: HiDesktopComputer },
-    { to: '/#tech', label: 'Tech', icon: HiCode },
-    { to: '/#services', label: 'Overview', icon: HiCube },
-    { to: '/services', label: 'Services', icon: HiBriefcase },
-    { to: '/projects', label: 'Projects', icon: HiSparkles },
-    { to: '/contact', label: 'Contact', icon: HiUser }
+    { to: '/', label: 'Home', icon: Home },
+    { to: '/#showcase', label: 'Showcase', icon: Sparkles },
+    { to: '/#tech', label: 'Tech', icon: Code2 },
+    { to: '/#services', label: 'Overview', icon: Layers },
+    { to: '/services', label: 'Services', icon: Briefcase },
+    { to: '/projects', label: 'Projects', icon: FolderKanban },
+    { to: '/contact', label: 'Contact', icon: Mail }
   ];
 
   const isNavActive = (to) => {

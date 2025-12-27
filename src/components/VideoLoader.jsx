@@ -1,18 +1,18 @@
 import React, { useEffect, useMemo, useState } from 'react';
 
 const VideoLoader = ({ durationMs = 5000, onComplete }) => {
-  const [phase, setPhase] = useState('enter');
-
-  const exitDelayMs = useMemo(() => Math.max(0, durationMs - 600), [durationMs]);
+  const [phase, setPhase] = useState('lottie');
 
   useEffect(() => {
     let exitTimer;
     let doneTimer;
 
+    // Start exit animation after duration
     exitTimer = setTimeout(() => {
       setPhase('exit');
-    }, exitDelayMs);
+    }, durationMs - 600);
 
+    // Complete the entire sequence
     doneTimer = setTimeout(() => {
       onComplete?.();
     }, durationMs);
@@ -21,28 +21,28 @@ const VideoLoader = ({ durationMs = 5000, onComplete }) => {
       clearTimeout(exitTimer);
       clearTimeout(doneTimer);
     };
-  }, [durationMs, exitDelayMs, onComplete]);
+  }, [durationMs, onComplete]);
 
   return (
     <div className={`splash-overlay ${phase === 'exit' ? 'splash-overlay--exit' : ''}`}>
       <div className="splash-stage">
-        <div className="splash-lottie-container">
+        <div className={`splash-lottie-container ${phase === 'exit' ? 'lottie-fade-out' : ''}`}>
           <dotlottie-wc 
-            src="https://lottie.host/e63e940e-68d4-4acf-a6e1-7fc9bb55fdb8/aAvRePQDDg.lottie" 
-            style={{ width: '800px', height: '800px' }}
+            src="https://lottie.host/a747e6a2-645d-4f59-b259-df7cb7d6657c/mXNn5QjA8h.lottie" 
+            style={{ width: '300px', height: '300px' }}
             autoplay 
-            loop
+            loop={false}
           />
         </div>
-      </div>
-      
-      <div className="splash-logo-container">
-        <h1 className="splash-logo-text">
-          <span className="logo-letter-blue">D</span>
-          <span className="logo-letter-white">ev</span>
-          <span className="logo-letter-blue">O</span>
-          <span className="logo-letter-white">ra</span>
-        </h1>
+        
+        <div className="splash-logo-simple">
+          <h1 className="splash-logo-text-simple">
+            <span className="logo-letter-blue">D</span>
+            <span className="logo-letter-white">ev</span>
+            <span className="logo-letter-blue">O</span>
+            <span className="logo-letter-white">ra</span>
+          </h1>
+        </div>
       </div>
     </div>
   );
