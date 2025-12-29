@@ -43,430 +43,247 @@ const servicesData = [
   }
 ];
 
-// Simple Service card component with hover overlay
+// Modern Glassmorphism Service Card
 const ServiceCard3D = ({ service, index, theme }) => {
   const Icon = service.icon;
   const [isHovered, setIsHovered] = React.useState(false);
-  const [isMobile, setIsMobile] = React.useState(false);
-
-  React.useEffect(() => {
-    const checkMobile = () => {
-      const touchCapable = typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0);
-      const narrow = typeof window !== 'undefined' && window.innerWidth < 1024;
-      const noHover = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(hover: none)').matches;
-      setIsMobile(Boolean(noHover || (touchCapable && narrow)));
-    };
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
+  const [isExpanded, setIsExpanded] = React.useState(false);
 
   const colors = useMemo(() => {
     const isDark = theme.palette.mode === 'dark';
-    const colorMap = {
-      primary: {
-        gradient: isDark ? 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)' : 'linear-gradient(135deg, #2563eb 0%, #1e40af 100%)',
-        main: isDark ? '#3b82f6' : '#1e40af',
-        light: isDark ? 'rgba(59, 130, 246, 0.15)' : 'rgba(30, 64, 175, 0.1)',
-      },
-      secondary: {
-        gradient: isDark ? 'linear-gradient(135deg, #94a3b8 0%, #64748b 100%)' : 'linear-gradient(135deg, #64748b 0%, #475569 100%)',
-        main: isDark ? '#94a3b8' : '#475569',
-        light: isDark ? 'rgba(148, 163, 184, 0.15)' : 'rgba(71, 85, 105, 0.1)',
-      },
-      tertiary: {
-        gradient: isDark ? 'linear-gradient(135deg, #2dd4bf 0%, #0d9488 100%)' : 'linear-gradient(135deg, #0d9488 0%, #0f766e 100%)',
-        main: isDark ? '#2dd4bf' : '#0f766e',
-        light: isDark ? 'rgba(45, 212, 191, 0.15)' : 'rgba(13, 148, 136, 0.1)',
-      }
+    // Skyblue Theme Integration
+    return {
+      gradient: isDark
+        ? 'linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%)' // Darker skyblue/blue
+        : 'linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%)', // Very light skyblue
+      main: isDark ? '#38bdf8' : '#0284c7', // Sky-400 : Sky-600
+      light: isDark ? 'rgba(56, 189, 248, 0.1)' : 'rgba(14, 165, 233, 0.08)',
+      border: isDark ? 'rgba(56, 189, 248, 0.2)' : 'rgba(2, 132, 199, 0.15)',
+      shadow: isDark ? 'rgba(14, 165, 233, 0.25)' : 'rgba(2, 132, 199, 0.15)',
+      iconBg: isDark ? 'rgba(56, 189, 248, 0.1)' : '#ffffff',
     };
-    return colorMap[service.colorKey] || colorMap.primary;
-  }, [service.colorKey, theme.palette.mode]);
-
+  }, [theme.palette.mode]);
 
   return (
     <Box
       component={motion.div}
-      initial={{ opacity: 0, y: 40, scale: 0.96 }}
+      layout
+      initial={{ opacity: 0, y: 50, scale: 0.9 }}
       whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      viewport={{ once: true, amount: 0.4 }}
-      whileHover={isMobile ? {} : { y: -12, scale: 1.02 }}
-      transition={{ type: 'spring', stiffness: 400, damping: 30, delay: index * 0.05 }}
-      sx={{
-        height: isHovered ? { xs: 'auto', sm: 'auto', md: '720px' } : { xs: 'auto', sm: '420px', md: '500px' },
-        position: 'relative',
-        borderRadius: 5,
-        overflow: 'visible',
-        background: 'transparent',
-        perspective: '1400px',
-        transition: 'height 0.3s ease-out',
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{
+        duration: 0.6,
+        delay: index * 0.15,
+        type: "spring",
+        bounce: 0.4,
+        layout: { duration: 0.3 }
       }}
-      onMouseEnter={() => !isMobile && setIsHovered(true)}
-      onMouseLeave={() => !isMobile && setIsHovered(false)}
-      data-animate="true"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      sx={{
+        height: 'auto',
+        minHeight: '100%',
+        position: 'relative',
+        zIndex: 1,
+      }}
     >
-      {/* Back stacked layer */}
       <Box
         sx={{
-          position: 'absolute',
-          inset: 0,
-          borderRadius: 5,
-          transform: 'translateY(26px) scale(0.94)',
-          opacity: theme.palette.mode === 'dark' ? 0.7 : 0.8,
-          background: theme.palette.mode === 'dark'
-            ? 'linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 64, 175, 0.9))'
-            : 'linear-gradient(135deg, rgba(219, 234, 254, 0.95), rgba(221, 214, 254, 0.95))',
-          border: `1px solid ${colors.light}`,
-          boxShadow: theme.palette.mode === 'dark'
-            ? '0 30px 80px rgba(15, 23, 42, 0.9)'
-            : '0 30px 80px rgba(15, 23, 42, 0.45)',
-          zIndex: 0,
-        }}
-      />
-
-      {/* Middle stacked layer */}
-      <Box
-        sx={{
-          position: 'absolute',
-          inset: 0,
-          borderRadius: 5,
-          transform: 'translateY(12px) scale(0.97)',
-          opacity: theme.palette.mode === 'dark' ? 0.9 : 0.95,
-          background: theme.palette.mode === 'dark'
-            ? 'linear-gradient(145deg, rgba(15, 23, 42, 0.98), rgba(30, 64, 175, 0.98))'
-            : 'linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(239, 246, 255, 0.98))',
-          border: `1px solid ${colors.light}`,
-          boxShadow: theme.palette.mode === 'dark'
-            ? '0 22px 60px rgba(15, 23, 42, 0.9)'
-            : '0 22px 60px rgba(15, 23, 42, 0.35)',
-          zIndex: 1,
-        }}
-      />
-
-      <Box
-        sx={{
-          position: 'relative',
-          borderRadius: 4,
-          overflow: 'hidden',
           height: '100%',
+          p: { xs: 3, sm: 4 },
+          borderRadius: '24px',
           background: theme.palette.mode === 'dark'
-            ? `linear-gradient(135deg, rgba(30, 41, 59, 0.98) 0%, rgba(15, 23, 42, 0.98) 100%)`
-            : `linear-gradient(135deg, rgba(255, 255, 255, 0.99) 0%, rgba(248, 250, 252, 0.99) 100%)`,
-          border: `1px solid ${colors.main}30`,
-          boxShadow: theme.palette.mode === 'dark'
-            ? `0 20px 60px rgba(0,0,0,0.3), 0 0 0 1px ${colors.main}20, inset 0 1px 0 rgba(255,255,255,0.05)`
-            : `0 20px 40px rgba(15, 23, 42, 0.08), 0 0 0 1px ${colors.main}15, inset 0 1px 0 rgba(255,255,255,0.8)`,
-          transformStyle: 'preserve-3d',
-          zIndex: 2,
+            ? 'rgba(15, 23, 42, 0.6)'
+            : 'rgba(255, 255, 255, 0.7)',
+          backdropFilter: 'blur(20px)',
+          border: `1px solid ${colors.border}`,
+          boxShadow: isHovered
+            ? `0 20px 40px -10px ${colors.shadow}, 0 0 0 1px ${colors.border}`
+            : `0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 0 0 1px ${theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'}`,
+          transition: 'box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+          transform: isHovered ? 'translateY(-8px)' : 'translateY(0)',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          overflow: 'hidden',
+          position: 'relative',
         }}
       >
+        {/* Glow Effect */}
         <Box
           sx={{
             position: 'absolute',
             top: 0,
             left: 0,
             right: 0,
-            height: '40%',
-            background: colors.gradient,
-            opacity: 0.08,
-            pointerEvents: 'none',
-          }}
-        />
-        <Box
-          sx={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background: `radial-gradient(circle at 50% 0%, ${colors.main}15 0%, transparent 70%)`,
-            pointerEvents: 'none',
+            height: '150px',
+            background: `radial-gradient(circle at 50% -20%, ${colors.main}20, transparent 70%)`,
+            opacity: isHovered ? 1 : 0.5,
+            transition: 'opacity 0.4s ease',
           }}
         />
 
-        <Box
-          sx={{
-            p: { xs: 2.5, sm: 3.5, md: 4 },
-            height: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            position: 'relative',
-            zIndex: 1,
-          }}
-        >
-          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', mb: { xs: 1.5, md: 3 }, mt: { xs: 1, sm: 3, md: 4 } }}>
-            <Box
-              sx={{
-                width: { xs: 100, sm: 150, md: 180 },
-                height: { xs: 100, sm: 150, md: 180 },
-                position: 'relative',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <Box
-                sx={{
-                  position: 'absolute',
-                  width: '100%',
-                  height: '100%',
-                  background: `linear-gradient(135deg, ${colors.light}, rgba(255,255,255,0.1))`,
-                  borderRadius: '50%',
-                  boxShadow: `0 8px 24px ${colors.light}`,
-                  transition: 'transform 0.2s ease-out',
-                  transform: isHovered ? 'scale(1.05)' : 'scale(1)',
-                }}
-              />
-              <Icon
-                style={{
-                  color: colors.main,
-                  fontSize: 'clamp(2rem, 5vw, 4rem)',
-                  zIndex: 1,
-                  filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.3))',
-                  transition: 'transform 0.2s ease-out',
-                  transform: isHovered ? 'scale(1.05)' : 'scale(1)',
-                }}
-              />
-            </Box>
-          </Box>
-
+        {/* Badge */}
+        {service.badge && (
           <Box
             sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              textAlign: { xs: 'left', md: 'center' },
-              alignItems: { xs: 'flex-start', md: 'center' },
-              gap: { xs: 1, md: 1.5 },
-              px: { xs: 0.5, sm: 2 },
-              flexGrow: 1,
-              justifyContent: 'flex-start',
-              pb: { xs: 2, md: 3 },
+              position: 'absolute',
+              top: 24,
+              right: 24,
+              px: 1.5,
+              py: 0.5,
+              borderRadius: '20px',
+              background: colors.gradient,
+              border: `1px solid ${colors.border}`,
+              color: theme.palette.mode === 'dark' ? '#fff' : '#0284c7',
+              fontSize: '0.7rem',
+              fontWeight: 700,
+              textTransform: 'uppercase',
+              letterSpacing: '0.5px',
+              zIndex: 2,
             }}
           >
-            <Box sx={{ flexGrow: 1, width: '100%', minHeight: { xs: 'auto', md: 210 } }}>
-              <Typography
-                variant="h5"
-                sx={{
-                  fontWeight: 800,
-                  mb: { xs: 1, md: 2 },
-                  color: theme.palette.mode === 'dark' ? '#f1f5f9' : '#1e293b',
-                  fontSize: { xs: '1.1rem', sm: '1.35rem', md: '1.5rem' },
-                  letterSpacing: '-0.02em',
-                }}
-              >
-                {service.title}
-              </Typography>
+            {service.badge}
+          </Box>
+        )}
 
-              <Typography
-                variant="body2"
-                sx={{
-                  color: theme.palette.mode === 'dark' ? '#94a3b8' : '#64748b',
-                  lineHeight: 1.5,
-                  fontSize: { xs: '0.8rem', sm: '0.9rem', md: '0.95rem' },
-                  mb: { xs: 1.5, md: 3 },
-                  display: '-webkit-box',
-                  WebkitLineClamp: { xs: 3, md: 3 },
-                  WebkitBoxOrient: 'vertical',
-                  overflow: 'hidden',
-                }}
-              >
-                {service.description}
-              </Typography>
-            </Box>
+        {/* Icon Container */}
+        <Box
+          sx={{
+            width: { xs: 64, sm: 80 },
+            height: { xs: 64, sm: 80 },
+            borderRadius: '20px',
+            background: colors.iconBg,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            mb: 3,
+            boxShadow: theme.palette.mode === 'dark'
+              ? 'none'
+              : '0 10px 20px -5px rgba(0,0,0,0.05)',
+            border: `1px solid ${colors.border}`,
+            position: 'relative',
+            zIndex: 1,
+            transition: 'transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
+            transform: isHovered ? 'scale(1.1) rotate(5deg)' : 'scale(1) rotate(0deg)',
+          }}
+        >
+          <Icon size={36} color={colors.main} />
+        </Box>
 
-            {/* Expanded content on hover */}
-            <Box
-              component={motion.div}
-              initial={{ opacity: 0, height: 0 }}
-              animate={{
-                opacity: isHovered ? 1 : 0,
-                height: isHovered ? 'auto' : 0,
-              }}
-              transition={{ duration: 0.3, ease: 'easeOut' }}
-              sx={{
-                overflow: 'hidden',
-                width: '100%',
-              }}
-            >
-              {/* Badge */}
-              {service.badge && (
-                <Box
-                  sx={{
-                    display: 'inline-block',
-                    px: 2,
-                    py: 0.5,
-                    mb: 2,
-                    mt: 2,
-                    borderRadius: '20px',
-                    background: colors.gradient,
-                    color: '#fff',
-                    fontSize: '0.75rem',
-                    fontWeight: 700,
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.5px',
-                    boxShadow: `0 4px 12px ${colors.light}`,
-                  }}
-                >
-                  ⭐ {service.badge}
-                </Box>
-              )}
+        {/* Content */}
+        <Typography
+          variant="h5"
+          sx={{
+            fontWeight: 800,
+            mb: 2,
+            textAlign: 'center',
+            fontSize: { xs: '1.25rem', sm: '1.5rem' },
+            color: theme.palette.mode === 'dark' ? '#f8fafc' : '#0f172a',
+          }}
+        >
+          {service.title}
+        </Typography>
 
-              {/* Features List */}
-              <Box sx={{ mb: 2 }}>
-                {service.features.map((feature, idx) => (
-                  <Box
-                    key={idx}
-                    component={motion.div}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{
-                      opacity: isHovered ? 1 : 0,
-                      x: isHovered ? 0 : -20,
-                    }}
-                    transition={{ delay: idx * 0.05, duration: 0.2 }}
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 1.5,
-                      mb: 1,
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        width: 20,
-                        height: 20,
-                        borderRadius: '50%',
-                        background: colors.gradient,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        flexShrink: 0,
-                      }}
-                    >
-                      <MdCheckCircle style={{ color: '#fff', fontSize: '0.75rem' }} />
-                    </Box>
-                    <Typography
-                      variant="body2"
-                      sx={{
-                        color: theme.palette.mode === 'dark' ? '#e2e8f0' : '#334155',
-                        fontSize: '0.9rem',
-                        fontWeight: 600,
-                      }}
-                    >
-                      {feature}
-                    </Typography>
-                  </Box>
-                ))}
+        <Typography
+          variant="body1"
+          sx={{
+            color: theme.palette.mode === 'dark' ? '#94a3b8' : '#64748b',
+            lineHeight: 1.6,
+            textAlign: 'center',
+            mb: 3,
+            fontSize: { xs: '0.875rem', sm: '0.95rem' },
+          }}
+        >
+          {service.description}
+        </Typography>
+
+        {/* Expandable Content Section */}
+        <motion.div
+          initial={false}
+          animate={{ height: isExpanded ? 'auto' : 0, opacity: isExpanded ? 1 : 0 }}
+          transition={{ duration: 0.4, ease: "easeInOut" }}
+          style={{ overflow: 'hidden', width: '100%' }}
+        >
+          <Box sx={{ width: '100%', mb: 3, pl: 1, pt: 1, borderTop: `1px dashed ${colors.border}` }}>
+            <Typography variant="subtitle2" sx={{ mb: 2, mt: 2, fontWeight: 700, color: colors.main, textTransform: 'uppercase', fontSize: '0.75rem', letterSpacing: '1px' }}>
+              What's Included
+            </Typography>
+            {service.features.map((feature, idx) => (
+              <Box key={idx} sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1.5 }}>
+                <MdCheckCircle size={18} color={colors.main} />
+                <Typography variant="body2" sx={{ fontWeight: 500, color: theme.palette.mode === 'dark' ? '#cbd5e1' : '#475569' }}>
+                  {feature}
+                </Typography>
               </Box>
+            ))}
 
-              {/* Price */}
-              <Box
-                sx={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 1,
-                  px: 2.5,
-                  py: 1,
-                  borderRadius: '25px',
-                  background: theme.palette.mode === 'dark'
-                    ? 'rgba(255, 255, 255, 0.05)'
-                    : 'rgba(0, 0, 0, 0.03)',
-                  border: `1.5px solid ${colors.light}`,
-                  mb: 2,
-                }}
-              >
-                <Typography
-                  variant="body2"
-                  sx={{
-                    color: colors.main,
-                    fontSize: '1rem',
-                    fontWeight: 800,
-                  }}
-                >
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 3, p: 2, borderRadius: '12px', background: colors.light }}>
+              <Box>
+                <Typography variant="caption" sx={{ display: 'block', color: theme.palette.mode === 'dark' ? '#94a3b8' : '#64748b' }}>
+                  Starting at
+                </Typography>
+                <Typography variant="h6" sx={{ fontWeight: 800, color: colors.main }}>
                   {service.price}
                 </Typography>
               </Box>
-            </Box>
-
-            <Box sx={{ mt: 1.5, display: { xs: 'flex', md: 'none' }, gap: 1.5, alignSelf: { xs: 'flex-start', md: 'center' }, flexWrap: 'wrap' }}>
-              <Button
-                component={Link}
-                to={`/services/${service.slug}`}
-                variant="contained"
-                size="medium"
-                endIcon={<FaArrowRight />}
-                sx={{
-                  borderRadius: '25px',
-                  px: 3.5,
-                  py: 1.25,
-                  mt: 1,
-                  textTransform: 'none',
-                  fontWeight: 800,
-                  background: colors.gradient,
-                  boxShadow: `0 10px 20px ${colors.light}`,
-                  border: `2px solid ${colors.main}`,
-                  '&:hover': {
-                    transform: 'translateY(-2px)',
-                    boxShadow: `0 12px 24px ${colors.light}`,
-                  },
-                  transition: 'transform 0.2s ease-out, box-shadow 0.2s ease-out',
-                }}
-              >
-                Get Started
-              </Button>
-              <Button
-                onClick={() => setIsHovered(!isHovered)}
-                variant="outlined"
-                size="medium"
-                sx={{
-                  borderRadius: '25px',
-                  px: 3.5,
-                  py: 1.25,
-                  mt: 1,
-                  textTransform: 'none',
-                  fontWeight: 700,
-                  border: `2px solid ${colors.main}`,
-                  color: colors.main,
-                  background: isHovered ? `${colors.main}15` : 'transparent',
-                  '&:hover': {
-                    background: `${colors.main}20`,
-                    border: `2px solid ${colors.main}`,
-                  },
-                  transition: 'background 0.2s ease-out',
-                }}
-              >
-                {isHovered ? 'Less Info' : 'More Info'}
-              </Button>
+              <Box sx={{ textAlign: 'right' }}>
+                <Typography variant="caption" sx={{ display: 'block', color: theme.palette.mode === 'dark' ? '#94a3b8' : '#64748b' }}>
+                  Completed
+                </Typography>
+                <Typography variant="h6" sx={{ fontWeight: 800, color: theme.palette.mode === 'dark' ? '#f1f5f9' : '#1e293b' }}>
+                  {service.projects}+
+                </Typography>
+              </Box>
             </Box>
           </Box>
+        </motion.div>
 
+        {/* Action Buttons */}
+        <Box sx={{ display: 'flex', gap: 2, width: '100%', mt: 'auto', flexDirection: { xs: 'column', sm: 'row' } }}>
+          <Button
+            onClick={() => setIsExpanded(!isExpanded)}
+            fullWidth
+            variant="outlined"
+            sx={{
+              borderRadius: '14px',
+              py: 1.25,
+              textTransform: 'none',
+              fontSize: '0.9rem',
+              fontWeight: 600,
+              borderColor: colors.border,
+              color: theme.palette.mode === 'dark' ? '#f1f5f9' : '#334155',
+              borderWidth: '1.5px',
+              '&:hover': {
+                borderColor: colors.main,
+                background: colors.light,
+                borderWidth: '1.5px',
+              },
+            }}
+          >
+            {isExpanded ? 'Less Info' : 'More Info'}
+          </Button>
           <Button
             component={Link}
             to={`/services/${service.slug}`}
-            variant="outlined"
+            fullWidth
+            variant="contained"
             sx={{
-              display: { xs: 'none', md: 'inline-flex' },
-              borderRadius: '25px',
-              px: { xs: 3, sm: 4 },
-              py: { xs: 1, sm: 1.25 },
-              fontWeight: 600,
-              fontSize: { xs: '0.85rem', sm: '0.9rem' },
+              borderRadius: '14px',
+              py: 1.25,
               textTransform: 'none',
-              border: `2px solid ${colors.main}`,
-              color: colors.main,
-              transition: 'transform 0.2s ease-out, background 0.2s ease-out, box-shadow 0.2s ease-out',
-              transform: isHovered ? 'translateY(-2px) scale(1.02)' : 'translateY(0) scale(1)',
-              background: isHovered ? `${colors.main}20` : 'transparent',
-              boxShadow: isHovered ? `0 8px 20px ${colors.light}` : 'none',
-              alignSelf: 'center',
-              mt: 'auto',
+              fontSize: '0.9rem',
+              fontWeight: 700,
+              background: theme.palette.mode === 'dark' ? '#38bdf8' : '#0284c7',
+              color: '#fff',
+              boxShadow: 'none',
               '&:hover': {
-                background: `${colors.main}25`,
-                transform: 'translateY(-3px) scale(1.02)',
-                boxShadow: `0 12px 24px ${colors.light}`,
-              }
+                background: theme.palette.mode === 'dark' ? '#0ea5e9' : '#0369a1',
+                boxShadow: `0 10px 20px -10px ${colors.shadow}`,
+              },
             }}
           >
-            Learn More
+            View Details
           </Button>
         </Box>
       </Box>
@@ -766,7 +583,7 @@ const Services = React.memo(() => {
         {/* Services Grid */}
         <Grid container spacing={{ xs: 2, sm: 3, lg: 4 }} justifyContent="center">
           {servicesData.map((service, index) => (
-            <Grid key={service.slug} size={{ xs: 12, sm: 12, md: 6, lg: 4 }}>
+            <Grid key={service.slug} size={{ xs: 12, sm: 6, md: 6, lg: 4 }}>
               <ServiceCard3D service={service} index={index} theme={theme} />
             </Grid>
           ))}
