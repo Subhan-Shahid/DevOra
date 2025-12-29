@@ -1332,6 +1332,53 @@ video {
   }
 }
 
+/* Fix Tawk.to chatbot positioning and visibility */
+iframe[src*="tawk.to"],
+iframe[src*="tawk"],
+div[id*="tawk"],
+div[class*="tawk"],
+#tawkchat-container,
+#tawkchat-iframe-container,
+#tawkchat-minified-box,
+#tawkchat-maximized-box,
+#tawkchat-status-container,
+#tawkchat-message-container,
+.tawk-chat-minimized,
+.tawk-chat-maximized {
+  position: fixed !important;
+  z-index: 999999 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
+  transform: none !important;
+  will-change: auto !important;
+  contain: auto !important;
+  animation-play-state: running !important;
+  pointer-events: auto !important;
+}
+
+/* Ensure chatbot elements are not affected by scroll optimizations */
+body.is-scrolling iframe[src*="tawk.to"],
+body.is-scrolling iframe[src*="tawk"],
+body.is-scrolling div[id*="tawk"],
+body.is-scrolling div[class*="tawk"],
+body.is-scrolling #tawkchat-container,
+body.is-scrolling #tawkchat-iframe-container,
+body.is-scrolling #tawkchat-minified-box,
+body.is-scrolling #tawkchat-maximized-box,
+body.is-scrolling #tawkchat-status-container,
+body.is-scrolling #tawkchat-message-container,
+body.is-scrolling .tawk-chat-minimized,
+body.is-scrolling .tawk-chat-maximized {
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
+  animation-play-state: running !important;
+  transform: none !important;
+  will-change: auto !important;
+  pointer-events: auto !important;
+}
+
 /* Dark mode support for splash */
 body[data-theme="dark"] .splash-overlay {
   background: linear-gradient(135deg, #1e293b 0%, #334155 50%, #475569 100%);
