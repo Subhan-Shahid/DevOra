@@ -820,7 +820,7 @@ video {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #000000;
+  background: #ffffff;
   overflow: hidden;
 }
 
@@ -883,6 +883,43 @@ video {
   animation: orbFloat3 7s ease-in-out infinite;
 }
 
+.animation-fade-out {
+  animation: animationFadeOut 0.6s ease-out forwards;
+}
+
+@keyframes animationFadeOut {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+}
+
+@keyframes simpleFadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.logo-fade-out {
+  animation: simpleFadeOut 0.6s ease-out forwards;
+}
+
+@keyframes simpleFadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 @keyframes orbFloat1 {
   0%, 100% {
     transform: translate(0, 0) scale(1);
@@ -920,14 +957,15 @@ video {
 }
 
 .splash-logo-simple {
-  margin-top: 20px;
+  margin-top: 0;
   text-align: center;
-  animation: fadeInUp 1s ease-out 0.5s both;
+  opacity: 0;
+  animation: simpleFadeIn 0.8s ease-out 0.3s forwards;
 }
 
 .splash-logo-text-simple {
   font-size: 2.5rem;
-  font-weight: 700;
+  font-weight: 800;
   margin: 0;
   padding: 0;
   letter-spacing: -0.02em;
@@ -974,19 +1012,11 @@ video {
 }
 
 .logo-letter-blue {
-  color: #3b82f6;
-  text-shadow: 
-    0 4px 20px rgba(59, 130, 246, 0.4),
-    0 0 40px rgba(59, 130, 246, 0.3),
-    0 0 60px rgba(59, 130, 246, 0.2);
-  animation: bluePulse 3s ease-in-out infinite;
-  display: inline-block;
+  color: #0ea5e9;
 }
 
 .logo-letter-white {
-  color: #ffffff;
-  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  display: inline-block;
+  color: #1e293b;
 }
 
 .splash-logo-container::before {
@@ -1381,7 +1411,11 @@ body.is-scrolling .tawk-chat-maximized {
 
 /* Dark mode support for splash */
 body[data-theme="dark"] .splash-overlay {
-  background: linear-gradient(135deg, #1e293b 0%, #334155 50%, #475569 100%);
+  background: #0f172a;
+}
+
+body[data-theme="dark"] .logo-letter-white {
+  color: #f1f5f9;
 }
 
 /* Fade in up animation for main content animations */
