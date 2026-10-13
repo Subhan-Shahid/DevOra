@@ -332,24 +332,57 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
               }}
             >
               {/* Logo */}
-              {/* Logo */}
               <Box
                 component={Link}
                 to="/"
                 sx={{
                   textDecoration: 'none',
-                  fontWeight: 800,
-                  fontSize: '1.5rem',
-                  mr: 4,
                   display: 'flex',
                   alignItems: 'center',
-                  color: mode === 'dark' ? '#f8fafc' : '#0f172a',
+                  gap: 1.5,
+                  mr: 4,
                 }}
               >
-                <span style={{ color: mode === 'dark' ? '#3b82f6' : '#2563eb' }}>D</span>
-                ev
-                <span style={{ color: mode === 'dark' ? '#3b82f6' : '#2563eb' }}>O</span>
-                ra
+                <Box
+                  component="img"
+                  src="/stackora-icon.png"
+                  alt="Stackora Softworks Logo"
+                  sx={{
+                    height: 38,
+                    width: 'auto',
+                    objectFit: 'contain',
+                    filter: mode === 'dark' ? 'drop-shadow(0 2px 8px rgba(56, 189, 248, 0.4))' : 'none',
+                    transition: 'transform 0.3s ease',
+                    '&:hover': {
+                      transform: 'scale(1.05)',
+                    }
+                  }}
+                />
+                <Box sx={{ display: 'flex', flexDirection: 'column', lineHeight: 1 }}>
+                  <Typography
+                    sx={{
+                      fontWeight: 800,
+                      fontSize: '1.25rem',
+                      letterSpacing: '-0.02em',
+                      color: mode === 'dark' ? '#f8fafc' : '#0f172a',
+                    }}
+                  >
+                    <span style={{ color: mode === 'dark' ? '#38bdf8' : '#0284c7' }}>Stack</span>
+                    <span>ora</span>
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: '0.62rem',
+                      fontWeight: 700,
+                      letterSpacing: '0.12em',
+                      textTransform: 'uppercase',
+                      color: mode === 'dark' ? '#0ea5e9' : '#0284c7',
+                      mt: -0.2,
+                    }}
+                  >
+                    Softworks
+                  </Typography>
+                </Box>
               </Box>
 
               <Box sx={{ display: 'flex', gap: 1 }}>
@@ -407,17 +440,57 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
                 backdropFilter: 'blur(20px) saturate(180%)',
                 WebkitBackdropFilter: 'blur(20px) saturate(180%)',
                 borderRadius: '50px',
-                padding: '12px 20px',
+                padding: '10px 18px',
                 boxShadow: mode === 'dark'
                   ? '0 8px 32px rgba(0, 0, 0, 0.4)'
                   : '0 8px 32px rgba(0, 0, 0, 0.12)',
               }}
             >
-              <Box sx={{ fontWeight: 900, fontSize: '1.2rem', color: mode === 'dark' ? '#f8fafc' : '#0f172a' }}>
-                <span style={{ color: mode === 'dark' ? '#3b82f6' : '#2563eb' }}>D</span>
-                ev
-                <span style={{ color: mode === 'dark' ? '#3b82f6' : '#2563eb' }}>O</span>
-                ra
+              <Box
+                component={Link}
+                to="/"
+                sx={{
+                  textDecoration: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 1.2,
+                }}
+              >
+                <Box
+                  component="img"
+                  src="/stackora-icon.png"
+                  alt="Stackora Softworks Logo"
+                  sx={{
+                    height: 32,
+                    width: 'auto',
+                    objectFit: 'contain',
+                  }}
+                />
+                <Box sx={{ display: 'flex', flexDirection: 'column', lineHeight: 1 }}>
+                  <Typography
+                    sx={{
+                      fontWeight: 800,
+                      fontSize: '1.05rem',
+                      letterSpacing: '-0.02em',
+                      color: mode === 'dark' ? '#f8fafc' : '#0f172a',
+                    }}
+                  >
+                    <span style={{ color: mode === 'dark' ? '#38bdf8' : '#0284c7' }}>Stack</span>
+                    <span>ora</span>
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: '0.52rem',
+                      fontWeight: 700,
+                      letterSpacing: '0.12em',
+                      textTransform: 'uppercase',
+                      color: mode === 'dark' ? '#0ea5e9' : '#0284c7',
+                      mt: -0.2,
+                    }}
+                  >
+                    Softworks
+                  </Typography>
+                </Box>
               </Box>
               <Box sx={{ display: 'flex', gap: 1 }}>
                 <IconButton onClick={onToggleTheme} sx={{ color: mode === 'dark' ? '#94a3b8' : '#64748b' }}>

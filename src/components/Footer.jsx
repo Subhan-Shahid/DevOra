@@ -113,19 +113,32 @@ const Footer = () => {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <Box sx={{ display: 'flex', alignItems: 'center', mb: { xs: 2, md: 3 } }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: { xs: 2, md: 3 } }}>
                 <img
-                  src={`/DevOra.png`}
-                  alt="DevOra logo"
-                  style={{ height: '28px', width: '28px', marginRight: '12px', borderRadius: '6px' }}
+                  src="/stackora-icon.png"
+                  alt="Stackora Softworks Logo"
+                  style={{ height: '42px', width: 'auto', objectFit: 'contain' }}
                 />
-                <Typography variant="h4" sx={{
-                  fontWeight: 800,
-                  color: 'white',
-                  fontSize: { xs: '1.5rem', md: '2rem' }
-                }}>
-                  <span style={{ color: '#2563eb' }}>D</span>ev<span style={{ color: '#2563eb' }}>O</span>ra
-                </Typography>
+                <Box sx={{ display: 'flex', flexDirection: 'column', lineHeight: 1 }}>
+                  <Typography variant="h4" sx={{
+                    fontWeight: 800,
+                    color: 'white',
+                    fontSize: { xs: '1.4rem', md: '1.75rem' },
+                    letterSpacing: '-0.02em',
+                  }}>
+                    <span style={{ color: '#38bdf8' }}>Stack</span>ora
+                  </Typography>
+                  <Typography sx={{
+                    fontSize: '0.65rem',
+                    fontWeight: 700,
+                    letterSpacing: '0.12em',
+                    textTransform: 'uppercase',
+                    color: '#38bdf8',
+                    mt: -0.2,
+                  }}>
+                    Softworks
+                  </Typography>
+                </Box>
               </Box>
               <Typography variant="body1" sx={{
                 mb: { xs: 3, md: 4 },
@@ -675,7 +688,7 @@ const Footer = () => {
                         +92 339 640 5272
                       </MuiLink>
                       <IconButton
-                        href="https://wa.me/923396405272?text=Hello%20DevOra"
+                        href="https://wa.me/923396405272?text=Hello%20Stackora"
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label="WhatsApp +92 339 640 5272"
@@ -721,7 +734,7 @@ const Footer = () => {
             }}
           >
             <Typography variant="body2" sx={{ opacity: 0.8, mb: 1 }}>
-              © {new Date().getFullYear()} <span style={{ color: '#2563eb' }}>D</span>ev<span style={{ color: '#2563eb' }}>O</span>ra. All rights reserved.
+              © {new Date().getFullYear()} <span style={{ color: '#38bdf8' }}>Stackora</span> Softworks. All rights reserved.
             </Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
               <Typography variant="body2" sx={{ opacity: 0.8 }}>
@@ -734,7 +747,7 @@ const Footer = () => {
                 <FaHeart style={{ color: '#ff6b6b', fontSize: '1rem' }} />
               </motion.div>
               <Typography variant="body2" sx={{ opacity: 0.8 }}>
-                by <span style={{ color: '#2563eb' }}>D</span>ev<span style={{ color: '#2563eb' }}>O</span>ra Team
+                by <span style={{ color: '#38bdf8' }}>Stackora</span> Softworks Team
               </Typography>
             </Box>
           </Box>
