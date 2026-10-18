@@ -190,93 +190,198 @@ const ResponsiveShowcase = () => {
                   justifyContent: 'center',
                 }}
               >
+                {/* Desktop/Tablet Mockup */}
                 <Box>
                   <Box
                     sx={{
                       position: 'relative',
                       width: '100%',
-                      height: '100%',
+                      minHeight: { xs: 260, sm: 320 },
                       borderRadius: 4,
                       overflow: 'hidden',
-                      boxShadow: '0 35px 80px rgba(15,23,42,0.8)',
-                      border: '1px solid rgba(148,163,184,0.6)',
-                      background: 'radial-gradient(circle at 0% 0%, rgba(96,165,250,0.35), transparent 55%)',
-                      mx: 'auto',
+                      boxShadow: theme.palette.mode === 'dark'
+                        ? '0 30px 70px rgba(0,0,0,0.6), 0 0 40px rgba(59,130,246,0.2)'
+                        : '0 25px 60px rgba(15,23,42,0.12), 0 0 30px rgba(99,102,241,0.1)',
+                      border: theme.palette.mode === 'dark'
+                        ? '1px solid rgba(148,163,184,0.3)'
+                        : '1px solid rgba(203,213,225,0.8)',
+                      background: theme.palette.mode === 'dark'
+                        ? 'linear-gradient(145deg, #0f172a 0%, #1e293b 100%)'
+                        : 'linear-gradient(145deg, #ffffff 0%, #f8fafc 100%)',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      p: 2,
                     }}
                   >
-                    <Box
-                      component="img"
-                      src="/Scene (1).gif"
-                      alt="Responsive design preview"
-                      sx={{
-                        width: '100%',
-                        height: '100%',
-                        display: 'block',
-                        objectFit: 'cover',
-                        transform: 'scale(1.12)',
-                        transformOrigin: 'center center',
-                      }}
-                    />
+                    {/* Window Titlebar */}
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, pb: 1.5, borderBottom: theme.palette.mode === 'dark' ? '1px solid rgba(148,163,184,0.15)' : '1px solid rgba(226,232,240,0.8)' }}>
+                      <Box sx={{ width: 10, height: 10, borderRadius: '50%', bgcolor: '#ef4444' }} />
+                      <Box sx={{ width: 10, height: 10, borderRadius: '50%', bgcolor: '#f59e0b' }} />
+                      <Box sx={{ width: 10, height: 10, borderRadius: '50%', bgcolor: '#10b981' }} />
+                      <Box sx={{ flex: 1, mx: 1, py: 0.4, px: 2, borderRadius: '12px', bgcolor: theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)', fontSize: '0.65rem', color: theme.palette.text.secondary, textAlign: 'center', letterSpacing: '0.5px' }}>
+                        devora.app/dashboard
+                      </Box>
+                    </Box>
 
+                    {/* Mock Content */}
+                    <Box sx={{ flex: 1, pt: 2, display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+                      <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'center' }}>
+                        <Box sx={{ width: '40%', height: 18, borderRadius: '6px', background: 'linear-gradient(90deg, #38bdf8 0%, #818cf8 100%)' }} />
+                        <Box sx={{ width: '25%', height: 12, borderRadius: '4px', bgcolor: theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)', ml: 'auto' }} />
+                      </Box>
+
+                      {/* Mini Metric Cards Grid */}
+                      <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 1 }}>
+                        {[
+                          { label: 'Uptime', val: '99.99%', col: '#10b981' },
+                          { label: 'Latency', val: '24ms', col: '#38bdf8' },
+                          { label: 'Score', val: '100/100', col: '#8b5cf6' }
+                        ].map((card, i) => (
+                          <Box key={i} sx={{ p: 1.2, borderRadius: 2, bgcolor: theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.02)', border: theme.palette.mode === 'dark' ? '1px solid rgba(255,255,255,0.06)' : '1px solid rgba(0,0,0,0.04)' }}>
+                            <Typography sx={{ fontSize: '0.65rem', color: theme.palette.text.secondary }}>{card.label}</Typography>
+                            <Typography sx={{ fontSize: '0.85rem', fontWeight: 700, color: card.col }}>{card.val}</Typography>
+                          </Box>
+                        ))}
+                      </Box>
+
+                      {/* Simulated Chart preview */}
+                      <Box sx={{ flex: 1, minHeight: 90, borderRadius: 2, bgcolor: theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.05)' : 'rgba(14,165,233,0.04)', border: '1px dashed rgba(56,189,248,0.3)', p: 1.5, display: 'flex', alignItems: 'flex-end', gap: 1, justifyContent: 'space-between' }}>
+                        {[40, 65, 50, 85, 70, 95, 80, 100].map((h, i) => (
+                          <Box
+                            key={i}
+                            sx={{
+                              flex: 1,
+                              height: `${h}%`,
+                              borderRadius: '4px 4px 0 0',
+                              background: 'linear-gradient(180deg, #38bdf8 0%, #0284c7 100%)',
+                              opacity: 0.85,
+                              transition: 'transform 0.2s',
+                              '&:hover': { transform: 'scaleY(1.08)' }
+                            }}
+                          />
+                        ))}
+                      </Box>
+                    </Box>
+
+                    {/* Live Responsive badge */}
                     <Box
                       sx={{
                         position: 'absolute',
-                        top: 12,
+                        bottom: 12,
                         right: 14,
-                        px: 1.4,
-                        py: 0.6,
+                        px: 1.2,
+                        py: 0.4,
                         borderRadius: 999,
-                        background: 'rgba(15,23,42,0.7)',
-                        border: '1px solid rgba(148,163,184,0.8)',
+                        background: 'rgba(15,23,42,0.85)',
+                        border: '1px solid rgba(148,163,184,0.4)',
                         color: '#e5e7eb',
-                        fontSize: '0.7rem',
+                        fontSize: '0.68rem',
                         display: 'flex',
                         alignItems: 'center',
                         gap: 0.6,
-                        backdropFilter: 'blur(10px)',
+                        backdropFilter: 'blur(8px)',
                       }}
                     >
                       <Box
                         sx={{
-                          width: 7,
-                          height: 7,
-                          borderRadius: '999px',
+                          width: 6,
+                          height: 6,
+                          borderRadius: '50%',
                           backgroundColor: '#22c55e',
-                          boxShadow: '0 0 12px rgba(34,197,94,0.9)',
+                          boxShadow: '0 0 10px rgba(34,197,94,0.9)',
                         }}
                       />
-                      Live responsive preview
+                      Desktop View
                     </Box>
                   </Box>
                 </Box>
 
+                {/* Mobile Mockup */}
                 <Box>
                   <Box
                     sx={{
                       position: 'relative',
                       width: '100%',
-                      height: '100%',
+                      minHeight: { xs: 260, sm: 320 },
                       borderRadius: 4,
                       overflow: 'hidden',
-                      boxShadow: '0 25px 60px rgba(15,23,42,0.7)',
-                      border: '1px solid rgba(148,163,184,0.6)',
-                      background: 'radial-gradient(circle at 0% 0%, rgba(56,189,248,0.45), transparent 55%)',
-                      mx: 'auto',
+                      boxShadow: theme.palette.mode === 'dark'
+                        ? '0 25px 60px rgba(0,0,0,0.6), 0 0 35px rgba(236,72,153,0.15)'
+                        : '0 20px 50px rgba(15,23,42,0.1), 0 0 25px rgba(236,72,153,0.1)',
+                      border: theme.palette.mode === 'dark'
+                        ? '1px solid rgba(148,163,184,0.3)'
+                        : '1px solid rgba(203,213,225,0.8)',
+                      background: theme.palette.mode === 'dark'
+                        ? 'linear-gradient(145deg, #0f172a 0%, #1e293b 100%)'
+                        : 'linear-gradient(145deg, #ffffff 0%, #f8fafc 100%)',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      p: 2,
                     }}
                   >
+                    {/* Mobile notch / top bar */}
+                    <Box sx={{ display: 'flex', justifyContent: 'center', pb: 1.5 }}>
+                      <Box sx={{ width: 48, height: 5, borderRadius: 3, bgcolor: theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.15)' }} />
+                    </Box>
+
+                    {/* Mobile simulated app layout */}
+                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5, flex: 1 }}>
+                      <Box sx={{ width: '60%', height: 14, borderRadius: '4px', background: 'linear-gradient(90deg, #ec4899 0%, #f43f5e 100%)' }} />
+                      <Box sx={{ width: '85%', height: 10, borderRadius: '4px', bgcolor: theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)' }} />
+
+                      {/* Mini list items */}
+                      {[1, 2, 3].map((item) => (
+                        <Box
+                          key={item}
+                          sx={{
+                            p: 1.2,
+                            borderRadius: 2,
+                            bgcolor: theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)',
+                            border: theme.palette.mode === 'dark' ? '1px solid rgba(255,255,255,0.05)' : '1px solid rgba(0,0,0,0.04)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 1.2
+                          }}
+                        >
+                          <Box sx={{ width: 24, height: 24, borderRadius: '50%', background: 'linear-gradient(135deg, #ec4899, #8b5cf6)', flexShrink: 0 }} />
+                          <Box sx={{ flex: 1 }}>
+                            <Box sx={{ width: '70%', height: 8, borderRadius: 2, bgcolor: theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.12)', mb: 0.6 }} />
+                            <Box sx={{ width: '40%', height: 6, borderRadius: 2, bgcolor: theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)' }} />
+                          </Box>
+                        </Box>
+                      ))}
+                    </Box>
+
+                    {/* Live Mobile Badge */}
                     <Box
-                      component="img"
-                      src="/Showreel-Grid-Mobile.gif"
-                      alt="Mobile responsiveness preview"
                       sx={{
-                        width: '100%',
-                        height: '100%',
-                        display: 'block',
-                        objectFit: 'cover',
-                        transform: 'scale(1.08)',
-                        transformOrigin: 'center center',
+                        position: 'absolute',
+                        bottom: 12,
+                        right: 14,
+                        px: 1.2,
+                        py: 0.4,
+                        borderRadius: 999,
+                        background: 'rgba(15,23,42,0.85)',
+                        border: '1px solid rgba(148,163,184,0.4)',
+                        color: '#e5e7eb',
+                        fontSize: '0.68rem',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 0.6,
+                        backdropFilter: 'blur(8px)',
                       }}
-                    />
+                    >
+                      <Box
+                        sx={{
+                          width: 6,
+                          height: 6,
+                          borderRadius: '50%',
+                          backgroundColor: '#ec4899',
+                          boxShadow: '0 0 10px rgba(236,72,153,0.9)',
+                        }}
+                      />
+                      Mobile View
+                    </Box>
                   </Box>
                 </Box>
               </Box>

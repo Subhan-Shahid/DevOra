@@ -11,7 +11,7 @@ const servicesData = [
   {
     slug: 'software-development',
     title: 'Software Development',
-    description: '💎 Transform your vision into reality with enterprise-grade software that scales effortlessly. We craft intelligent, future-proof solutions using cutting-edge tech stacks that drive real business results.',
+    description: 'Transform your vision into reality with enterprise-grade software that scales effortlessly. We craft intelligent, future-proof solutions using cutting-edge tech stacks that drive real business results.',
     icon: FaCode,
     colorKey: 'primary',
     features: ['Custom Solutions', 'Enterprise Grade', 'Cloud Ready'],
@@ -22,7 +22,7 @@ const servicesData = [
   {
     slug: 'website-development',
     title: 'Website Development',
-    description: '🚀 Launch stunning websites that captivate visitors and convert them into loyal customers. Lightning-fast performance meets jaw-dropping design—your digital presence, elevated to perfection.',
+    description: 'Launch stunning websites that captivate visitors and convert them into loyal customers. Lightning-fast performance meets jaw-dropping design—your digital presence, elevated to perfection.',
     icon: FaGlobe,
     colorKey: 'secondary',
     features: ['Responsive Design', 'SEO Optimized', 'Fast Loading'],
@@ -33,7 +33,7 @@ const servicesData = [
   {
     slug: 'app-development',
     title: 'App Development',
-    description: '📱 Build powerful mobile experiences that users love and can\'t put down. From iOS to Android, we deliver native-quality apps that engage, delight, and accelerate your business growth exponentially.',
+    description: 'Build powerful mobile experiences that users love and can\'t put down. From iOS to Android, we deliver native-quality apps that engage, delight, and accelerate your business growth exponentially.',
     icon: FaMobileAlt,
     colorKey: 'tertiary',
     features: ['Cross Platform', 'Native Performance', 'App Store Ready'],
@@ -496,15 +496,16 @@ const Services = React.memo(() => {
           bottom: 0,
           background: theme.palette.mode === 'dark'
             ? `
-              radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.05) 0%, transparent 50%),
-              radial-gradient(circle at 80% 20%, rgba(14, 165, 233, 0.05) 0%, transparent 50%),
-              radial-gradient(circle at 50% 80%, rgba(30, 64, 175, 0.03) 0%, transparent 50%)
+              linear-gradient(to right, rgba(56, 189, 248, 0.04) 1px, transparent 1px),
+              linear-gradient(to bottom, rgba(56, 189, 248, 0.04) 1px, transparent 1px),
+              radial-gradient(circle at 50% 30%, rgba(56, 189, 248, 0.06) 0%, transparent 60%)
             `
             : `
-              radial-gradient(circle at 20% 50%, rgba(37, 99, 235, 0.03) 0%, transparent 50%),
-              radial-gradient(circle at 80% 20%, rgba(14, 165, 233, 0.03) 0%, transparent 50%),
-              radial-gradient(circle at 50% 80%, rgba(59, 130, 246, 0.02) 0%, transparent 50%)
+              linear-gradient(to right, rgba(14, 165, 233, 0.04) 1px, transparent 1px),
+              linear-gradient(to bottom, rgba(14, 165, 233, 0.04) 1px, transparent 1px),
+              radial-gradient(circle at 50% 30%, rgba(14, 165, 233, 0.04) 0%, transparent 60%)
             `,
+          backgroundSize: '40px 40px, 40px 40px, 100% 100%',
           pointerEvents: 'none',
         }}
       />
@@ -530,7 +531,7 @@ const Services = React.memo(() => {
                 transition: 'all 0.3s ease'
               }}
             >
-              ✨ WHAT WE OFFER ✨
+              WHAT WE OFFER
             </Typography>
 
             <Typography
@@ -575,7 +576,7 @@ const Services = React.memo(() => {
                 transition: 'color 0.3s ease'
               }}
             >
-              🚀 Transforming ideas into powerful digital solutions with enterprise-grade technology and trusted expertise
+              Transforming ideas into powerful digital solutions with enterprise-grade technology and trusted expertise
             </Typography>
           </Box>
         </Box>
@@ -626,7 +627,7 @@ const Services = React.memo(() => {
                         letterSpacing: '-0.02em',
                       }}
                     >
-                      📊 Interactive Dashboards
+                      Interactive Dashboards
                     </Typography>
                     <Typography
                       variant="h6"

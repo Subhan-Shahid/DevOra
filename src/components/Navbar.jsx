@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FaFacebookF, FaTwitter, FaLinkedinIn, FaInstagram, FaGithub } from 'react-icons/fa';
 import { BsSun, BsMoon } from 'react-icons/bs';
 import { CgMenu, CgClose } from 'react-icons/cg';
-import { Home, Sparkles, Code2, Layers, Briefcase, FolderKanban, Mail } from 'lucide-react';
+import { Home, Sparkles, Code2, Layers, Briefcase, Mail } from 'lucide-react';
 
 // Floating Pill NavItem
 const PillNavItem = ({ to, label, icon: Icon, isActive, mode }) => {
@@ -263,7 +263,6 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
     { to: '/#tech', label: 'Tech', icon: Code2 },
     { to: '/#services', label: 'Overview', icon: Layers },
     { to: '/services', label: 'Services', icon: Briefcase },
-    { to: '/projects', label: 'Projects', icon: FolderKanban },
     { to: '/contact', label: 'Contact', icon: Mail }
   ];
 
@@ -279,10 +278,6 @@ const Navbar = ({ mode = 'light', onToggleTheme }) => {
 
     if (to === '/services') {
       return location.pathname.startsWith('/services');
-    }
-
-    if (to === '/projects') {
-      return location.pathname === '/projects';
     }
 
     return location.pathname === to;

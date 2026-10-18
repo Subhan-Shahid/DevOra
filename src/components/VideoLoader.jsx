@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 
-const VideoLoader = ({ durationMs = 2000, onComplete }) => {
+const VideoLoader = ({ durationMs = 750, onComplete }) => {
   const [phase, setPhase] = useState('lottie');
 
   useEffect(() => {
@@ -10,7 +10,7 @@ const VideoLoader = ({ durationMs = 2000, onComplete }) => {
     // Start exit animation after duration
     exitTimer = setTimeout(() => {
       setPhase('exit');
-    }, durationMs - 400);
+    }, Math.max(durationMs - 250, 100));
 
     // Complete the entire sequence
     doneTimer = setTimeout(() => {

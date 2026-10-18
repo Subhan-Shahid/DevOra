@@ -188,8 +188,8 @@ const Hero = () => {
         alignItems: 'center',
         pt: { xs: 8, md: 10 },
         background: theme.palette.mode === 'dark'
-          ? 'linear-gradient(135deg, #020617 0%, #0f172a 50%, #1e293b 100%)'
-          : 'linear-gradient(135deg, #f8fafc 0%, #f1f5f9 60%, #e2e8f0 100%)',
+          ? 'linear-gradient(180deg, rgba(11, 15, 25, 0.94) 0%, rgba(15, 23, 42, 0.98) 100%)'
+          : 'linear-gradient(180deg, rgba(248, 250, 252, 0.92) 0%, rgba(241, 245, 249, 0.98) 100%)',
         transition: 'background 0.5s ease',
         overflow: 'hidden',
         '&::before': {
@@ -199,19 +199,20 @@ const Hero = () => {
           left: 0,
           right: 0,
           bottom: 0,
-          background: theme.palette.mode === 'dark'
+          backgroundImage: theme.palette.mode === 'dark'
             ? `
-              radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
-              radial-gradient(circle at 80% 20%, rgba(14, 165, 233, 0.08) 0%, transparent 50%),
-              radial-gradient(circle at 50% 50%, rgba(30, 64, 175, 0.05) 0%, transparent 60%)
+              linear-gradient(to right, rgba(56, 189, 248, 0.05) 1px, transparent 1px),
+              linear-gradient(to bottom, rgba(56, 189, 248, 0.05) 1px, transparent 1px)
             `
             : `
-              radial-gradient(circle at 20% 80%, rgba(37, 99, 235, 0.05) 0%, transparent 50%),
-              radial-gradient(circle at 80% 20%, rgba(14, 165, 233, 0.05) 0%, transparent 50%),
-              radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.03) 0%, transparent 60%)
+              linear-gradient(to right, rgba(14, 165, 233, 0.06) 1px, transparent 1px),
+              linear-gradient(to bottom, rgba(14, 165, 233, 0.06) 1px, transparent 1px)
             `,
+          backgroundSize: '48px 48px',
+          maskImage: 'radial-gradient(ellipse at center, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 80%)',
+          WebkitMaskImage: 'radial-gradient(ellipse at center, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 80%)',
           zIndex: 1,
-          animation: 'gradientShift 20s ease infinite'
+          pointerEvents: 'none',
         },
       }}
     >
@@ -283,7 +284,7 @@ const Hero = () => {
             transition={{ duration: 0.8 }}
           >
             <Chip
-              label="🚀  Welcome to the Future of Development"
+              label="Welcome to the Future of Development"
               sx={{
                 fontWeight: 600,
                 bgcolor: theme.palette.mode === 'dark' ? 'rgba(30, 41, 59, 0.5)' : 'rgba(241, 245, 249, 0.8)',

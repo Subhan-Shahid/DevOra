@@ -21,7 +21,6 @@ const BusinessGrowthSection = lazy(() => import('./components/BusinessGrowthSect
 const Footer = lazy(() => import('./components/Footer'));
 const ScrollToTop = lazy(() => import('./components/ScrollToTop'));
 const ServiceDetail = lazy(() => import('./pages/ServiceDetail'));
-const Projects = lazy(() => import('./pages/Projects'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 const ThankYou = lazy(() => import('./pages/ThankYou'));
 
@@ -307,8 +306,8 @@ function App() {
               flexDirection: 'column',
               minHeight: '100dvh',
               background: theme.palette.mode === 'dark'
-                ? 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)'
-                : 'linear-gradient(135deg, #ffffff 0%, #f0f9ff 50%, #e0f2fe 100%)',
+                ? 'radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.08) 0%, transparent 60%), transparent'
+                : 'radial-gradient(circle at 50% 0%, rgba(14, 165, 233, 0.06) 0%, transparent 60%), transparent',
               transition: 'background 0.3s ease',
             }}
           >
@@ -329,14 +328,6 @@ function App() {
                   element={
                     <Suspense fallback={<ServiceDetailSkeleton />}>
                       <ServiceDetail />
-                    </Suspense>
-                  }
-                />
-                <Route
-                  path="/projects"
-                  element={
-                    <Suspense fallback={<LoadingFallback />}>
-                      <Projects />
                     </Suspense>
                   }
                 />
