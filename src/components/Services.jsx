@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useCallback, useMemo, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import { Container, Card, CardContent, Typography, Box, Button, useTheme, Grid } from '@mui/material';
-import { motion, useReducedMotion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { FaCode, FaGlobe, FaMobileAlt, FaArrowRight, FaBolt, FaCrown, FaGem } from 'react-icons/fa';
 import { MdSpeed, MdSecurity, MdCloud, MdStar, MdCheckCircle } from 'react-icons/md';
 import { AnimatedDashboardShowcase } from './AnimatedDashboardShowcase';
@@ -43,41 +43,12 @@ const servicesData = [
   }
 ];
 
-// Modern Professional 3D Service Card (Cohesive Enterprise Theme)
-const ServiceCard3D = ({ service, index, theme }) => {
+// Modern Professional Service Card (Cohesive Enterprise Theme)
+const ServiceCard = ({ service, theme }) => {
   const Icon = service.icon;
-  const navigate = useNavigate();
   const [isHovered, setIsHovered] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
-  const cardRef = useRef(null);
   const isDark = theme.palette.mode === 'dark';
-
-  // Professional Controlled 3D Tilt (subtle, elegant, non-gimmicky)
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-
-  const springConfig = { stiffness: 220, damping: 25 };
-  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [6, -6]), springConfig);
-  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-7, 7]), springConfig);
-
-  const handleMouseMove = (e) => {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width - 0.5;
-    const y = (e.clientY - rect.top) / rect.height - 0.5;
-    mouseX.set(x);
-    mouseY.set(y);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-    mouseX.set(0);
-    mouseY.set(0);
-  };
-
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-  };
 
   // Cohesive Stackora Blue Enterprise Palette (No funky colors)
   const colors = useMemo(() => {
@@ -106,35 +77,15 @@ const ServiceCard3D = ({ service, index, theme }) => {
 
   return (
     <Box
-      ref={cardRef}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       sx={{
-        perspective: '1200px',
-        transformStyle: 'preserve-3d',
         height: '100%',
         minHeight: '100%',
         display: 'flex',
       }}
     >
       <Box
-        component={motion.div}
-        style={{
-          rotateX,
-          rotateY,
-          transformStyle: 'preserve-3d',
-        }}
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-40px' }}
-        animate={{
-          y: isHovered ? -8 : 0,
-        }}
-        transition={{
-          y: { type: 'spring', stiffness: 280, damping: 25 },
-          opacity: { duration: 0.5, delay: index * 0.12 },
-        }}
         sx={{
           width: '100%',
           height: '100%',
@@ -357,10 +308,7 @@ const ServiceCard3D = ({ service, index, theme }) => {
         >
           <Button
             type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              setIsExpanded((prev) => !prev);
-            }}
+            onClick={() => setIsExpanded((prev) => !prev)}
             fullWidth
             variant="outlined"
             sx={{
@@ -387,10 +335,6 @@ const ServiceCard3D = ({ service, index, theme }) => {
           <Button
             component={Link}
             to={`/services/${service.slug}`}
-            onClick={(e) => {
-              e.stopPropagation();
-              navigate(`/services/${service.slug}`);
-            }}
             fullWidth
             variant="contained"
             endIcon={<FaArrowRight size={11} />}
@@ -408,7 +352,6 @@ const ServiceCard3D = ({ service, index, theme }) => {
               '&:hover': {
                 background: colors.gradient,
                 boxShadow: `0 8px 24px ${colors.glow}`,
-                transform: 'translateY(-2px)',
               },
             }}
           >
@@ -712,9 +655,9 @@ const Services = React.memo(() => {
 
         {/* Services Grid */}
         <Grid container spacing={{ xs: 2, sm: 3, lg: 4 }} justifyContent="center">
-          {servicesData.map((service, index) => (
+          {servicesData.map((service) => (
             <Grid key={service.slug} size={{ xs: 12, sm: 6, md: 6, lg: 4 }}>
-              <ServiceCard3D service={service} index={index} theme={theme} />
+              <ServiceCard service={service} theme={theme} />
             </Grid>
           ))}
         </Grid>
