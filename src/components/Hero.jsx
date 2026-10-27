@@ -442,6 +442,81 @@ const Hero = () => {
               </motion.div>
             </Box>
           </motion.div>
+
+          {/* ── Rocket Logo Animation Centerpiece ── */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: 40 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.75, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <Box sx={{ display: 'flex', justifyContent: 'center', mb: { xs: 5, md: 8 }, px: { xs: 2, sm: 0 } }}>
+              <motion.div
+                animate={{ y: [0, -8, 0] }}
+                transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+                style={{ width: '100%', maxWidth: 560, position: 'relative' }}
+              >
+                {/* Ambient glow behind the card */}
+                <motion.div
+                  animate={{ opacity: [0.4, 0.75, 0.4], scale: [1, 1.04, 1] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+                  style={{
+                    position: 'absolute',
+                    inset: -20,
+                    borderRadius: 32,
+                    background: theme.palette.mode === 'dark'
+                      ? 'radial-gradient(ellipse at 50% 60%, rgba(56,189,248,0.2) 0%, transparent 70%)'
+                      : 'radial-gradient(ellipse at 50% 60%, rgba(2,132,199,0.14) 0%, transparent 70%)',
+                    zIndex: 0,
+                    pointerEvents: 'none',
+                  }}
+                />
+
+                {/* Card */}
+                <Box
+                  sx={{
+                    position: 'relative',
+                    zIndex: 1,
+                    borderRadius: '24px',
+                    overflow: 'hidden',
+                    border: theme.palette.mode === 'dark'
+                      ? '1.5px solid rgba(56,189,248,0.25)'
+                      : '1.5px solid rgba(2,132,199,0.18)',
+                    boxShadow: theme.palette.mode === 'dark'
+                      ? '0 32px 80px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.05)'
+                      : '0 24px 64px rgba(2,132,199,0.14), 0 4px 16px rgba(0,0,0,0.08)',
+                    background: theme.palette.mode === 'dark'
+                      ? 'rgba(8,15,30,0.7)'
+                      : 'rgba(255,255,255,0.75)',
+                    backdropFilter: 'blur(20px)',
+                    WebkitBackdropFilter: 'blur(20px)',
+                  }}
+                >
+                  {/* Thin gradient top border accent */}
+                  <Box sx={{
+                    height: 3,
+                    background: 'linear-gradient(90deg, #38bdf8, #0284c7, #6366f1)',
+                    opacity: 0.85,
+                  }} />
+
+                  {/* Video — natural size, no crop */}
+                  <Box
+                    component="video"
+                    src="/stackora-rocket-logo.MP4"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    sx={{
+                      width: '100%',
+                      height: 'auto',
+                      display: 'block',
+                    }}
+                  />
+                </Box>
+              </motion.div>
+            </Box>
+          </motion.div>
+
           {/* Stats Counter Bar */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}

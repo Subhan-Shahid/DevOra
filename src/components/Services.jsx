@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useCallback, useMemo } from 'react';
+import React, { useEffect, useState, useCallback, useMemo, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Container, Card, CardContent, Typography, Box, Button, useTheme, Grid } from '@mui/material';
-import { motion, useReducedMotion } from 'framer-motion';
-import { FaCode, FaGlobe, FaMobileAlt, FaArrowRight } from 'react-icons/fa';
+import { motion, useReducedMotion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { FaCode, FaGlobe, FaMobileAlt, FaArrowRight, FaBolt, FaCrown, FaGem } from 'react-icons/fa';
 import { MdSpeed, MdSecurity, MdCloud, MdStar, MdCheckCircle } from 'react-icons/md';
 import { AnimatedDashboardShowcase } from './AnimatedDashboardShowcase';
 
@@ -43,247 +43,376 @@ const servicesData = [
   }
 ];
 
-// Modern Glassmorphism Service Card
+// Modern Professional 3D Service Card (Cohesive Enterprise Theme)
 const ServiceCard3D = ({ service, index, theme }) => {
   const Icon = service.icon;
-  const [isHovered, setIsHovered] = React.useState(false);
-  const [isExpanded, setIsExpanded] = React.useState(false);
+  const navigate = useNavigate();
+  const [isHovered, setIsHovered] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const cardRef = useRef(null);
+  const isDark = theme.palette.mode === 'dark';
 
+  // Professional Controlled 3D Tilt (subtle, elegant, non-gimmicky)
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const springConfig = { stiffness: 220, damping: 25 };
+  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [6, -6]), springConfig);
+  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-7, 7]), springConfig);
+
+  const handleMouseMove = (e) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    mouseX.set(x);
+    mouseY.set(y);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+    mouseX.set(0);
+    mouseY.set(0);
+  };
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  // Cohesive Stackora Blue Enterprise Palette (No funky colors)
   const colors = useMemo(() => {
-    const isDark = theme.palette.mode === 'dark';
-    // Skyblue Theme Integration
     return {
+      primary: isDark ? '#38bdf8' : '#0284c7',
+      primaryHover: isDark ? '#0ea5e9' : '#0369a1',
+      accent: '#0ea5e9',
       gradient: isDark
-        ? 'linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%)' // Darker skyblue/blue
-        : 'linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%)', // Very light skyblue
-      main: isDark ? '#38bdf8' : '#0284c7', // Sky-400 : Sky-600
-      light: isDark ? 'rgba(56, 189, 248, 0.1)' : 'rgba(14, 165, 233, 0.08)',
-      border: isDark ? 'rgba(56, 189, 248, 0.2)' : 'rgba(2, 132, 199, 0.15)',
-      shadow: isDark ? 'rgba(14, 165, 233, 0.25)' : 'rgba(2, 132, 199, 0.15)',
-      iconBg: isDark ? 'rgba(56, 189, 248, 0.1)' : '#ffffff',
+        ? 'linear-gradient(135deg, #0284c7 0%, #38bdf8 100%)'
+        : 'linear-gradient(135deg, #0284c7 0%, #0ea5e9 100%)',
+      cardBg: isDark
+        ? 'linear-gradient(145deg, rgba(15, 23, 42, 0.85) 0%, rgba(30, 41, 59, 0.75) 100%)'
+        : 'linear-gradient(145deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.94) 100%)',
+      border: isDark
+        ? '1px solid rgba(56, 189, 248, 0.2)'
+        : '1px solid rgba(2, 132, 199, 0.18)',
+      borderHover: isDark
+        ? '1px solid rgba(56, 189, 248, 0.5)'
+        : '1px solid rgba(2, 132, 199, 0.45)',
+      glow: isDark ? 'rgba(56, 189, 248, 0.25)' : 'rgba(2, 132, 199, 0.15)',
+      badgeBg: isDark ? 'rgba(56, 189, 248, 0.1)' : 'rgba(2, 132, 199, 0.08)',
+      badgeBorder: isDark ? 'rgba(56, 189, 248, 0.3)' : 'rgba(2, 132, 199, 0.25)',
+      iconBg: isDark ? 'rgba(15, 23, 42, 0.9)' : '#f8fafc',
     };
-  }, [theme.palette.mode]);
+  }, [isDark]);
 
   return (
     <Box
-      component={motion.div}
-      layout
-      initial={{ opacity: 0, y: 50, scale: 0.9 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{
-        duration: 0.6,
-        delay: index * 0.15,
-        type: "spring",
-        bounce: 0.4,
-        layout: { duration: 0.3 }
-      }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
       sx={{
-        height: 'auto',
+        perspective: '1200px',
+        transformStyle: 'preserve-3d',
+        height: '100%',
         minHeight: '100%',
-        position: 'relative',
-        zIndex: 1,
+        display: 'flex',
       }}
     >
       <Box
+        component={motion.div}
+        style={{
+          rotateX,
+          rotateY,
+          transformStyle: 'preserve-3d',
+        }}
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-40px' }}
+        animate={{
+          y: isHovered ? -8 : 0,
+        }}
+        transition={{
+          y: { type: 'spring', stiffness: 280, damping: 25 },
+          opacity: { duration: 0.5, delay: index * 0.12 },
+        }}
         sx={{
+          width: '100%',
           height: '100%',
-          p: { xs: 3, sm: 4 },
-          borderRadius: '24px',
-          background: theme.palette.mode === 'dark'
-            ? 'rgba(15, 23, 42, 0.6)'
-            : 'rgba(255, 255, 255, 0.7)',
-          backdropFilter: 'blur(20px)',
-          border: `1px solid ${colors.border}`,
-          boxShadow: isHovered
-            ? `0 20px 40px -10px ${colors.shadow}, 0 0 0 1px ${colors.border}`
-            : `0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 0 0 1px ${theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'}`,
-          transition: 'box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-          transform: isHovered ? 'translateY(-8px)' : 'translateY(0)',
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center',
-          overflow: 'hidden',
           position: 'relative',
+          borderRadius: '24px',
+          background: colors.cardBg,
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          border: isHovered ? colors.borderHover : colors.border,
+          boxShadow: isHovered
+            ? isDark
+              ? `0 20px 45px -10px rgba(0, 0, 0, 0.7), 0 0 25px ${colors.glow}`
+              : `0 20px 40px -10px rgba(15, 23, 42, 0.15), 0 0 20px ${colors.glow}`
+            : isDark
+            ? '0 8px 24px -5px rgba(0, 0, 0, 0.4)'
+            : '0 8px 20px -5px rgba(15, 23, 42, 0.06)',
+          p: { xs: 3, sm: 3.5 },
+          overflow: 'hidden',
+          transition: 'border 0.3s ease, box-shadow 0.3s ease',
         }}
       >
-        {/* Glow Effect */}
+        {/* Sleek Top Shimmer Bar */}
         <Box
           sx={{
             position: 'absolute',
             top: 0,
             left: 0,
             right: 0,
-            height: '150px',
-            background: `radial-gradient(circle at 50% -20%, ${colors.main}20, transparent 70%)`,
-            opacity: isHovered ? 1 : 0.5,
+            height: '3px',
+            background: colors.gradient,
+            boxShadow: `0 1px 8px ${colors.glow}`,
+          }}
+        />
+
+        {/* Ambient Top Light Sheen */}
+        <Box
+          sx={{
+            position: 'absolute',
+            inset: 0,
+            pointerEvents: 'none',
+            background: `radial-gradient(circle at 50% -10%, ${colors.primary}12, transparent 65%)`,
+            opacity: isHovered ? 1 : 0.4,
             transition: 'opacity 0.4s ease',
           }}
         />
 
-        {/* Badge */}
-        {service.badge && (
-          <Box
-            sx={{
-              position: 'absolute',
-              top: 24,
-              right: 24,
-              px: 1.5,
-              py: 0.5,
-              borderRadius: '20px',
-              background: colors.gradient,
-              border: `1px solid ${colors.border}`,
-              color: theme.palette.mode === 'dark' ? '#fff' : '#0284c7',
-              fontSize: '0.7rem',
-              fontWeight: 700,
-              textTransform: 'uppercase',
-              letterSpacing: '0.5px',
-              zIndex: 2,
-            }}
-          >
-            {service.badge}
-          </Box>
-        )}
-
-        {/* Icon Container */}
-        <Box
-          sx={{
-            width: { xs: 64, sm: 80 },
-            height: { xs: 64, sm: 80 },
-            borderRadius: '20px',
-            background: colors.iconBg,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            mb: 3,
-            boxShadow: theme.palette.mode === 'dark'
-              ? 'none'
-              : '0 10px 20px -5px rgba(0,0,0,0.05)',
-            border: `1px solid ${colors.border}`,
-            position: 'relative',
-            zIndex: 1,
-            transition: 'transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
-            transform: isHovered ? 'scale(1.1) rotate(5deg)' : 'scale(1) rotate(0deg)',
-          }}
-        >
-          <Icon size={36} color={colors.main} />
+        {/* Header Row: Badge */}
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', width: '100%', mb: 1, minHeight: 26 }}>
+          {service.badge && (
+            <Box
+              sx={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 0.6,
+                px: 1.4,
+                py: 0.4,
+                borderRadius: '20px',
+                background: colors.badgeBg,
+                border: `1px solid ${colors.badgeBorder}`,
+                color: colors.primary,
+                fontSize: '0.68rem',
+                fontWeight: 700,
+                textTransform: 'uppercase',
+                letterSpacing: '0.5px',
+              }}
+            >
+              <Box
+                sx={{
+                  width: 5,
+                  height: 5,
+                  borderRadius: '50%',
+                  bgcolor: colors.primary,
+                  boxShadow: `0 0 6px ${colors.primary}`,
+                }}
+              />
+              {service.badge}
+            </Box>
+          )}
         </Box>
 
-        {/* Content */}
+        {/* Icon Pod (Clean, Anodized Tech Surface) */}
+        <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2.5 }}>
+          <Box
+            sx={{
+              width: 72,
+              height: 72,
+              borderRadius: '20px',
+              background: colors.iconBg,
+              border: colors.border,
+              boxShadow: isHovered
+                ? `0 12px 28px -6px ${colors.glow}`
+                : `0 6px 18px -4px rgba(0, 0, 0, 0.1)`,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              position: 'relative',
+              transition: 'transform 0.3s ease, border 0.3s ease',
+              transform: isHovered ? 'scale(1.08)' : 'scale(1)',
+            }}
+          >
+            <Icon size={34} color={colors.primary} />
+          </Box>
+        </Box>
+
+        {/* Service Title */}
         <Typography
           variant="h5"
           sx={{
             fontWeight: 800,
-            mb: 2,
+            mb: 1.5,
             textAlign: 'center',
-            fontSize: { xs: '1.25rem', sm: '1.5rem' },
-            color: theme.palette.mode === 'dark' ? '#f8fafc' : '#0f172a',
+            fontSize: { xs: '1.25rem', sm: '1.4rem' },
+            color: isDark ? '#f8fafc' : '#0f172a',
+            letterSpacing: '-0.02em',
           }}
         >
           {service.title}
         </Typography>
 
+        {/* Description */}
         <Typography
           variant="body1"
           sx={{
-            color: theme.palette.mode === 'dark' ? '#94a3b8' : '#64748b',
-            lineHeight: 1.6,
+            color: isDark ? '#94a3b8' : '#475569',
+            lineHeight: 1.65,
             textAlign: 'center',
             mb: 3,
-            fontSize: { xs: '0.875rem', sm: '0.95rem' },
+            fontSize: { xs: '0.88rem', sm: '0.94rem' },
+            flexGrow: 1,
           }}
         >
           {service.description}
         </Typography>
 
-        {/* Expandable Content Section */}
+        {/* Feature Pills */}
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: 0.8,
+            justifyContent: 'center',
+            mb: 2.5,
+          }}
+        >
+          {service.features.map((feat, i) => (
+            <Box
+              key={i}
+              sx={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 0.6,
+                px: 1.2,
+                py: 0.4,
+                borderRadius: '10px',
+                bgcolor: isDark ? 'rgba(255, 255, 255, 0.04)' : 'rgba(0, 0, 0, 0.03)',
+                border: isDark ? '1px solid rgba(255, 255, 255, 0.07)' : '1px solid rgba(0, 0, 0, 0.06)',
+              }}
+            >
+              <MdCheckCircle size={13} color={colors.primary} />
+              <Typography sx={{ fontSize: '0.72rem', fontWeight: 600, color: isDark ? '#cbd5e1' : '#334155' }}>
+                {feat}
+              </Typography>
+            </Box>
+          ))}
+        </Box>
+
+        {/* Expandable Section */}
         <motion.div
           initial={false}
           animate={{ height: isExpanded ? 'auto' : 0, opacity: isExpanded ? 1 : 0 }}
-          transition={{ duration: 0.4, ease: "easeInOut" }}
+          transition={{ duration: 0.3, ease: 'easeInOut' }}
           style={{ overflow: 'hidden', width: '100%' }}
         >
-          <Box sx={{ width: '100%', mb: 3, pl: 1, pt: 1, borderTop: `1px dashed ${colors.border}` }}>
-            <Typography variant="subtitle2" sx={{ mb: 2, mt: 2, fontWeight: 700, color: colors.main, textTransform: 'uppercase', fontSize: '0.75rem', letterSpacing: '1px' }}>
-              What's Included
-            </Typography>
-            {service.features.map((feature, idx) => (
-              <Box key={idx} sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1.5 }}>
-                <MdCheckCircle size={18} color={colors.main} />
-                <Typography variant="body2" sx={{ fontWeight: 500, color: theme.palette.mode === 'dark' ? '#cbd5e1' : '#475569' }}>
-                  {feature}
-                </Typography>
-              </Box>
-            ))}
-
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 3, p: 2, borderRadius: '12px', background: colors.light }}>
+          <Box sx={{ width: '100%', mb: 2.5, pt: 1.5, borderTop: `1px dashed ${isDark ? 'rgba(56, 189, 248, 0.3)' : 'rgba(2, 132, 199, 0.2)'}` }}>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                p: 1.8,
+                borderRadius: '14px',
+                background: isDark ? 'rgba(15, 23, 42, 0.6)' : 'rgba(241, 245, 249, 0.8)',
+                border: colors.border,
+              }}
+            >
               <Box>
-                <Typography variant="caption" sx={{ display: 'block', color: theme.palette.mode === 'dark' ? '#94a3b8' : '#64748b' }}>
+                <Typography sx={{ fontSize: '0.62rem', color: isDark ? '#94a3b8' : '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                   Starting at
                 </Typography>
-                <Typography variant="h6" sx={{ fontWeight: 800, color: colors.main }}>
+                <Typography sx={{ fontSize: '0.95rem', fontWeight: 800, color: colors.primary }}>
                   {service.price}
                 </Typography>
               </Box>
               <Box sx={{ textAlign: 'right' }}>
-                <Typography variant="caption" sx={{ display: 'block', color: theme.palette.mode === 'dark' ? '#94a3b8' : '#64748b' }}>
-                  Completed
+                <Typography sx={{ fontSize: '0.62rem', color: isDark ? '#94a3b8' : '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                  Delivered
                 </Typography>
-                <Typography variant="h6" sx={{ fontWeight: 800, color: theme.palette.mode === 'dark' ? '#f1f5f9' : '#1e293b' }}>
-                  {service.projects}+
+                <Typography sx={{ fontSize: '0.95rem', fontWeight: 800, color: isDark ? '#f1f5f9' : '#0f172a' }}>
+                  {service.projects}+ Projects
                 </Typography>
               </Box>
             </Box>
           </Box>
         </motion.div>
 
-        {/* Action Buttons */}
-        <Box sx={{ display: 'flex', gap: 2, width: '100%', mt: 'auto', flexDirection: { xs: 'column', sm: 'row' } }}>
+        {/* Action Buttons (Guaranteed Clickable & Functional) */}
+        <Box
+          sx={{
+            display: 'flex',
+            gap: 1.5,
+            width: '100%',
+            mt: 'auto',
+            position: 'relative',
+            zIndex: 25,
+            pointerEvents: 'auto',
+            flexDirection: { xs: 'column', sm: 'row' },
+          }}
+        >
           <Button
-            onClick={() => setIsExpanded(!isExpanded)}
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsExpanded((prev) => !prev);
+            }}
             fullWidth
             variant="outlined"
             sx={{
-              borderRadius: '14px',
-              py: 1.25,
+              borderRadius: '12px',
+              py: 1.2,
               textTransform: 'none',
-              fontSize: '0.9rem',
+              fontSize: '0.85rem',
               fontWeight: 600,
-              borderColor: colors.border,
-              color: theme.palette.mode === 'dark' ? '#f1f5f9' : '#334155',
+              cursor: 'pointer',
+              borderColor: isDark ? 'rgba(148, 163, 184, 0.25)' : 'rgba(203, 213, 225, 0.9)',
+              color: isDark ? '#e2e8f0' : '#334155',
               borderWidth: '1.5px',
+              transition: 'all 0.2s ease',
               '&:hover': {
-                borderColor: colors.main,
-                background: colors.light,
+                borderColor: colors.primary,
+                background: isDark ? 'rgba(56, 189, 248, 0.08)' : 'rgba(2, 132, 199, 0.05)',
                 borderWidth: '1.5px',
               },
             }}
           >
-            {isExpanded ? 'Less Info' : 'More Info'}
+            {isExpanded ? 'Less Info' : 'Quick Specs'}
           </Button>
+
           <Button
             component={Link}
             to={`/services/${service.slug}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate(`/services/${service.slug}`);
+            }}
             fullWidth
             variant="contained"
+            endIcon={<FaArrowRight size={11} />}
             sx={{
-              borderRadius: '14px',
-              py: 1.25,
+              borderRadius: '12px',
+              py: 1.2,
               textTransform: 'none',
-              fontSize: '0.9rem',
+              fontSize: '0.88rem',
               fontWeight: 700,
-              background: theme.palette.mode === 'dark' ? '#38bdf8' : '#0284c7',
-              color: '#fff',
-              boxShadow: 'none',
+              cursor: 'pointer',
+              background: colors.gradient,
+              color: '#ffffff',
+              boxShadow: `0 4px 15px ${colors.glow}`,
+              transition: 'all 0.25s ease',
               '&:hover': {
-                background: theme.palette.mode === 'dark' ? '#0ea5e9' : '#0369a1',
-                boxShadow: `0 10px 20px -10px ${colors.shadow}`,
+                background: colors.gradient,
+                boxShadow: `0 8px 24px ${colors.glow}`,
+                transform: 'translateY(-2px)',
               },
             }}
           >
-            View Details
+            Explore Plan
           </Button>
         </Box>
       </Box>
@@ -608,7 +737,7 @@ const Services = React.memo(() => {
                 letterSpacing: '-0.02em',
               }}
             >
-              Why Choose <span style={{ color: theme.palette.mode === 'dark' ? '#38bdf8' : '#0284c7' }}>D</span>ev<span style={{ color: theme.palette.mode === 'dark' ? '#38bdf8' : '#0284c7' }}>O</span>ra?
+              Why Choose <span style={{ color: theme.palette.mode === 'dark' ? '#38bdf8' : '#0284c7' }}>Stack</span>ora Softworks?
             </Typography>
 
             {/* Interactive Dashboards Showcase */}
